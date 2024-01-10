@@ -6,9 +6,11 @@ import { Button } from "./button";
 import Image from "next/image";
 import { Separator } from "./separator";
 import Clock from "./clock";
-import { Slider } from "./slider";
+import VolumeSlider from "./volume-slider";
+import { useState } from "react";
 
 export default function Dock() {
+  const [open, setOpen] = useState(false);
   return (
     <Card className="w-full h-8 flex items-center bg-[#C0C0C0] fixed bottom-0 left-0 rounded-none border-white border-0 border-t-2 z-50 ">
       <Sheet>
@@ -48,6 +50,7 @@ export default function Dock() {
 
       <div className="bg-[#C0C0C0] border border-solid border-[#808080] w-28 h-6 flex gap-1 items-center p-1">
         <Button
+          asChild
           size="icon"
           variant="ghost"
           className="flex items-center w-auto h-auto"
@@ -61,9 +64,10 @@ export default function Dock() {
           />
         </Button>
 
-        <Sheet>
+        <Sheet open={open} onOpenChange={setOpen} modal>
           <SheetTrigger>
             <Button
+              asChild
               size="icon"
               variant="ghost"
               className="flex items-center w-auto h-auto"
@@ -79,9 +83,9 @@ export default function Dock() {
           </SheetTrigger>
           <SheetContent
             side="right"
-            className="w-[130px] h-64 bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-2 border-solid border-black border-t-white border-l-white border-b-transparent rounded-none"
+            className="w-[130px] h-56 bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-2 border-solid border-black border-t-white border-l-white border-b-transparent rounded-none"
           >
-            <Slider className="w-full h-full" orientation="vertical" />
+            <VolumeSlider />
           </SheetContent>
         </Sheet>
 
