@@ -7,29 +7,34 @@ import Image from "next/image";
 import { Separator } from "./separator";
 import Clock from "./clock";
 import VolumeSlider from "./volume-slider";
-import { useState } from "react";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "./dropdown-menu";
 
 export default function Dock() {
-  const [open, setOpen] = useState(false);
   return (
-    <Card className="w-full h-8 flex items-center bg-[#C0C0C0] fixed bottom-0 left-0 rounded-none border-white border-0 border-t-2 z-50 ">
+    <Card className="w-full h-8 flex items-center bg-[#C0C0C0] fixed bottom-0 left-0 rounded-none border-white border-0 border-t-[1px] z-50 ">
       <Sheet>
-        <SheetTrigger>
-          <Button
-            size="icon"
-            variant="w98"
-            className="flex items-center w-16 h-6"
-          >
+        <Button
+          asChild
+          size="icon"
+          variant="w98"
+          className="flex items-center w-[70px] h-6"
+        >
+          <SheetTrigger>
             <Image
               width={0}
               height={0}
               alt="Windows logo"
               src={"/windows.png"}
-              className="w-9"
+              className="w-auto"
             />
             <span className="font-semibold">Start</span>
-          </Button>
-        </SheetTrigger>
+          </SheetTrigger>
+        </Button>
         <SheetContent
           side="bottom"
           className="w-[300px] h-96 bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-2 border-solid border-black border-t-white border-l-white border-b-transparent rounded-none"
@@ -58,14 +63,14 @@ export default function Dock() {
           <Image
             width={0}
             height={0}
-            alt="Windows logo"
+            alt="calendar"
             src={"/calendar-3.png"}
             className="w-4"
           />
         </Button>
 
-        <Sheet open={open} onOpenChange={setOpen} modal>
-          <SheetTrigger>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
             <Button
               asChild
               size="icon"
@@ -75,19 +80,29 @@ export default function Dock() {
               <Image
                 width={0}
                 height={0}
-                alt="Windows logo"
+                alt="speaker"
                 src={"/loudspeaker_rays.png"}
                 className="w-4"
               />
             </Button>
-          </SheetTrigger>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            className="w-[130px] h-56 bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-2 border-solid border-black border-t-white border-l-white border-b-transparent rounded-none"
+            align="start"
+          >
+            <VolumeSlider />
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        {/* <Sheet open={open} onOpenChange={setOpen} modal>
+          <SheetTrigger></SheetTrigger>
           <SheetContent
             side="right"
             className="w-[130px] h-56 bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-2 border-solid border-black border-t-white border-l-white border-b-transparent rounded-none"
           >
             <VolumeSlider />
           </SheetContent>
-        </Sheet>
+        </Sheet> */}
 
         <Clock className="font-light text-xs" showSeconds={false} />
       </div>
