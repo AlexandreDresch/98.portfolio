@@ -9,6 +9,7 @@ const Slider = React.forwardRef<
 >(({ className, orientation = "horizontal", ...props }, ref) => (
   <SliderPrimitive.Root
     ref={ref}
+    orientation={orientation}
     className={cn(
       "relative flex w-full touch-none select-none items-center",
       orientation === "vertical" ? "flex-col h-full w-[20px]" : "w-full",
