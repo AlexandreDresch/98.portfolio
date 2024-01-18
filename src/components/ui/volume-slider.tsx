@@ -14,17 +14,17 @@ export default function VolumeSlider() {
   };
 
   return (
-    <Card className="flex flex-col w-auto h-full border-none justify-around rounded-none bg-[#C0C0C0]">
-      <span className="text-end text-sm">Volume</span>
+    <Card className="flex flex-col w-full h-full border-none justify-around rounded-none bg-[#C0C0C0]">
+      <span className="text-center text-sm pl-2">Volume</span>
       <div className="flex gap-2">
         <Image
           src={"/volume.png"}
           alt="volume"
           width={0}
           height={0}
-          className="w-10 h-32"
+          className="w-8 h-32"
         />
-        <div className="w-full h-full flex flex-col py-2 pl-1 border border-dashed border-[#808080]">
+        <div className="w-max h-full flex flex-col py-2 pl-4 pr-12 border border-dashed border-[#808080]">
           <Slider
             className="w-full h-full"
             orientation="vertical"
