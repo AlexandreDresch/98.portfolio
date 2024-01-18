@@ -87,22 +87,12 @@ export default function Dock() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-[130px] h-56 bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-2 border-solid border-black border-t-white border-l-white border-b-transparent rounded-none"
+            className="w-[130px] h-56 bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-2 border-solid border-black border-t-white border-l-white border-b-transparent rounded-none mb-1 mr-2"
             align="start"
           >
             <VolumeSlider />
           </DropdownMenuContent>
         </DropdownMenu>
-
-        {/* <Sheet open={open} onOpenChange={setOpen} modal>
-          <SheetTrigger></SheetTrigger>
-          <SheetContent
-            side="right"
-            className="w-[130px] h-56 bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-2 border-solid border-black border-t-white border-l-white border-b-transparent rounded-none"
-          >
-            <VolumeSlider />
-          </SheetContent>
-        </Sheet> */}
 
         <Clock className="font-light text-xs" showSeconds={false} />
       </div>
