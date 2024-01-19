@@ -16,33 +16,43 @@ interface ShortcutProps {
   image: string;
 }
 
-export default function Shortcut({name, image}: ShortcutProps) {
-  const [selected, setSelected] = useState<boolean>(false);
+export default function Shortcut({ name, image }: ShortcutProps) {
+  const [isSelected, setIsSelected] = useState<boolean>(false);
+  const [isMaximized, setIsMaximized] = useState<boolean>(false);
 
   function handleSelection() {
-    selected ? setSelected(false) : setSelected(true);
+    setIsSelected((prevIsSelected) => !prevIsSelected);
+  }
+
+  function toggleMaximize() {
+    setIsMaximized((prevIsMaximized) => !prevIsMaximized);
   }
 
   return (
     <Dialog onOpenChange={handleSelection}>
-      <DialogTrigger className="w-full h-max flex flex-col justify-center items-center">
+      <DialogTrigger className="w-28 h-max flex flex-col justify-center items-center">
         <Image
           width={0}
           height={0}
-          alt="folder"
+          alt={name}
           src={image}
           className="w-9 h-auto"
         />
         <span
-          className={`font-normal text-sm bg-[#0c7f80] ${
-            selected && "bg-[#010f80]"
+          className={`font-normal text-sm  ${
+            isSelected ? "bg-[#010f80]" : "bg-[#0c7f80]"
           } text-white px-2`}
         >
           {name}
         </span>
       </DialogTrigger>
       <Draggable>
-        <DialogContent className="border-[1px] border-solid border-black border-t-white border-l-white bg-[#C0C0C0] p-[1px]">
+        <DialogContent
+          className="border-[1px] border-solid border-black border-t-white border-l-white bg-[#C0C0C0] p-[1px]"
+          title={name}
+          isMaximized={isMaximized}
+          toggleMaximized={toggleMaximize}
+        >
           <DialogHeader>
             <DialogTitle>Are you absolutely sure?</DialogTitle>
             <DialogDescription>
