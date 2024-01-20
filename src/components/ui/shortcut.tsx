@@ -10,6 +10,7 @@ import {
   DialogDescription,
 } from "./dialog";
 import { useState } from "react";
+import Folder from "./folder";
 
 interface ShortcutProps {
   name: string;
@@ -32,11 +33,12 @@ export default function Shortcut({ name, image }: ShortcutProps) {
     <Dialog onOpenChange={handleSelection}>
       <DialogTrigger className="w-28 h-max flex flex-col justify-center items-center">
         <Image
-          width={0}
-          height={0}
+          width={100}
+          height={100}
           alt={name}
           src={image}
-          className="w-9 h-auto"
+          quality={100}
+          className="w-10 h-auto object-fill"
         />
         <span
           className={`font-normal text-sm  ${
@@ -53,13 +55,8 @@ export default function Shortcut({ name, image }: ShortcutProps) {
           isMaximized={isMaximized}
           toggleMaximized={toggleMaximize}
         >
-          <DialogHeader>
-            <DialogTitle>Are you absolutely sure?</DialogTitle>
-            <DialogDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
-            </DialogDescription>
-          </DialogHeader>
+          <Folder />
+
         </DialogContent>
       </Draggable>
     </Dialog>
