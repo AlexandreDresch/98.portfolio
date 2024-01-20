@@ -18,6 +18,9 @@ const config = {
       },
     },
     extend: {
+      backgroundImage: ({ theme }) => ({
+        rainbow: `linear-gradient(to right, ${theme('colors.red.500')},${theme('colors.yellow.500')},${theme('colors.green.500')},${theme('colors.blue.500')})`,
+      }),
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
