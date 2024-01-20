@@ -48,14 +48,14 @@ const DialogContent = React.forwardRef<
       )}
       {...props}
     >
-      <div className="w-full h-6 relative bg-gradient-to-r mt-0  from-[#010f80] to-[#1084d0]">
+      <div className="w-full h-6 relative bg-gradient-to-r mt-0 from-[#010f80] to-[#1084d0]">
         <div className="absolute w-full flex justify-between px-1 top-[2px]">
           <div className="flex gap-1 items-center">
             <Image
               width={0}
               height={0}
-              alt="folder icon"
-              src="/folder.png"
+              alt="Open folder icon"
+              src="/open-folder.png"
               className="w-4 h-4"
             />
             <span className="text-white text-sm">{props.title}</span>
