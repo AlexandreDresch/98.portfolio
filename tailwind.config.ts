@@ -22,6 +22,7 @@ const config = {
         rainbow: `linear-gradient(to right, ${theme('colors.red.500')},${theme('colors.yellow.500')},${theme('colors.green.500')},${theme('colors.blue.500')})`,
       }),
       colors: {
+        w98background: "#C0C0C0",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
