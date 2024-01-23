@@ -15,6 +15,8 @@ const DialogClose = DialogPrimitive.Close;
 
 interface DialogContentProps
   extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
+  folderName: string;
+  icon: string;
   isMaximized: boolean;
   toggleMaximized: () => void;
 }
@@ -37,13 +39,13 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   DialogContentProps
->(({ className, isMaximized, toggleMaximized, children, ...props }, ref) => (
+>(({ className, folderName, icon, isMaximized, toggleMaximized, children, ...props }, ref) => (
   <DialogPortal>
     <DialogOverlay />
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
-        `fixed left-[25%] top-[20%] z-30 grid w-full ${isMaximized ? "max-w-full top-0 left-0 min-h-[97dvh]" : "max-w-4xl h-2/3"} translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background duration-0 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-[48%] data-[state=open]:slide-in-from-left-1/2`,
+        `fixed left-[25%] top-[20%] z-30 grid w-full ${isMaximized ? "max-w-full top-0 left-0 h-[calc(100vh_-_30px)]" : "max-w-4xl h-2/3"} translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background duration-0 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-[48%] data-[state=open]:slide-in-from-left-1/2`,
         className
       )}
       {...props}
@@ -55,10 +57,10 @@ const DialogContent = React.forwardRef<
               width={0}
               height={0}
               alt="Open folder icon"
-              src="/open-folder.png"
+              src={icon}
               className="w-4 h-4"
             />
-            <span className="text-white text-sm">{props.title}</span>
+            <span className="text-white text-sm">{folderName}</span>
           </div>
 
           <div className="flex gap-[3px] items-center">
