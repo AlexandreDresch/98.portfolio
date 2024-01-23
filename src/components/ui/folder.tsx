@@ -1,8 +1,14 @@
 import Image from "next/image";
 import { Button } from "./button";
 import { Separator } from "./separator";
+import TooltipLink from "./tooltip-link";
 
-export default function Folder() {
+interface FolderProps {
+  folderName: string;
+  icon: string;
+}
+
+export default function Folder({ folderName, icon }: FolderProps) {
   return (
     <div className="w-full min-h-dvh">
       <div className="border-[1px] border-[#808080] flex flex-col h-auto mt-[-15px]">
@@ -115,14 +121,16 @@ export default function Folder() {
                 width={10}
                 height={10}
                 quality={100}
-                alt="Open folder icon"
-                src="/open-folder.png"
-                className="w-6 h-auto"
+                alt={folderName}
+                src={icon}
+                className="w-6 h-auto mt-[2px] object-contain"
               />
             </div>
             <input
               className="w-full bg-white px-8 text-sm placeholder:text-black border-[2px] border-black border-b-white border-r-white outline-none"
-              value={"BackEnd/"}
+              value={`${folderName.replace(/ /g, '_')}/`}
+              readOnly
+              name="Folder Path"
             />
 
             <div className="absolute top-2/4 right-[1px] h-5 w-5 -translate-y-2/4 mt-[2px]">
@@ -144,28 +152,36 @@ export default function Folder() {
         </div>
 
         <div className="flex h-[calc(100vh_-_469px)] bg-[url('/folder-background.jpg')] bg-contain m-[2px]">
-          <div className="w-1/3">
+          <div className="w-1/3 flex flex-col justify-between">
             <div className="w-full pt-3">
               <Image
                 width={100}
                 height={100}
                 quality={100}
-                alt="Open folder icon"
-                src="/open-folder.png"
+                alt={folderName}
+                src={icon}
                 className="w-14 h-auto pl-3"
               />
 
-              <h3 className="font-semibold text-xl pl-3">Themes</h3>
+              <h3 className="font-semibold text-xl pl-3">{folderName}</h3>
 
               <Separator className="h-[2px] bg-rainbow my-3" />
 
-              <p className="pl-3 text-xs">Select an item to view its description.</p>
+              <p className="pl-3 text-xs">
+                Select an item to view its description.
+              </p>
+            </div>
+
+            <div className="w-full flex justify-around pl-3 pb-3">
+              <TooltipLink image="/github.svg" link="https://github.com" tooltip="Source Code"/>
+
+              <TooltipLink image="/internet-explorer.png" link="https://github.com" tooltip="Visit Demo"/>
+
+              
             </div>
           </div>
 
-          <div className="w-2/3 bg-gradient-to-r from-transparent via-white to-white">
-            
-          </div>
+          <div className="w-2/3 bg-gradient-to-r from-transparent via-white to-white"></div>
         </div>
       </div>
     </div>
