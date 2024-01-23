@@ -4,10 +4,7 @@ import Draggable from "react-draggable";
 import {
   Dialog,
   DialogTrigger,
-  DialogHeader,
   DialogContent,
-  DialogTitle,
-  DialogDescription,
 } from "./dialog";
 import { useState } from "react";
 import Folder from "./folder";
@@ -51,12 +48,12 @@ export default function Shortcut({ name, image }: ShortcutProps) {
       <Draggable>
         <DialogContent
           className="border-[1px] border-solid border-black border-t-white border-l-white bg-[#C0C0C0] p-[1px]"
-          title={name}
+          folderName={name}
+          icon={image}
           isMaximized={isMaximized}
           toggleMaximized={toggleMaximize}
         >
-          <Folder />
-
+          <Folder folderName={name} icon={image} />
         </DialogContent>
       </Draggable>
     </Dialog>
