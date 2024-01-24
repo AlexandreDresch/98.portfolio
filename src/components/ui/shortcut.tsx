@@ -1,20 +1,33 @@
 "use client";
 import Image from "next/image";
 import Draggable from "react-draggable";
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-} from "./dialog";
+import { Dialog, DialogTrigger, DialogContent } from "./dialog";
 import { useState } from "react";
 import Folder from "./folder";
+import PdfViewer from "./pdf-viewer";
 
-interface ShortcutProps {
+interface ShortcutPropsDocument {
   name: string;
   image: string;
+  isDocument: boolean;
+  documentPath: string;
 }
 
-export default function Shortcut({ name, image }: ShortcutProps) {
+interface ShortcutPropsNonDocument {
+  name: string;
+  image: string;
+  isDocument: false;
+  documentPath?: string;
+}
+
+type ShortcutProps = ShortcutPropsDocument | ShortcutPropsNonDocument;
+
+export default function Shortcut({
+  name,
+  image,
+  isDocument,
+  documentPath,
+}: ShortcutProps) {
   const [isSelected, setIsSelected] = useState<boolean>(false);
   const [isMaximized, setIsMaximized] = useState<boolean>(false);
 
@@ -53,7 +66,20 @@ export default function Shortcut({ name, image }: ShortcutProps) {
           isMaximized={isMaximized}
           toggleMaximized={toggleMaximize}
         >
-          <Folder folderName={name} icon={image} />
+          <Folder
+            folderName={name}
+            icon={image}
+            isDocument={isDocument}
+            isMaximized={isMaximized}
+          >
+            {
+              isDocument ? (
+                <PdfViewer documentPath={documentPath as string} />
+              ) : (
+                <></>
+              )
+            }
+          </Folder>
         </DialogContent>
       </Draggable>
     </Dialog>
