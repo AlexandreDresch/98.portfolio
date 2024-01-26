@@ -73,11 +73,9 @@ export default function Shortcut({
             isMaximized={isMaximized}
           >
             {
-              isDocument ? (
+              isDocument && (
                 <PdfViewer documentPath={documentPath as string} />
-              ) : (
-                <></>
-              )
+              ) 
             }
           </Folder>
         </DialogContent>
