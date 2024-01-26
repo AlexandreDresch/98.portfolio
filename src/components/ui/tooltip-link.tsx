@@ -33,7 +33,7 @@ export default function TooltipLink({
             />
           </Link>
         </TooltipTrigger>
-        <TooltipContent>
+        <TooltipContent className="shadow-none bg-[#C0C0C0]/20">
           <span>{tooltip}</span>
         </TooltipContent>
       </Tooltip>
