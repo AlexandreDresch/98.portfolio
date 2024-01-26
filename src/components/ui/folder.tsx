@@ -165,7 +165,17 @@ export default function Folder({
           </>
         )}
 
-        <div className={`flex ${isMaximized ? "h-[calc(100vh_-_30px)]" : "h-[calc(100vh_-_379px)]"} bg-[url('/folder-background.jpg')] bg-contain m-[2px]`}>
+        <div
+          className={`flex ${
+            isMaximized ? "h-[calc(100vh_-_182px)]" : "h-[calc(100vh_-_470px)]"
+          } ${
+            isDocument
+              ? isMaximized
+                ? "h-[calc(100vh_-_94px)]"
+                : "h-[calc(100vh_-_378px)]"
+              : ""
+          } bg-[url('/folder-background.jpg')] bg-contain m-[2px]`}
+        >
           {!isDocument && (
             <div className="w-1/3 flex flex-col justify-between">
               <div className="w-full pt-3">
