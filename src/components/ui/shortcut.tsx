@@ -4,7 +4,7 @@ import Draggable from "react-draggable";
 import { Dialog, DialogTrigger, DialogContent } from "./dialog";
 import { useState } from "react";
 import Folder from "./folder";
-import PdfViewer from "./pdf-viewer";
+import DocumentViewer from "./document-viewer";
 
 interface ShortcutPropsDocument {
   name: string;
@@ -66,18 +66,21 @@ export default function Shortcut({
           isMaximized={isMaximized}
           toggleMaximized={toggleMaximize}
         >
-          <Folder
-            folderName={name}
-            icon={image}
-            isDocument={isDocument}
-            isMaximized={isMaximized}
-          >
-            {
-              isDocument && (
-                <PdfViewer documentPath={documentPath as string} />
-              ) 
-            }
-          </Folder>
+          {isDocument ? (
+            <DocumentViewer
+              documentType="pdf"
+              documentPath={documentPath}
+              isMaximized={isMaximized}
+            />
+          ) : (
+            <Folder
+              folderName={name}
+              icon={image}
+              isMaximized={isMaximized}
+            >
+              <p>folder</p>
+            </Folder>
+          )}
         </DialogContent>
       </Draggable>
     </Dialog>
