@@ -1,10 +1,10 @@
 "use client";
 import Image from "next/image";
 import Draggable from "react-draggable";
-import { Dialog, DialogTrigger, DialogContent } from "./dialog";
+import { Dialog, DialogTrigger, DialogContent } from "../ui/dialog";
 import { useState } from "react";
-import Folder from "./folder";
-import DocumentViewer from "./document-viewer";
+import Folder from "../desktop/folder";
+import DocumentViewer from "../desktop/document-viewer";
 
 interface ShortcutPropsDocument {
   name: string;
@@ -58,7 +58,7 @@ export default function Shortcut({
           {name}
         </span>
       </DialogTrigger>
-      <Draggable>
+      <Draggable disabled={isMaximized}>
         <DialogContent
           className="border-[1px] border-solid border-black border-t-white border-l-white bg-[#C0C0C0] p-[1px]"
           folderName={name}
@@ -73,11 +73,7 @@ export default function Shortcut({
               isMaximized={isMaximized}
             />
           ) : (
-            <Folder
-              folderName={name}
-              icon={image}
-              isMaximized={isMaximized}
-            >
+            <Folder folderName={name} icon={image} isMaximized={isMaximized}>
               <p>folder</p>
             </Folder>
           )}

@@ -1,9 +1,9 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
-import { Button } from "./button";
+import { Button } from "../ui/button";
 import Image from "next/image";
-import { Separator } from "./separator";
+import { Separator } from "../ui/separator";
 import Clock from "./clock";
 import VolumeSlider from "./volume-slider";
 import {
@@ -19,7 +19,7 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "./dropdown-menu";
+} from "../ui/dropdown-menu";
 
 export default function Dock() {
   return (
@@ -47,7 +47,7 @@ export default function Dock() {
           className="w-[300px] p-0 flex gap-2 shadow-none h-96 bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-2 border-solid border-black border-t-white border-l-white border-b-transparent rounded-none"
           align="start"
         >
-          <div className="w-5 h-full bg-gradient-to-b mt-0 from-[#010f80] to-[#1084d0]"/>
+          <div className="w-5 h-full bg-gradient-to-b mt-0 from-[#010f80] to-[#1084d0]" />
           <div className="w-full">
             <DropdownMenuLabel>Alexandre Dresch Portfolio</DropdownMenuLabel>
 
@@ -71,8 +71,9 @@ export default function Dock() {
             <DropdownMenuSeparator />
 
             <DropdownMenuGroup>
-              <DropdownMenuItem>Settings
-              <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+              <DropdownMenuItem>
+                Settings
+                <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
               </DropdownMenuItem>
               <DropdownMenuSub>
                 <DropdownMenuSubTrigger>My Resume</DropdownMenuSubTrigger>
@@ -94,11 +95,13 @@ export default function Dock() {
 
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem>GitHub
-            <DropdownMenuShortcut>⌘G</DropdownMenuShortcut>
+            <DropdownMenuItem>
+              GitHub
+              <DropdownMenuShortcut>⌘G</DropdownMenuShortcut>
             </DropdownMenuItem>
-            <DropdownMenuItem>LinkedIn
-            <DropdownMenuShortcut>⌘L</DropdownMenuShortcut>
+            <DropdownMenuItem>
+              LinkedIn
+              <DropdownMenuShortcut>⌘L</DropdownMenuShortcut>
             </DropdownMenuItem>
           </div>
         </DropdownMenuContent>

@@ -1,7 +1,7 @@
 import Image from "next/image";
-import { Button } from "./button";
-import { Separator } from "./separator";
-import FolderNavigationMenu from "./folder-navigation-menu";
+import { Button } from "../ui/button";
+import { Separator } from "../ui/separator";
+import FolderNavigationMenu from "../shared/folder-navigation-menu";
 import PdfViewer from "./pdf-viewer";
 import Link from "next/link";
 

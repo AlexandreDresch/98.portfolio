@@ -1,5 +1,5 @@
-import Desktop from "@/components/ui/desktop";
-import Dock from "@/components/ui/dock";
+import Desktop from "@/components/desktop/desktop";
+import Dock from "@/components/dock/dock";
 
 export default function Home() {
   return (

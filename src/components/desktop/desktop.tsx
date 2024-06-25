@@ -1,5 +1,5 @@
-import Clippy from "./clippy";
-import Shortcut from "./shortcut";
+import Clippy from "../shared/clippy";
+import Shortcut from "../dock/shortcut";
 
 export default function Desktop() {
   return (

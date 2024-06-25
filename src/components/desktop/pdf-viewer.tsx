@@ -4,8 +4,8 @@ import { useState } from "react";
 import { Document, Page } from "react-pdf";
 import { pdfjs } from "react-pdf";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "./separator";
-import HourglassLoading from "./hourglass-loading";
+import { Separator } from "../ui/separator";
+import HourglassLoading from "../shared/hourglass-loading";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.js",

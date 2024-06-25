@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Card } from "./card";
-import { Slider } from "./slider";
-import { Checkbox } from "./checkbox";
+import { Card } from "../ui/card";
+import { Slider } from "../ui/slider";
+import { Checkbox } from "../ui/checkbox";
 import Image from "next/image";
 
 export default function VolumeSlider() {

@@ -1,9 +1,9 @@
 import Image from "next/image";
-import { Button } from "./button";
-import { Separator } from "./separator";
-import TooltipLink from "./tooltip-link";
+import { Button } from "../ui/button";
+import { Separator } from "../ui/separator";
+import TooltipLink from "../shared/tooltip-link";
 import { ReactNode } from "react";
-import FolderNavigationMenu from "./folder-navigation-menu";
+import FolderNavigationMenu from "../shared/folder-navigation-menu";
 
 interface FolderProps {
   folderName: string;
@@ -19,7 +19,7 @@ export default function Folder({
   isMaximized,
 }: FolderProps) {
   return (
-    <div className="w-full min-h-dvh">
+    <div className="w-full ">
       <div className="border-[1px] border-[#808080] flex flex-col h-auto mt-[-15px]">
         <div className="h-7 flex items-center px-[2px] border-t-[1px] border-t-white border-b-[1px] border-b-[#808080] gap-1">
           <Separator
