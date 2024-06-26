@@ -62,7 +62,7 @@ export default function Folder({
                 src="/arrow-right.svg"
                 className="w-6 h-auto"
               />
-              <span className="text-xs">Foward</span>
+              <span className="text-xs">Forward</span>
             </Button>
           </div>
         </div>
@@ -113,7 +113,7 @@ export default function Folder({
 
         <div
           className={`flex ${
-            isMaximized ? "h-[calc(100vh_-_182px)]" : "h-[calc(100vh_-_470px)]"
+            isMaximized ? "h-[calc(100vh_-_182px)]" : "h-[calc(100vh_-_490px)]"
           } bg-[url('/folder-background.jpg')] bg-contain m-[2px]`}
         >
           <div className="w-1/3 flex flex-col justify-between">
@@ -156,6 +156,17 @@ export default function Folder({
           >
             {children}
           </div>
+        </div>
+
+        <div className="w-auto h-5 ml-[2px] bg-[#C0C0C0] flex items-center">
+          <Image
+            width={100}
+            height={100}
+            quality={100}
+            alt={folderName}
+            src={icon}
+            className="w-4 h-auto"
+          />
         </div>
       </div>
     </div>
