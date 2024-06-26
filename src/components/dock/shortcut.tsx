@@ -58,7 +58,7 @@ export default function Shortcut({
           {name}
         </span>
       </DialogTrigger>
-      <Draggable disabled={isMaximized}>
+      <Draggable disabled={isMaximized} handle=".dragger">
         <DialogContent
           className="border-[1px] border-solid border-black border-t-white border-l-white bg-[#C0C0C0] p-[1px]"
           folderName={name}

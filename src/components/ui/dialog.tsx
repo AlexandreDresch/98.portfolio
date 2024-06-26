@@ -28,7 +28,7 @@ const DialogOverlay = React.forwardRef<
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      "fixed bg-transparent inset-0 z-30 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      "fixed bg-transparent z-30 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       className
     )}
     {...props}
@@ -50,7 +50,7 @@ const DialogContent = React.forwardRef<
       )}
       {...props}
     >
-      <div className="w-full h-6 relative bg-gradient-to-r mt-0 from-[#010f80] to-[#1084d0]">
+      <div className="dragger w-full h-6 relative bg-gradient-to-r mt-0 from-[#010f80] to-[#1084d0]">
         <div className="absolute w-full flex justify-between px-1 top-[2px]">
           <div className="flex gap-1 items-center">
             <Image
@@ -80,7 +80,6 @@ const DialogContent = React.forwardRef<
             <Button
               variant="w98"
               className="bg-[#C0C0C0] w-6 h-5 p-1 flex items-center justify-center"
-              onClick={toggleMaximized}
             >
               <Image
                 width={0}
