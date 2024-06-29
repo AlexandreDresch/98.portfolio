@@ -234,4 +234,40 @@ export const FooterMessages = [
     name: "(empty)",
     message: "I'm just an empty space.",
   },
+  {
+    name: "Find",
+    message: "Search for something.",
+  },
+  {
+    name: "FilesorFolders...",
+    message: "Searches for Files or Folders.",
+  },
+  {
+    name: "Computer...",
+    message: "Searches on Computer settings.",
+  },
+  {
+    name: "OntheInternet",
+    message: "Searches on the Internet.",
+  },
+  {
+    name: "MapNetworkDrive...",
+    message: "Connects to a network drive.",
+  },
+  {
+    name: "DisconnectNetworkDrive...",
+    message: "Disconnects from a network drive.",
+  },
+  {
+    name: "Synchronize...",
+    message: "Updates all offline content.",
+  },
+  {
+    name: "HelpTopics",
+    message: "Opens Help.",
+  },
+  {
+    name: "About98.portfolio",
+    message: "Opens the 98.portfolio document.",
+  },
 ];
