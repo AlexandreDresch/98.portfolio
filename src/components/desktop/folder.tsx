@@ -4,6 +4,7 @@ import { Separator } from "../ui/separator";
 import TooltipLink from "../shared/tooltip-link";
 import { ReactNode } from "react";
 import FolderNavigationMenu from "../shared/folder-navigation-menu";
+import { useAppSelector } from "@/store/store";
 
 interface FolderProps {
   folderName: string;
@@ -18,6 +19,8 @@ export default function Folder({
   children,
   isMaximized,
 }: FolderProps) {
+  const footerMessage = useAppSelector((state) => state.footerMessage.message);
+
   return (
     <div className="w-full ">
       <div className="border-[1px] border-[#808080] flex flex-col h-auto mt-[-15px]">
@@ -158,7 +161,7 @@ export default function Folder({
           </div>
         </div>
 
-        <div className="w-auto h-5 ml-[2px] bg-[#C0C0C0] flex items-center">
+        <div className="w-auto h-5 ml-[2px] bg-[#C0C0C0] flex items-center gap-1">
           <Image
             width={100}
             height={100}
@@ -167,6 +170,8 @@ export default function Folder({
             src={icon}
             className="w-4 h-auto"
           />
+
+          <span className="text-xs">{footerMessage}</span>
         </div>
       </div>
     </div>

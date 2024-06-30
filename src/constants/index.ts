@@ -1,9 +1,5 @@
 export const FooterMessages = [
   {
-    name: "New",
-    message: "Creates a new Folder, Shortcut, Document, etc...",
-  },
-  {
     name: "Folder",
     message: "Creates a new folder.",
   },
@@ -83,10 +79,6 @@ export const FooterMessages = [
     message: "Reverses which items are selected and which are not.",
   },
   {
-    name: "Toolbars",
-    message: "Shows or hides toolbars",
-  },
-  {
     name: "StandardButtons",
     message: "Displays the Standard Buttons toolbar.",
   },
@@ -109,10 +101,6 @@ export const FooterMessages = [
   {
     name: "StatusBar",
     message: "Shows or hides the status bar.",
-  },
-  {
-    name: "ExplorerBar",
-    message: "Search, Favorites and more...",
   },
   {
     name: "SearchCtrl+E",
@@ -153,10 +141,6 @@ export const FooterMessages = [
   {
     name: "Details",
     message: "Displays information about each item in the window.",
-  },
-  {
-    name: "ArrangeIcons",
-    message: "Contains commands for arranging items in the window.",
   },
   {
     name: "byName",
@@ -235,10 +219,6 @@ export const FooterMessages = [
     message: "I'm just an empty space.",
   },
   {
-    name: "Find",
-    message: "Search for something.",
-  },
-  {
     name: "FilesorFolders...",
     message: "Searches for Files or Folders.",
   },
@@ -247,7 +227,7 @@ export const FooterMessages = [
     message: "Searches on Computer settings.",
   },
   {
-    name: "OntheInternet",
+    name: "OntheInternet...",
     message: "Searches on the Internet.",
   },
   {
