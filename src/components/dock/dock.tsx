@@ -20,6 +20,8 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Calendar } from "../ui/calendar";
 
 export default function Dock() {
   return (
@@ -119,21 +121,38 @@ export default function Dock() {
         className="mx-[1px] bg-[#808080] w-[2px] border-white border-r-[1px] h-6"
       />
 
-      <div className="bg-[#C0C0C0] border border-solid border-[#808080] w-28 h-6 flex gap-1 items-center p-1">
-        <Button
-          asChild
-          size="icon"
-          variant="ghost"
-          className="flex items-center w-auto h-auto"
-        >
-          <Image
-            width={0}
-            height={0}
-            alt="calendar"
-            src={"/calendar-3.png"}
-            className="w-4"
-          />
-        </Button>
+      <div className="bg-[#C0C0C0] border border-solid border-[#808080] w-32 h-6 flex gap-2 items-center p-1">
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              asChild
+              size="icon"
+              variant="ghost"
+              className="flex items-center w-auto h-auto hover:cursor-pointer"
+            >
+              <Image
+                width={0}
+                height={0}
+                alt="calendar"
+                src={"/calendar-3.png"}
+                className="w-4"
+              />
+            </Button>
+          </PopoverTrigger>
+
+          <PopoverContent
+            className="w-auto mb-0.5 mr-2 p-0 border-2 border-t-white border-l-white border-r-black border-b-transparent  rounded-none bg-[#C0C0C0]"
+            align="center"
+          >
+            <Calendar
+              mode="single"
+              disabled={(date) =>
+                date > new Date() || date < new Date("1900-01-01")
+              }
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
 
         <DropdownMenu>
           <DropdownMenuTrigger>
