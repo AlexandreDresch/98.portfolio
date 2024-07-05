@@ -22,8 +22,22 @@ import {
 } from "../ui/dropdown-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Calendar } from "../ui/calendar";
+import { useAppDispatch, useAppSelector } from "@/store/store";
+import { useEffect } from "react";
+import { getProjectsData } from "@/store/projects-slice";
+import MessageContainer from "./message-container";
 
 export default function Dock() {
+  const dispatch = useAppDispatch();
+
+  const projectsStatus = useAppSelector((state) => state.projects.status);
+
+  useEffect(() => {
+    if (projectsStatus === "initial") {
+      dispatch(getProjectsData());
+    }
+  }, [projectsStatus, dispatch]);
+
   return (
     <Card className="w-full h-8 flex items-center bg-[#C0C0C0] fixed bottom-0 left-0 rounded-none border-white border-0 border-t-[1px] z-50 ">
       <DropdownMenu>
@@ -121,7 +135,46 @@ export default function Dock() {
         className="mx-[1px] bg-[#808080] w-[2px] border-white border-r-[1px] h-6"
       />
 
-      <div className="bg-[#C0C0C0] border border-solid border-[#808080] w-32 h-6 flex gap-2 items-center p-1">
+      <div className="bg-[#C0C0C0] border border-solid border-[#808080] w-44 h-6 flex items-center p-1">
+        <Popover>
+          <PopoverTrigger>
+            {projectsStatus === "initial" || projectsStatus === "pending" ? (
+              <Image
+                width={100}
+                height={100}
+                alt="Hourglass Loading Gif"
+                src="/hourglass-loading.gif"
+                quality={100}
+                className="w-8"
+              />
+            ) : projectsStatus === "fulfilled" ? (
+              <Image
+                width={100}
+                height={100}
+                alt="Computer Gif"
+                src="/computer.gif"
+                quality={100}
+                className="w-[18px] mr-2"
+              />
+            ) : (
+              <Image
+                width={100}
+                height={100}
+                alt="Error Icon"
+                src="/error.png"
+                quality={100}
+                className="w-[18px] mr-2"
+              />
+            )}
+          </PopoverTrigger>
+
+          <PopoverContent
+            className="w-auto mb-0.5 p-0 border-2 border-t-white border-l-white border-r-black border-b-transparent  rounded-none bg-[#C0C0C0]"
+            align="center"
+          >
+            <MessageContainer status={projectsStatus} />
+          </PopoverContent>
+        </Popover>
         <Popover>
           <PopoverTrigger asChild>
             <Button
@@ -160,7 +213,7 @@ export default function Dock() {
               asChild
               size="icon"
               variant="ghost"
-              className="flex items-center w-auto h-auto"
+              className="flex items-center w-auto h-auto mx-2"
             >
               <Image
                 width={0}
