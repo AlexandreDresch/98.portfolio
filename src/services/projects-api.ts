@@ -1,14 +1,16 @@
 "use server";
 
 import { Project } from "@/types";
-import { projectsInstance } from "./api";
+import apiInstance from "./api";
 
 export async function getProjects(): Promise<Project[]> {
   try {
-    const response = await projectsInstance.get("/projects");
-    return response.data;
+    const data = await apiInstance("/projects", {
+      method: "GET",
+    });
+    return data;
   } catch (error) {
-    console.error("Error fetching users:", error);
-    throw new Error("Failed to fetch users");
+    console.error("Error fetching projects:", error);
+    throw new Error("Failed to fetch projects");
   }
 }
