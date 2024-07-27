@@ -47,7 +47,7 @@ export default function FolderNavigationMenu() {
         </DropdownMenuTrigger>
 
         <DropdownMenuContent
-          className="w-10 py-[2px] px-0 flex gap-2 shadow-none bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none"
+          className="crt w-10 py-[2px] px-0 flex gap-2 shadow-none bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none"
           align="start"
         >
           <div className="w-full">
@@ -57,7 +57,7 @@ export default function FolderNavigationMenu() {
                   New
                 </DropdownMenuSubTrigger>
                 <DropdownMenuPortal>
-                  <DropdownMenuSubContent className="bg-[#C0C0C0] rounded-none p-0 border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white">
+                  <DropdownMenuSubContent className="crt bg-[#C0C0C0] rounded-none p-0 border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white">
                     <DropdownMenuItem
                       className="menu-button-disabled"
                       onMouseEnter={(event) => handleSetMessage(event)}
@@ -167,7 +167,7 @@ export default function FolderNavigationMenu() {
         </DropdownMenuTrigger>
 
         <DropdownMenuContent
-          className="w-10 py-[2px] px-0 flex gap-2 shadow-none bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none"
+          className="crt w-10 py-[2px] px-0 flex gap-2 shadow-none bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none"
           align="start"
         >
           <div className="w-full">
@@ -247,7 +247,7 @@ export default function FolderNavigationMenu() {
         </DropdownMenuTrigger>
 
         <DropdownMenuContent
-          className="w-10 py-[2px] px-0 flex gap-2 shadow-none bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none"
+          className="crt w-10 py-[2px] px-0 flex gap-2 shadow-none bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none"
           align="start"
         >
           <div className="w-full">
@@ -257,7 +257,7 @@ export default function FolderNavigationMenu() {
                   Toolbars
                 </DropdownMenuSubTrigger>
                 <DropdownMenuPortal>
-                  <DropdownMenuSubContent className="bg-[#C0C0C0] rounded-none p-0 border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white">
+                  <DropdownMenuSubContent className="crt bg-[#C0C0C0] rounded-none p-0 border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white">
                     <DropdownMenuItem
                       className="menu-button group flex gap-1"
                       onMouseEnter={(event) => handleSetMessage(event)}
@@ -317,7 +317,7 @@ export default function FolderNavigationMenu() {
                   Explorer Bar
                 </DropdownMenuSubTrigger>
                 <DropdownMenuPortal>
-                  <DropdownMenuSubContent className="bg-[#C0C0C0] rounded-none p-0 border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white">
+                  <DropdownMenuSubContent className="crt bg-[#C0C0C0] rounded-none p-0 border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white">
                     <DropdownMenuItem
                       className="menu-button-disabled flex justify-between"
                       onMouseEnter={(event) => handleSetMessage(event)}
@@ -420,7 +420,7 @@ export default function FolderNavigationMenu() {
                   Arrange Icons
                 </DropdownMenuSubTrigger>
                 <DropdownMenuPortal>
-                  <DropdownMenuSubContent className="bg-[#C0C0C0] rounded-none p-0 border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white">
+                  <DropdownMenuSubContent className="crt bg-[#C0C0C0] rounded-none p-0 border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white">
                     <DropdownMenuItem
                       className="menu-button group flex gap-1"
                       onMouseEnter={(event) => handleSetMessage(event)}
@@ -510,7 +510,7 @@ export default function FolderNavigationMenu() {
         </DropdownMenuTrigger>
 
         <DropdownMenuContent
-          className="w-48 py-[2px] px-0 flex gap-2 shadow-none bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none"
+          className="crt w-48 py-[2px] px-0 flex gap-2 shadow-none bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none"
           align="start"
         >
           <div className="w-full">
@@ -597,7 +597,7 @@ export default function FolderNavigationMenu() {
         </DropdownMenuTrigger>
 
         <DropdownMenuContent
-          className="w-40 py-[2px] px-0 flex gap-2 shadow-none bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none"
+          className="crt w-40 py-[2px] px-0 flex gap-2 shadow-none bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none"
           align="start"
         >
           <div className="w-full">
@@ -638,7 +638,7 @@ export default function FolderNavigationMenu() {
         </DropdownMenuTrigger>
 
         <DropdownMenuContent
-          className="w-48 py-[2px] px-0 flex gap-2 shadow-none bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none"
+          className="crt w-48 py-[2px] px-0 flex gap-2 shadow-none bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none"
           align="start"
         >
           <div className="w-full">
@@ -647,7 +647,7 @@ export default function FolderNavigationMenu() {
                 Find
               </DropdownMenuSubTrigger>
               <DropdownMenuPortal>
-                <DropdownMenuSubContent className="bg-[#C0C0C0] rounded-none p-0 border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white">
+                <DropdownMenuSubContent className="crt bg-[#C0C0C0] rounded-none p-0 border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white">
                   <DropdownMenuItem
                     className="menu-button-disabled"
                     onMouseEnter={(event) => handleSetMessage(event)}
@@ -712,7 +712,7 @@ export default function FolderNavigationMenu() {
         </DropdownMenuTrigger>
 
         <DropdownMenuContent
-          className="w-36 py-[2px] px-0 flex gap-2 shadow-none bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none"
+          className="crt w-36 py-[2px] px-0 flex gap-2 shadow-none bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none"
           align="start"
         >
           <div className="w-full">

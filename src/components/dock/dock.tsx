@@ -39,7 +39,7 @@ export default function Dock() {
   }, [projectsStatus, dispatch]);
 
   return (
-    <Card className="w-full h-8 flex items-center bg-[#C0C0C0] fixed bottom-0 left-0 rounded-none border-white border-0 border-t-[1px] z-50 ">
+    <Card className="crt w-full h-8 flex items-center bg-[#C0C0C0] fixed bottom-0 left-0 rounded-none border-white border-0 border-t-[1px] z-50 ">
       <DropdownMenu>
         <Button
           asChild
@@ -60,12 +60,12 @@ export default function Dock() {
         </Button>
 
         <DropdownMenuContent
-          className="w-[300px] p-0 flex gap-2 shadow-none h-96 bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-2 border-solid border-black border-t-white border-l-white border-b-transparent rounded-none"
+          className="crt w-[300px] p-0 flex gap-2 shadow-none h-96 bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-2 border-solid border-black border-t-white border-l-white border-b-transparent rounded-none"
           align="start"
         >
           <div className="w-5 h-full bg-gradient-to-b mt-0 from-[#010f80] to-[#1084d0]" />
           <div className="w-full">
-            <DropdownMenuLabel>Alexandre Dresch Portfolio</DropdownMenuLabel>
+            <DropdownMenuLabel>98.Portfolio</DropdownMenuLabel>
 
             <DropdownMenuSeparator />
 
@@ -169,10 +169,26 @@ export default function Dock() {
           </PopoverTrigger>
 
           <PopoverContent
-            className="w-auto mb-0.5 p-0 border-2 border-t-white border-l-white border-r-black border-b-transparent  rounded-none bg-[#C0C0C0]"
+            className="crt w-auto mb-0.5 p-0 border-2 border-t-white border-l-white border-r-black border-b-transparent  rounded-none bg-[#C0C0C0]"
             align="center"
           >
-            <MessageContainer status={projectsStatus} />
+            <MessageContainer
+              status={projectsStatus}
+              title={
+                projectsStatus === "initial" || projectsStatus === "pending"
+                  ? "Please await..."
+                  : projectsStatus === "fulfilled"
+                  ? "Success!"
+                  : "Oops!"
+              }
+              message={
+                projectsStatus === "initial" || projectsStatus === "pending"
+                  ? "Loading projects, it could take a while (Free Tier API :c)..."
+                  : projectsStatus === "fulfilled"
+                  ? "Projects received successfully. You can check the folders now."
+                  : "Something went wrong! Please try again."
+              }
+            />
           </PopoverContent>
         </Popover>
         <Popover>
@@ -194,7 +210,7 @@ export default function Dock() {
           </PopoverTrigger>
 
           <PopoverContent
-            className="w-auto mb-0.5 mr-2 p-0 border-2 border-t-white border-l-white border-r-black border-b-transparent  rounded-none bg-[#C0C0C0]"
+            className="crt w-auto mb-0.5 mr-2 p-0 border-2 border-t-white border-l-white border-r-black border-b-transparent  rounded-none bg-[#C0C0C0]"
             align="center"
           >
             <Calendar
@@ -225,7 +241,7 @@ export default function Dock() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-[130px] h-56 bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-2 border-solid border-black border-t-white border-l-white border-b-transparent rounded-none mb-1 mr-2"
+            className="crt w-[130px] h-56 bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-2 border-solid border-black border-t-white border-l-white border-b-transparent rounded-none mb-1 mr-2"
             align="start"
           >
             <VolumeSlider />
