@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Draggable from "react-draggable";
 import { Dialog, DialogTrigger, DialogContent } from "../ui/dialog";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import Folder from "../desktop/folder";
 import DocumentViewer from "../desktop/document-viewer";
 
@@ -11,6 +11,7 @@ interface ShortcutPropsDocument {
   image: string;
   isDocument: boolean;
   documentPath: string;
+  children?: ReactNode;
 }
 
 interface ShortcutPropsNonDocument {
@@ -18,6 +19,7 @@ interface ShortcutPropsNonDocument {
   image: string;
   isDocument: false;
   documentPath?: string;
+  children: ReactNode;
 }
 
 type ShortcutProps = ShortcutPropsDocument | ShortcutPropsNonDocument;
@@ -27,6 +29,7 @@ export default function Shortcut({
   image,
   isDocument,
   documentPath,
+  children,
 }: ShortcutProps) {
   const [isSelected, setIsSelected] = useState<boolean>(false);
   const [isMaximized, setIsMaximized] = useState<boolean>(false);
@@ -74,7 +77,7 @@ export default function Shortcut({
             />
           ) : (
             <Folder folderName={name} icon={image} isMaximized={isMaximized}>
-              <p>folder</p>
+              {children}
             </Folder>
           )}
         </DialogContent>
