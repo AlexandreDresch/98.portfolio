@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Titillium_Web } from "next/font/google";
 import "./globals.css";
 
+import ReduxProvider from "@/store/redux-provider";
+
 const titillium = Titillium_Web({
   subsets: ["latin"],
   weight: ["200", "300", "400", "600", "700", "900"],
@@ -9,7 +11,7 @@ const titillium = Titillium_Web({
 });
 
 export const metadata: Metadata = {
-  title: "Portfolio",
+  title: "98.Portfolio",
   description: "Alexandre Dresch's portfolio",
 };
 
@@ -19,8 +21,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={titillium.className}>{children}</body>
-    </html>
+    <ReduxProvider>
+      <html lang="en">
+        <body className={titillium.className}>{children}</body>
+      </html>
+    </ReduxProvider>
   );
 }
