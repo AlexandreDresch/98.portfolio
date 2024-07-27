@@ -14,4 +14,6 @@ type ProjectStatus = "initial" | "pending" | "fulfilled" | "rejected";
 
 export interface MessageContainerProps {
   status: ProjectStatus;
+  message?: string;
+  title?: string;
 }
