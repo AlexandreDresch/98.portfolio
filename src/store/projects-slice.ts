@@ -8,13 +8,17 @@ interface ErrorDetail {
 }
 
 interface ProjectsState {
-  projects: Project[];
+  frontend: Project[];
+  backend: Project[];
+  mobile: Project[];
   status: "initial" | "pending" | "fulfilled" | "rejected";
   error: ErrorDetail | null;
 }
 
 const initialState: ProjectsState = {
-  projects: [],
+  frontend: [],
+  backend: [],
+  mobile: [],
   status: "initial",
   error: null,
 };
@@ -44,13 +48,19 @@ const projectsSlice = createSlice({
         state.status = "pending";
         state.error = null;
       })
-      .addCase(
-        getProjectsData.fulfilled,
-        (state, action: PayloadAction<Project[]>) => {
-          state.status = "fulfilled";
-          state.projects = action.payload;
-        }
-      )
+      .addCase(getProjectsData.fulfilled, (state, action: PayloadAction<Project[]>) => {
+        state.status = "fulfilled";
+        action.payload.forEach((project) => {
+          if (project.type === "FRONTEND") {
+            state.frontend.push(project);
+          } else if (project.type === "BACKEND") {
+            state.backend.push(project);
+          } else if (project.type === "MOBILE") {
+            state.mobile.push(project);
+          }
+        });
+      })
+      
       .addCase(getProjectsData.rejected, (state, action) => {
         state.status = "rejected";
         state.error = action.payload ?? { message: "Unknown error" };
