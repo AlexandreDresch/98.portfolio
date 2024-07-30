@@ -17,3 +17,7 @@ export interface MessageContainerProps {
   message?: string;
   title?: string;
 }
+
+export interface ProjectContainerProps {
+  projects: Project[];
+}

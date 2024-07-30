@@ -2,9 +2,11 @@
 
 import Clippy from "../shared/clippy";
 import Shortcut from "../dock/shortcut";
-import { useAppSelector } from "@/store/store";
+import { useAppDispatch, useAppSelector } from "@/store/store";
+import ProjectContainer from "../folders/project-container";
 
 export default function Desktop() {
+  const dispatch = useAppDispatch();
   const { frontend, backend, mobile } = useAppSelector(
     (state) => state.projects
   );
@@ -23,15 +25,11 @@ export default function Desktop() {
       </Shortcut>
 
       <Shortcut image="/folder.png" name="BackEnd" isDocument={false}>
-        {backend.map((project) => (
-          <p key={project.id}>{project.name}</p>
-        ))}
+        <ProjectContainer projects={backend} />
       </Shortcut>
 
       <Shortcut image="/folder.png" name="FrontEnd" isDocument={false}>
-        {frontend.map((project) => (
-          <p key={project.id}>{project.name}</p>
-        ))}
+        <ProjectContainer projects={frontend} />
       </Shortcut>
 
       <Shortcut image="/folder.png" name="Mobile" isDocument={false}>
