@@ -5,6 +5,8 @@ import { Dialog, DialogTrigger, DialogContent } from "../ui/dialog";
 import { ReactNode, useState } from "react";
 import Folder from "../desktop/folder";
 import DocumentViewer from "../desktop/document-viewer";
+import { useAppDispatch } from "@/store/store";
+import { clearSelectedProject } from "@/store/projects-slice";
 
 interface ShortcutPropsDocument {
   name: string;
@@ -33,9 +35,11 @@ export default function Shortcut({
 }: ShortcutProps) {
   const [isSelected, setIsSelected] = useState<boolean>(false);
   const [isMaximized, setIsMaximized] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
   function handleSelection() {
     setIsSelected((prevIsSelected) => !prevIsSelected);
+    dispatch(clearSelectedProject());
   }
 
   function toggleMaximize() {

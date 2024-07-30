@@ -11,6 +11,7 @@ interface ProjectsState {
   frontend: Project[];
   backend: Project[];
   mobile: Project[];
+  selectedProject: Project | null;
   status: "initial" | "pending" | "fulfilled" | "rejected";
   error: ErrorDetail | null;
 }
@@ -19,48 +20,60 @@ const initialState: ProjectsState = {
   frontend: [],
   backend: [],
   mobile: [],
+  selectedProject: null,
   status: "initial",
   error: null,
 };
 
-export const getProjectsData = createAsyncThunk<Project[], void, { rejectValue: ErrorDetail }>(
-  "projects/getProjectsData",
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await getProjects();
-      return response;
-    } catch (error: any) {
-      return rejectWithValue({
-        message: error.message,
-        code: error.response?.status,
-      });
-    }
+export const getProjectsData = createAsyncThunk<
+  Project[],
+  void,
+  { rejectValue: ErrorDetail }
+>("projects/getProjectsData", async (_, { rejectWithValue }) => {
+  try {
+    const response = await getProjects();
+    return response;
+  } catch (error: any) {
+    return rejectWithValue({
+      message: error.message,
+      code: error.response?.status,
+    });
   }
-);
+});
 
 const projectsSlice = createSlice({
   name: "projects",
   initialState,
-  reducers: {},
+  reducers: {
+    selectProject: (state, action: PayloadAction<Project>) => {
+      state.selectedProject = action.payload;
+    },
+    clearSelectedProject: (state) => {
+      state.selectedProject = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getProjectsData.pending, (state) => {
         state.status = "pending";
         state.error = null;
       })
-      .addCase(getProjectsData.fulfilled, (state, action: PayloadAction<Project[]>) => {
-        state.status = "fulfilled";
-        action.payload.forEach((project) => {
-          if (project.type === "FRONTEND") {
-            state.frontend.push(project);
-          } else if (project.type === "BACKEND") {
-            state.backend.push(project);
-          } else if (project.type === "MOBILE") {
-            state.mobile.push(project);
-          }
-        });
-      })
-      
+      .addCase(
+        getProjectsData.fulfilled,
+        (state, action: PayloadAction<Project[]>) => {
+          state.status = "fulfilled";
+          action.payload.forEach((project) => {
+            if (project.type === "FRONTEND") {
+              state.frontend.push(project);
+            } else if (project.type === "BACKEND") {
+              state.backend.push(project);
+            } else if (project.type === "MOBILE") {
+              state.mobile.push(project);
+            }
+          });
+        }
+      )
+
       .addCase(getProjectsData.rejected, (state, action) => {
         state.status = "rejected";
         state.error = action.payload ?? { message: "Unknown error" };
@@ -68,4 +81,5 @@ const projectsSlice = createSlice({
   },
 });
 
+export const { selectProject, clearSelectedProject } = projectsSlice.actions;
 export const projectsReducer = projectsSlice.reducer;

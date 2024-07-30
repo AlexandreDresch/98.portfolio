@@ -5,6 +5,7 @@ import TooltipLink from "../shared/tooltip-link";
 import { ReactNode } from "react";
 import FolderNavigationMenu from "../shared/folder-navigation-menu";
 import { useAppSelector } from "@/store/store";
+import { cn } from "@/lib/utils";
 
 interface FolderProps {
   folderName: string;
@@ -20,6 +21,7 @@ export default function Folder({
   isMaximized,
 }: FolderProps) {
   const footerMessage = useAppSelector((state) => state.footerMessage.message);
+  const { selectedProject } = useAppSelector((state) => state.projects);
 
   return (
     <div className="w-full crt">
@@ -125,33 +127,54 @@ export default function Folder({
                 width={100}
                 height={100}
                 quality={100}
-                alt={folderName}
-                src={icon}
+                alt={selectedProject ? selectedProject.name : folderName}
+                src={
+                  selectedProject
+                    ? selectedProject.type === "BACKEND"
+                      ? "/icons/backend-icon.png"
+                      : selectedProject.type === "FRONTEND"
+                      ? "/icons/frontend-icon.png"
+                      : "/icons/mobile-icon.png"
+                    : icon
+                }
                 className="w-14 h-auto pl-3"
               />
 
-              <h3 className="font-semibold text-xl pl-3">{folderName}</h3>
+              <h3 className="font-semibold text-xl pl-3">
+                {selectedProject ? selectedProject.name : folderName}
+              </h3>
 
               <Separator className="h-[2px] bg-rainbow my-3" />
 
-              <p className="pl-3 text-xs">
-                Select an item to view its description.
+              <p className="pl-3 text-sm">
+                {selectedProject === null
+                  ? "Select an item to view its description."
+                  : selectedProject.description}
               </p>
             </div>
 
-            <div className="w-full flex justify-around pl-3 pb-3">
-              <TooltipLink
-                image="/github.svg"
-                link="https://github.com"
-                tooltip="Source Code"
-              />
+            {selectedProject !== null && (
+              <div
+                className={cn(
+                  "w-full flex justify-around pl-3 pb-3",
+                  selectedProject.deployment_url === null && "justify-start"
+                )}
+              >
+                <TooltipLink
+                  image="/github.svg"
+                  link={selectedProject.github_url}
+                  tooltip="Source Code"
+                />
 
-              <TooltipLink
-                image="/internet-explorer.png"
-                link="https://github.com"
-                tooltip="Visit Demo"
-              />
-            </div>
+                {selectedProject.deployment_url !== null && (
+                  <TooltipLink
+                    image="/internet-explorer.png"
+                    link={selectedProject.deployment_url}
+                    tooltip="Visit Demo"
+                  />
+                )}
+              </div>
+            )}
           </div>
 
           <div
