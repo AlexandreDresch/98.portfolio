@@ -176,14 +176,14 @@ export default function Dock() {
               status={projectsStatus}
               title={
                 projectsStatus === "initial" || projectsStatus === "pending"
-                  ? "Please await..."
+                  ? "Please wait..."
                   : projectsStatus === "fulfilled"
                   ? "Success!"
                   : "Oops!"
               }
               message={
                 projectsStatus === "initial" || projectsStatus === "pending"
-                  ? "Loading projects, it could take a while (Free Tier API :c)..."
+                  ? "Loading projects, it could take a while (Free Tier API)..."
                   : projectsStatus === "fulfilled"
                   ? "Projects received successfully. You can check the folders now."
                   : "Something went wrong! Please try again."
