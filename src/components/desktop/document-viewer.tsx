@@ -17,7 +17,7 @@ export default function DocumentViewer({
   isMaximized,
 }: DocumentViewerProps) {
   return (
-    <div className="crt w-full min-h-dvh">
+    <div className="crt w-full">
       <div className="border-[1px] border-[#808080] flex flex-col h-auto mt-[-15px]">
         <div className="h-7 flex items-center px-[2px] border-t-[1px] border-t-white border-b-[1px] border-b-[#808080] gap-1">
           <Separator

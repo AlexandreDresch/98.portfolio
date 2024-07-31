@@ -24,8 +24,8 @@ export default function Folder({
   const { selectedProject } = useAppSelector((state) => state.projects);
 
   return (
-    <div className="w-full crt">
-      <div className="border-[1px] border-[#808080] flex flex-col h-auto mt-[-15px]">
+    <div className="w-full h-full min-h-[500px] crt">
+      <div className="border-[1px] border-[#808080] flex flex-col min-h-max flex-1 mt-[-15px]">
         <div className="h-7 flex items-center px-[2px] border-t-[1px] border-t-white border-b-[1px] border-b-[#808080] gap-1">
           <Separator
             orientation="vertical"
@@ -117,12 +117,10 @@ export default function Folder({
         </div>
 
         <div
-          className={`flex ${
-            isMaximized ? "h-[calc(100vh_-_182px)]" : "h-[calc(100vh_-_490px)]"
-          } bg-[url('/folder-background.jpg')] bg-contain m-[2px]`}
+          className={`flex min-h-[400px] bg-[url('/folder-background.jpg')] bg-contain m-[2px]`}
         >
-          <div className="w-1/3 flex flex-col justify-between">
-            <div className="w-full pt-3">
+          <div className="w-1/3 min-h-max flex flex-col justify-between">
+            <div className="w-full h-full pt-3 pl-3 pb-3">
               <Image
                 width={100}
                 height={100}
@@ -137,16 +135,16 @@ export default function Folder({
                       : "/icons/mobile-icon.png"
                     : icon
                 }
-                className="w-14 h-auto pl-3"
+                className="w-14 h-auto"
               />
 
-              <h3 className="font-semibold text-xl pl-3">
+              <h3 className="font-semibold text-xl">
                 {selectedProject ? selectedProject.name : folderName}
               </h3>
 
               <Separator className="h-[2px] bg-rainbow my-3" />
 
-              <p className="pl-3 text-sm">
+              <p className="text-sm">
                 {selectedProject === null
                   ? "Select an item to view its description."
                   : selectedProject.description}
@@ -156,7 +154,7 @@ export default function Folder({
             {selectedProject !== null && (
               <div
                 className={cn(
-                  "w-full flex justify-around pl-3 pb-3",
+                  "w-full flex justify-around pb-3",
                   selectedProject.deployment_url === null && "justify-start"
                 )}
               >
@@ -178,7 +176,7 @@ export default function Folder({
           </div>
 
           <div
-            className={`w-2/3 bg-gradient-to-r from-transparent via-white to-white`}
+            className={`w-2/3 h-full bg-gradient-to-r from-transparent via-white to-white`}
           >
             {children}
           </div>
