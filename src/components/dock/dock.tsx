@@ -26,6 +26,7 @@ import { useAppDispatch, useAppSelector } from "@/store/store";
 import { useEffect } from "react";
 import { getProjectsData } from "@/store/projects-slice";
 import MessageContainer from "./message-container";
+import Link from "next/link";
 
 export default function Dock() {
   const dispatch = useAppDispatch();
@@ -63,9 +64,13 @@ export default function Dock() {
           className="crt w-[300px] p-0 flex gap-2 shadow-none h-96 bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-2 border-solid border-black border-t-white border-l-white border-b-transparent rounded-none"
           align="start"
         >
-          <div className="w-5 h-full bg-gradient-to-b mt-0 from-[#010f80] to-[#1084d0]" />
-          <div className="w-full">
-            <DropdownMenuLabel>98.Portfolio</DropdownMenuLabel>
+          <div className="w-5 h-full bg-gradient-to-b mt-0 from-[#1084d0] to-[#010f80] flex items-end">
+            <h1 className="-rotate-90 text-white w-full font-semibold">
+              98.portfolio
+            </h1>
+          </div>
+          <div className="w-full pr-2">
+            <DropdownMenuLabel>Alexandre Dresch</DropdownMenuLabel>
 
             <DropdownMenuSeparator />
 
@@ -88,13 +93,19 @@ export default function Dock() {
 
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                Settings
+                About
                 <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
               </DropdownMenuItem>
+              <DropdownMenuItem>
+                Settings
+                <DropdownMenuShortcut>⌘A</DropdownMenuShortcut>
+              </DropdownMenuItem>
               <DropdownMenuSub>
-                <DropdownMenuSubTrigger>My Resume</DropdownMenuSubTrigger>
+                <DropdownMenuSubTrigger className="data-[state=open]:text-white">
+                  My Resume
+                </DropdownMenuSubTrigger>
                 <DropdownMenuPortal>
-                  <DropdownMenuSubContent>
+                  <DropdownMenuSubContent className="crt flex px-0 flex-col bg-[#C0C0C0] border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none">
                     <DropdownMenuItem>
                       English
                       <DropdownMenuShortcut>⌘E</DropdownMenuShortcut>
@@ -112,11 +123,20 @@ export default function Dock() {
             <DropdownMenuSeparator />
 
             <DropdownMenuItem>
-              GitHub
+              <Link href="https://github.com/AlexandreDresch" target="_blank">
+                GitHub
+              </Link>
+
               <DropdownMenuShortcut>⌘G</DropdownMenuShortcut>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              LinkedIn
+              <Link
+                href="https://www.linkedin.com/in/alexandre-dresch/"
+                target="_blank"
+              >
+                LinkedIn
+              </Link>
+
               <DropdownMenuShortcut>⌘L</DropdownMenuShortcut>
             </DropdownMenuItem>
           </div>
