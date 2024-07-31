@@ -11,7 +11,7 @@ const titillium = Titillium_Web({
 });
 
 export const metadata: Metadata = {
-  title: "98.Portfolio",
+  title: "98.portfolio",
   description: "Alexandre Dresch's portfolio",
 };
 
