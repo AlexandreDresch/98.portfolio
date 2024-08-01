@@ -1,3 +1,5 @@
+import { Folder } from "@/types";
+
 export const FooterMessages = [
   {
     name: "Folder",
@@ -249,5 +251,80 @@ export const FooterMessages = [
   {
     name: "About98.portfolio",
     message: "Opens the 98.portfolio document.",
+  },
+];
+
+export const folders: Folder[] = [
+  {
+    id: 1,
+    name: "Recycle Bin",
+    isOpen: false,
+    image: "/recycle-bin.png",
+    isDocument: false,
+    documentType: null,
+    documentPath: null,
+  },
+  {
+    id: 2,
+    name: "My Computer",
+    isOpen: false,
+    image: "/computer-explorer.png",
+    isDocument: false,
+    documentType: null,
+    documentPath: null,
+  },
+  {
+    id: 3,
+    name: "Backend",
+    isOpen: false,
+    image: "/folder.png",
+    isDocument: false,
+    documentType: null,
+    documentPath: null,
+  },
+  {
+    id: 4,
+    name: "Frontend",
+    isOpen: false,
+    image: "/folder.png",
+    isDocument: false,
+    documentType: null,
+    documentPath: null,
+  },
+  {
+    id: 5,
+    name: "Mobile",
+    isOpen: false,
+    image: "/folder.png",
+    isDocument: false,
+    documentType: null,
+    documentPath: null,
+  },
+  {
+    id: 6,
+    name: "My Resume",
+    isOpen: false,
+    image: "/file.png",
+    isDocument: true,
+    documentType: "pdf",
+    documentPath: "./englishCV.pdf",
+  },
+  {
+    id: 7,
+    name: "About",
+    isOpen: false,
+    image: "/help-book.png",
+    isDocument: true,
+    documentType: "markdown",
+    documentPath: "/AlexandreDresch/98.portfolio",
+  },
+  {
+    id: 8,
+    name: "Contact me",
+    isOpen: false,
+    image: "/modem.png",
+    isDocument: false,
+    documentType: null,
+    documentPath: null,
   },
 ];
