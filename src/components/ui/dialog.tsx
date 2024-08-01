@@ -17,8 +17,6 @@ interface DialogContentProps
   extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
   folderName: string;
   icon: string;
-  isMaximized: boolean;
-  toggleMaximized: () => void;
 }
 
 const DialogOverlay = React.forwardRef<
@@ -39,7 +37,7 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   DialogContentProps
->(({ className, folderName, icon, isMaximized, toggleMaximized, children, ...props }, ref) => (
+>(({ className, folderName, icon, children, ...props }, ref) => (
   <DialogPortal>
     <DialogOverlay />
     <DialogPrimitive.Content
