@@ -4,18 +4,17 @@ import { Separator } from "../ui/separator";
 import FolderNavigationMenu from "../shared/folder-navigation-menu";
 import PdfViewer from "./pdf-viewer";
 import Link from "next/link";
-
-interface DocumentViewerProps {
-  documentType: "pdf" | "markdown";
-  documentPath: string;
-  isMaximized: boolean;
-}
+import MarkdownViewer from "./markdown-viewer";
+import { DocumentViewerProps } from "@/types";
+import FolderFooterMessage from "../shared/folder-footer-message";
 
 export default function DocumentViewer({
   documentType,
   documentPath,
-  isMaximized,
+  folderName,
+  icon,
 }: DocumentViewerProps) {
+
   return (
     <div className="crt w-full">
       <div className="border-[1px] border-[#808080] flex flex-col h-auto mt-[-15px]">
@@ -52,19 +51,17 @@ export default function DocumentViewer({
             </Link>
           </div>
         </div>
-        <div
-          className={`flex ${
-            isMaximized ? "h-[calc(100vh_-_150px)]" : "h-[calc(100vh_-_438px)]"
-          } m-[2px]`}
-        >
+        <div className="flex h-[calc(100vh_-_438px)] m-[2px]">
           <div className="w-full bg-white">
             {documentType === "pdf" ? (
               <PdfViewer documentPath={documentPath} />
             ) : (
-              <p>Not available yet.</p>
+              <MarkdownViewer documentPath={documentPath} />
             )}
           </div>
         </div>
+
+        <FolderFooterMessage folderName={folderName} icon={icon} />
       </div>
     </div>
   );
