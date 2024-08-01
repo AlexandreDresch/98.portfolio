@@ -27,11 +27,16 @@ import { useEffect } from "react";
 import { getProjectsData } from "@/store/projects-slice";
 import MessageContainer from "./message-container";
 import Link from "next/link";
+import { toggleFolder } from "@/store/folders-slice";
 
 export default function Dock() {
   const dispatch = useAppDispatch();
 
   const projectsStatus = useAppSelector((state) => state.projects.status);
+
+  const handleToggle = (id: number) => {
+    dispatch(toggleFolder(id));
+  };
 
   useEffect(() => {
     if (projectsStatus === "initial") {
@@ -75,15 +80,15 @@ export default function Dock() {
             <DropdownMenuSeparator />
 
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleToggle(3)}>
                 BackEnd
                 <DropdownMenuShortcut>⇧⌘B</DropdownMenuShortcut>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleToggle(4)}>
                 FrontEnd
                 <DropdownMenuShortcut>⌘F</DropdownMenuShortcut>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleToggle(5)}>
                 Mobile
                 <DropdownMenuShortcut>⌘M</DropdownMenuShortcut>
               </DropdownMenuItem>
@@ -92,11 +97,11 @@ export default function Dock() {
             <DropdownMenuSeparator />
 
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleToggle(7)}>
                 About
                 <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleToggle(2)}>
                 Settings
                 <DropdownMenuShortcut>⌘A</DropdownMenuShortcut>
               </DropdownMenuItem>
@@ -106,7 +111,7 @@ export default function Dock() {
                 </DropdownMenuSubTrigger>
                 <DropdownMenuPortal>
                   <DropdownMenuSubContent className="crt flex px-0 flex-col bg-[#C0C0C0] border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none">
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleToggle(6)}>
                       English
                       <DropdownMenuShortcut>⌘E</DropdownMenuShortcut>
                     </DropdownMenuItem>
