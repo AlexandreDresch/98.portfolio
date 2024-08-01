@@ -6,21 +6,15 @@ import { ReactNode } from "react";
 import FolderNavigationMenu from "../shared/folder-navigation-menu";
 import { useAppSelector } from "@/store/store";
 import { cn } from "@/lib/utils";
+import FolderFooterMessage from "../shared/folder-footer-message";
 
 interface FolderProps {
   folderName: string;
   icon: string;
   children: ReactNode;
-  isMaximized: boolean;
 }
 
-export default function Folder({
-  folderName,
-  icon,
-  children,
-  isMaximized,
-}: FolderProps) {
-  const footerMessage = useAppSelector((state) => state.footerMessage.message);
+export default function Folder({ folderName, icon, children }: FolderProps) {
   const { selectedProject } = useAppSelector((state) => state.projects);
 
   return (
@@ -151,7 +145,7 @@ export default function Folder({
               </p>
             </div>
 
-            {selectedProject !== null && (
+            {selectedProject && (
               <div
                 className={cn(
                   "w-full flex justify-around pb-3",
@@ -182,18 +176,7 @@ export default function Folder({
           </div>
         </div>
 
-        <div className="w-auto h-5 ml-[2px] bg-[#C0C0C0] flex items-center gap-1">
-          <Image
-            width={100}
-            height={100}
-            quality={100}
-            alt={folderName}
-            src={icon}
-            className="w-4 h-auto"
-          />
-
-          <span className="text-xs">{footerMessage}</span>
-        </div>
+        <FolderFooterMessage folderName={folderName} icon={icon} />
       </div>
     </div>
   );
