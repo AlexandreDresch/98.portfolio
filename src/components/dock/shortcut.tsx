@@ -1,53 +1,35 @@
 "use client";
+
 import Image from "next/image";
 import Draggable from "react-draggable";
 import { Dialog, DialogTrigger, DialogContent } from "../ui/dialog";
-import { ReactNode, useState } from "react";
 import Folder from "../desktop/folder";
 import DocumentViewer from "../desktop/document-viewer";
 import { useAppDispatch } from "@/store/store";
 import { clearSelectedProject } from "@/store/projects-slice";
-
-interface ShortcutPropsDocument {
-  name: string;
-  image: string;
-  isDocument: boolean;
-  documentPath: string;
-  children?: ReactNode;
-}
-
-interface ShortcutPropsNonDocument {
-  name: string;
-  image: string;
-  isDocument: false;
-  documentPath?: string;
-  children: ReactNode;
-}
-
-type ShortcutProps = ShortcutPropsDocument | ShortcutPropsNonDocument;
+import { toggleFolder } from "@/store/folders-slice";
+import { ShortcutProps } from "@/types";
+import { cn } from "@/lib/utils";
 
 export default function Shortcut({
+  id,
   name,
   image,
+  isOpen,
   isDocument,
   documentPath,
+  documentType,
   children,
 }: ShortcutProps) {
-  const [isSelected, setIsSelected] = useState<boolean>(false);
-  const [isMaximized, setIsMaximized] = useState<boolean>(false);
   const dispatch = useAppDispatch();
 
   function handleSelection() {
-    setIsSelected((prevIsSelected) => !prevIsSelected);
     dispatch(clearSelectedProject());
-  }
-
-  function toggleMaximize() {
-    setIsMaximized((prevIsMaximized) => !prevIsMaximized);
+    dispatch(toggleFolder(id));
   }
 
   return (
-    <Dialog onOpenChange={handleSelection}>
+    <Dialog onOpenChange={handleSelection} open={isOpen}>
       <DialogTrigger className="w-28 h-max flex flex-col justify-center items-center">
         <Image
           width={100}
@@ -58,29 +40,29 @@ export default function Shortcut({
           className="w-10 h-auto object-fill"
         />
         <span
-          className={`font-normal text-sm  ${
-            isSelected ? "bg-[#010f80]" : "bg-[#0c7f80]"
-          } text-white px-2`}
+          className={cn(
+            "font-normal text-sm text-white px-2 bg-[#0c7f80]",
+            isOpen && "bg-[#010f80]"
+          )}
         >
           {name}
         </span>
       </DialogTrigger>
-      <Draggable disabled={isMaximized} handle=".dragger">
+      <Draggable handle=".dragger">
         <DialogContent
           className="border-[1px] border-solid border-black border-t-white border-l-white bg-[#C0C0C0] p-[1px]"
           folderName={name}
           icon={image}
-          isMaximized={isMaximized}
-          toggleMaximized={toggleMaximize}
         >
-          {isDocument ? (
+          {isDocument && documentPath && documentType ? (
             <DocumentViewer
-              documentType="pdf"
+              folderName={name}
+              icon={image}
+              documentType={documentType}
               documentPath={documentPath}
-              isMaximized={isMaximized}
             />
           ) : (
-            <Folder folderName={name} icon={image} isMaximized={isMaximized}>
+            <Folder folderName={name} icon={image}>
               {children}
             </Folder>
           )}
