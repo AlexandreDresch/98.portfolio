@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import HourglassLoading from "../shared/hourglass-loading";
+import { ScrollArea } from "../ui/scroll-area";
+import { fetchReadme } from "@/services/README-api";
+import "github-markdown-css/github-markdown-light.css";
 
 export default function MarkdownViewer({
   documentPath,
@@ -15,16 +18,11 @@ export default function MarkdownViewer({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchReadme = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch(
-          `https://raw.githubusercontent.com/${documentPath}/main/README.md`
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch README file");
-        }
-        const text = await response.text();
-        setContent(text);
+        const readme = await fetchReadme(documentPath);
+
+        setContent(readme);
       } catch (err: any) {
         setError(err.message);
       } finally {
@@ -32,13 +30,19 @@ export default function MarkdownViewer({
       }
     };
 
-    fetchReadme();
+    fetchData();
   }, [documentPath]);
 
   if (loading) {
     return (
-      <HourglassLoading className="w-full h-full flex mt-40 justify-center items-center" />
+      <HourglassLoading className="w-full h-full flex justify-center items-center" />
     );
   }
-  return <Markdown remarkPlugins={[remarkGfm]}>{content}</Markdown>;
+  return (
+    <ScrollArea className="w-full h-full bg-white px-3 pt-2">
+      <Markdown className="markdown-body" remarkPlugins={[remarkGfm]}>
+        {content}
+      </Markdown>
+    </ScrollArea>
+  );
 }
