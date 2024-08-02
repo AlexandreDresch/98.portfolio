@@ -51,7 +51,7 @@ export default function DocumentViewer({
             </Link>
           </div>
         </div>
-        <div className="flex h-[calc(100vh_-_438px)] m-[2px]">
+        <div className="flex h-[450px] m-[2px]">
           <div className="w-full bg-white">
             {documentType === "pdf" ? (
               <PdfViewer documentPath={documentPath} />

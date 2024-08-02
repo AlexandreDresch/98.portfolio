@@ -111,7 +111,7 @@ export default function Folder({ folderName, icon, children }: FolderProps) {
         </div>
 
         <div
-          className={`flex min-h-[400px] bg-[url('/folder-background.jpg')] bg-contain m-[2px]`}
+          className={`flex min-h-[450px] bg-[url('/folder-background.jpg')] bg-contain m-[2px]`}
         >
           <div className="w-1/3 min-h-max flex flex-col justify-between">
             <div className="w-full h-full pt-3 pl-3 pb-3">
@@ -149,7 +149,7 @@ export default function Folder({ folderName, icon, children }: FolderProps) {
               <div
                 className={cn(
                   "w-full flex justify-around pb-3",
-                  selectedProject.deployment_url === null && "justify-start"
+                  selectedProject.deployment_url === null && "justify-start pl-3"
                 )}
               >
                 <TooltipLink
