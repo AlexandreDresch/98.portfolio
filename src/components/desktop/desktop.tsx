@@ -4,6 +4,7 @@ import Clippy from "../shared/clippy";
 import Shortcut from "../dock/shortcut";
 import { useAppSelector } from "@/store/store";
 import ProjectContainer from "../folders/project-container";
+import NotAvailable from "../shared/not-available";
 
 export default function Desktop() {
   const { frontend, backend, mobile } = useAppSelector(
@@ -29,14 +30,10 @@ export default function Desktop() {
             <ProjectContainer projects={frontend} />
           )}
           {folder.name === "Recycle Bin" && (
-            <div className="flex h-[400px] justify-center items-center">
-              <p>Not available yet.</p>
-            </div>
+            <NotAvailable message="Not available yet." />
           )}
           {folder.name === "My Computer" && (
-            <div className="flex h-[400px] justify-center items-center">
-              <p>Not available yet.</p>
-            </div>
+            <NotAvailable message="Not available yet." />
           )}
           {folder.name === "Mobile" && (
             <div className="flex h-[400px] justify-center items-center">
@@ -44,9 +41,7 @@ export default function Desktop() {
             </div>
           )}
           {folder.name === "Contact me" && (
-            <div className="flex h-[400px] justify-center items-center">
-              <p>Not available yet.</p>
-            </div>
+            <NotAvailable message="Not available yet." />
           )}
         </Shortcut>
       ))}
