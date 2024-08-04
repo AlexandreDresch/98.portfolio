@@ -49,3 +49,7 @@ export interface FolderFooterMessageProps {
   folderName: string;
   icon: string;
 }
+
+export interface ImageSliderProps {
+  images: string[];
+}
