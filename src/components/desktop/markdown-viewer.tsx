@@ -39,7 +39,7 @@ export default function MarkdownViewer({
     );
   }
   return (
-    <ScrollArea className="w-full h-full bg-white px-3 pt-2">
+    <ScrollArea className="w-full h-full px-3 pt-2">
       <Markdown className="markdown-body" remarkPlugins={[remarkGfm]}>
         {content}
       </Markdown>

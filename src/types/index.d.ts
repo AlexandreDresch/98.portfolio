@@ -53,3 +53,8 @@ export interface FolderFooterMessageProps {
 export interface ImageSliderProps {
   images: string[];
 }
+
+export interface ImageMagnifierProps {
+  src: string;
+  alt: string;
+}
