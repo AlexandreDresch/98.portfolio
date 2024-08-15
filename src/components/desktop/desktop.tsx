@@ -7,7 +7,7 @@ import ProjectContainer from "../folders/project-container";
 import NotAvailable from "../shared/not-available";
 
 export default function Desktop() {
-  const { frontend, backend, mobile } = useAppSelector(
+  const { frontend, backend } = useAppSelector(
     (state) => state.projects
   );
   const folders = useAppSelector((state) => state.folders.folders);
@@ -36,9 +36,7 @@ export default function Desktop() {
             <NotAvailable message="Not available yet." />
           )}
           {folder.name === "Mobile" && (
-            <div className="flex h-[400px] justify-center items-center">
-              <p>Not available yet.</p>
-            </div>
+            <NotAvailable message="Not available yet." />
           )}
           {folder.name === "Contact me" && (
             <NotAvailable message="Not available yet." />
