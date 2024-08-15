@@ -23,8 +23,11 @@ const foldersSlice = createSlice({
       if (folder) {
         folder.isOpen = true;
 
-        if (!state.dockFolders.some((f) => f.id === folderId)) {
+        const dockFolder = state.dockFolders.find((f) => f.id === folderId);
+        if (!dockFolder) {
           state.dockFolders.push(folder);
+        } else {
+          dockFolder.isOpen = true;
         }
       }
     },
@@ -42,14 +45,14 @@ const foldersSlice = createSlice({
     minimizeFolder(state, action: PayloadAction<number>) {
       const folderId = action.payload;
       const folder = state.folders.find((folder) => folder.id === folderId);
-      const dockFolder = state.dockFolders.find(
-        (folder) => folder.id === folderId
-      );
 
       if (folder) {
         folder.isOpen = false;
       }
 
+      const dockFolder = state.dockFolders.find(
+        (folder) => folder.id === folderId
+      );
       if (dockFolder) {
         dockFolder.isOpen = false;
       }
