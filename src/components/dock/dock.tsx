@@ -27,15 +27,16 @@ import { useEffect } from "react";
 import { getProjectsData } from "@/store/projects-slice";
 import MessageContainer from "./message-container";
 import Link from "next/link";
-import { toggleFolder } from "@/store/folders-slice";
+import { openFolder } from "@/store/folders-slice";
+import DockList from "./dock-list";
 
 export default function Dock() {
   const dispatch = useAppDispatch();
 
   const projectsStatus = useAppSelector((state) => state.projects.status);
 
-  const handleToggle = (id: number) => {
-    dispatch(toggleFolder(id));
+  const handleOpen = (id: number) => {
+    dispatch(openFolder(id));
   };
 
   useEffect(() => {
@@ -80,15 +81,15 @@ export default function Dock() {
             <DropdownMenuSeparator />
 
             <DropdownMenuGroup>
-              <DropdownMenuItem onClick={() => handleToggle(3)}>
+              <DropdownMenuItem onClick={() => handleOpen(3)}>
                 BackEnd
                 <DropdownMenuShortcut>⇧⌘B</DropdownMenuShortcut>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleToggle(4)}>
+              <DropdownMenuItem onClick={() => handleOpen(4)}>
                 FrontEnd
                 <DropdownMenuShortcut>⌘F</DropdownMenuShortcut>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleToggle(5)}>
+              <DropdownMenuItem onClick={() => handleOpen(5)}>
                 Mobile
                 <DropdownMenuShortcut>⌘M</DropdownMenuShortcut>
               </DropdownMenuItem>
@@ -97,11 +98,11 @@ export default function Dock() {
             <DropdownMenuSeparator />
 
             <DropdownMenuGroup>
-              <DropdownMenuItem onClick={() => handleToggle(7)}>
+              <DropdownMenuItem onClick={() => handleOpen(7)}>
                 About
                 <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleToggle(2)}>
+              <DropdownMenuItem onClick={() => handleOpen(2)}>
                 Settings
                 <DropdownMenuShortcut>⌘A</DropdownMenuShortcut>
               </DropdownMenuItem>
@@ -111,7 +112,7 @@ export default function Dock() {
                 </DropdownMenuSubTrigger>
                 <DropdownMenuPortal>
                   <DropdownMenuSubContent className="crt flex px-0 flex-col bg-[#C0C0C0] border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none">
-                    <DropdownMenuItem onClick={() => handleToggle(6)}>
+                    <DropdownMenuItem onClick={() => handleOpen(6)}>
                       English
                       <DropdownMenuShortcut>⌘E</DropdownMenuShortcut>
                     </DropdownMenuItem>
@@ -150,10 +151,12 @@ export default function Dock() {
 
       <Separator
         orientation="vertical"
-        className="mx-[1px] bg-[#808080] w-[2px] border-white border-r-[1px] h-6"
+        className="mx-1 bg-[#808080] w-[2px] border-white border-r-[1px] h-6"
       />
 
-      <div className="w-full"></div>
+      <div className="w-full">
+        <DockList />
+      </div>
 
       <Separator
         orientation="vertical"
