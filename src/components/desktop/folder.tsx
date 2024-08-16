@@ -7,6 +7,7 @@ import FolderNavigationMenu from "../shared/folder-navigation-menu";
 import { useAppSelector } from "@/store/store";
 import { cn } from "@/lib/utils";
 import FolderFooterMessage from "../shared/folder-footer-message";
+import FolderInternalNavigation from "../shared/folder-internal-navigation";
 
 interface FolderProps {
   folderName: string;
@@ -35,35 +36,7 @@ export default function Folder({ folderName, icon, children }: FolderProps) {
             className="bg-[#C0C0C0] h-11 w-1 border-l-[1px] border-l-white border-r-[1px] border-r-[#808080]"
           />
 
-          <div className="flex items-center gap-1">
-            <Button
-              variant="ghost"
-              className="w-20 flex flex-col px-1 py-0 h-max rounded-none border-[1px] border-transparent hover:border-black hover:border-t-white hover:border-l-white"
-            >
-              <Image
-                width={0}
-                height={0}
-                alt="Go back"
-                src="/arrow-left.svg"
-                className="w-6 h-auto"
-              />
-              <span className="text-xs">Back</span>
-            </Button>
-
-            <Button
-              variant="ghost"
-              className="w-20 flex flex-col px-1 py-0 h-max rounded-none border-[1px] border-transparent hover:border-black hover:border-t-white hover:border-l-white"
-            >
-              <Image
-                width={0}
-                height={0}
-                alt="Go forward"
-                src="/arrow-right.svg"
-                className="w-6 h-auto"
-              />
-              <span className="text-xs">Forward</span>
-            </Button>
-          </div>
+          <FolderInternalNavigation />
         </div>
 
         <div className="h-8 flex items-center px-[2px] border-t-[1px] border-t-white border-b-[1px] border-b-[#808080] gap-1">
@@ -149,7 +122,8 @@ export default function Folder({ folderName, icon, children }: FolderProps) {
               <div
                 className={cn(
                   "w-full flex justify-around pb-3",
-                  selectedProject.deployment_url === null && "justify-start pl-3"
+                  selectedProject.deployment_url === null &&
+                    "justify-start pl-3"
                 )}
               >
                 <TooltipLink

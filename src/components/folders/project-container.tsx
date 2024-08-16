@@ -29,30 +29,29 @@ export default function ProjectContainer({ projects }: ProjectContainerProps) {
   };
 
   return (
-    <div className="w-full h-[400px]">
+    <div className="w-full h-[400px] flex">
       {openedProject && selectedProject ? (
         <ScrollArea className="pt-2 space-y-3 w-full h-[450px]">
+
           {selectedProject.images.length > 1 && (
             <>
-            <h3 className="font-medium pl-3 text-lg">Project Images</h3>
-            <ImageSlider images={selectedProject.images} />
+              <h3 className="font-medium pl-3 text-lg">Project Images</h3>
+              <ImageSlider images={selectedProject.images} />
             </>
           )}
 
-          <Separator className="px-3 my-3"/>
+          <Separator className="px-3 my-3" />
 
           <>
-          <h3 className="font-medium pl-3 text-lg">README</h3>
+            <h3 className="font-medium pl-3 text-lg">README</h3>
 
-          <div className="size-full bg-white p-2">
-          <MarkdownViewer  documentPath="/AlexandreDresch/DriveEmporium"/>
-          </div>
+            <div className="size-full bg-white p-2">
+              <MarkdownViewer documentPath="/AlexandreDresch/DriveEmporium" />
+            </div>
           </>
-
-          <button onClick={handleCloseProject}>Close Project</button>
         </ScrollArea>
       ) : (
-        <ScrollArea className="grid grid-cols-4 grid-rows-4 gap-4 gap-y-0 p-4">
+        <div className="grid grid-cols-4 grid-rows-4 gap-4 gap-y-0 p-4">
           {projects.map((project) => (
             <div
               key={project.id}
@@ -87,7 +86,7 @@ export default function ProjectContainer({ projects }: ProjectContainerProps) {
               </p>
             </div>
           ))}
-        </ScrollArea>
+        </div>
       )}
     </div>
   );
