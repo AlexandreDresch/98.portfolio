@@ -1,12 +1,12 @@
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
-import FolderNavigationMenu from "../shared/folder-navigation-menu";
+import FolderNavigationMenu from "./folder-navigation-menu";
 import PdfViewer from "./pdf-viewer";
 import Link from "next/link";
 import MarkdownViewer from "./markdown-viewer";
 import { DocumentViewerProps } from "@/types";
-import FolderFooterMessage from "../shared/folder-footer-message";
+import FolderFooterMessage from "./folder-footer-message";
 
 export default function DocumentViewer({
   documentType,

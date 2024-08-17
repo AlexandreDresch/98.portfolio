@@ -8,7 +8,7 @@ import Image from "next/image";
 import { useState } from "react";
 import ImageSlider from "../shared/image-slider";
 import { ScrollArea } from "../ui/scroll-area";
-import MarkdownViewer from "../desktop/markdown-viewer";
+import MarkdownViewer from "./markdown-viewer";
 import { Separator } from "../ui/separator";
 
 export default function ProjectContainer({ projects }: ProjectContainerProps) {

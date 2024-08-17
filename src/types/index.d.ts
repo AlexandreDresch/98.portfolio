@@ -34,18 +34,34 @@ export interface Folder {
   documentPath: string | null;
 }
 
-export interface ShortcutProps extends Folder {
-  children?: ReactNode;
+export interface FolderProps {
+  folder: Folder;
+}
+
+export interface FolderWithChildrenProps extends FolderProps {
+  children: ReactNode;
+}
+
+export interface ShortcutProps extends FolderWithChildrenProps {}
+
+export interface FolderLayoutProps extends FolderWithChildrenProps {}
+
+export interface FolderHeaderProps extends FolderProps {}
+
+export interface FolderContentProps extends FolderWithChildrenProps {}
+
+export interface FolderContentHeaderProps extends FolderProps {}
+
+export interface FolderContentLeftProps extends FolderProps {}
+
+export interface FolderFooterMessageProps {
+  folderName: string;
+  icon: string;
 }
 
 export interface DocumentViewerProps {
   documentType: "pdf" | "markdown";
   documentPath: string;
-  folderName: string;
-  icon: string;
-}
-
-export interface FolderFooterMessageProps {
   folderName: string;
   icon: string;
 }

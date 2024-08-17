@@ -3,28 +3,17 @@
 import Clippy from "../shared/clippy";
 import Shortcut from "../dock/shortcut";
 import { useAppSelector } from "@/store/store";
-import ProjectContainer from "../folders/project-container";
+import ProjectContainer from "../folder/project-container";
 import NotAvailable from "../shared/not-available";
 
 export default function Desktop() {
-  const { frontend, backend } = useAppSelector(
-    (state) => state.projects
-  );
+  const { frontend, backend } = useAppSelector((state) => state.projects);
   const folders = useAppSelector((state) => state.folders.folders);
 
   return (
     <div className="pt-4 flex flex-col gap-8 min-w-[100dvw] min-h-[100dvh] relative overflow-hidden">
       {folders.map((folder) => (
-        <Shortcut
-          id={folder.id}
-          key={folder.id}
-          image={folder.image}
-          name={folder.name}
-          isOpen={folder.isOpen}
-          isDocument={folder.isDocument}
-          documentPath={folder.documentPath}
-          documentType={folder.documentType}
-        >
+        <Shortcut folder={folder} key={folder.id}>
           {folder.name === "Backend" && <ProjectContainer projects={backend} />}
           {folder.name === "Frontend" && (
             <ProjectContainer projects={frontend} />

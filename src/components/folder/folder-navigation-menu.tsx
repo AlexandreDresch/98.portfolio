@@ -12,7 +12,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import Checkmark from "./checkmark";
+import Checkmark from "../shared/checkmark";
 import { FooterMessages } from "@/constants";
 
 export default function FolderNavigationMenu() {
