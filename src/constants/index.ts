@@ -311,7 +311,7 @@ export const folders: Folder[] = [
   },
   {
     id: 7,
-    name: "About",
+    name: "98.portfolio",
     isOpen: false,
     image: "/help-book.png",
     isDocument: true,

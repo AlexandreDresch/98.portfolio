@@ -1,15 +1,21 @@
 import { folders } from "@/constants";
-import { Folder } from "@/types";
+import { Folder, Project } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface FoldersState {
   folders: Folder[];
   dockFolders: Folder[];
+  selectedFile: Project | null;
+  lastFileOpened: Project | null;
+  isFileOpen: boolean;
 }
 
 const initialState: FoldersState = {
   folders: folders,
   dockFolders: [],
+  selectedFile: null,
+  lastFileOpened: null,
+  isFileOpen: false,
 };
 
 const foldersSlice = createSlice({
@@ -22,6 +28,7 @@ const foldersSlice = createSlice({
 
       if (folder) {
         folder.isOpen = true;
+        setTimeout(() => (document.body.style.pointerEvents = ""), 0)
 
         const dockFolder = state.dockFolders.find((f) => f.id === folderId);
         if (!dockFolder) {
@@ -57,8 +64,34 @@ const foldersSlice = createSlice({
         dockFolder.isOpen = false;
       }
     },
+    selectFile: (state, action: PayloadAction<Project>) => {
+      state.selectedFile = action.payload;
+    },
+    clearSelectedFile: (state) => {
+      state.selectedFile = null;
+    },
+    openFile: (state) => {
+      if (state.selectedFile) {
+        state.isFileOpen = true;
+      }
+    },
+    closeFile: (state) => {
+      if (state.selectedFile) {
+        state.isFileOpen = false;
+        
+        state.lastFileOpened = state.selectedFile;
+      }
+    },
   },
 });
 
-export const { openFolder, closeFolder, minimizeFolder } = foldersSlice.actions;
+export const {
+  openFolder,
+  closeFolder,
+  minimizeFolder,
+  selectFile,
+  clearSelectedFile,
+  openFile,
+  closeFile,
+} = foldersSlice.actions;
 export const foldersReducer = foldersSlice.reducer;

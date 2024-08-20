@@ -7,7 +7,7 @@ import TooltipLink from "../shared/tooltip-link";
 import { FolderContentLeftProps } from "@/types";
 
 export default function FolderContentLeft({ folder }: FolderContentLeftProps) {
-  const { selectedProject } = useAppSelector((state) => state.projects);
+  const { selectedFile } = useAppSelector((state) => state.folders);
 
   return (
     <div className="w-1/3 min-h-max flex flex-col justify-between">
@@ -16,12 +16,12 @@ export default function FolderContentLeft({ folder }: FolderContentLeftProps) {
           width={100}
           height={100}
           quality={100}
-          alt={selectedProject ? selectedProject.name : folder.name}
+          alt={selectedFile ? selectedFile.name : folder.name}
           src={
-            selectedProject
-              ? selectedProject.type === "BACKEND"
+            selectedFile
+              ? selectedFile.type === "BACKEND"
                 ? "/icons/backend-icon.png"
-                : selectedProject.type === "FRONTEND"
+                : selectedFile.type === "FRONTEND"
                 ? "/icons/frontend-icon.png"
                 : "/icons/mobile-icon.png"
               : folder.image
@@ -30,35 +30,35 @@ export default function FolderContentLeft({ folder }: FolderContentLeftProps) {
         />
 
         <h3 className="font-semibold text-xl">
-          {selectedProject ? selectedProject.name : folder.name}
+          {selectedFile ? selectedFile.name : folder.name}
         </h3>
 
         <Separator className="h-[2px] bg-rainbow my-3" />
 
         <p className="text-sm">
-          {selectedProject === null
+          {selectedFile === null
             ? "Select an item to view its description. Double click to open."
-            : selectedProject.description}
+            : selectedFile.description}
         </p>
       </div>
 
-      {selectedProject && (
+      {selectedFile && (
         <div
           className={cn(
             "w-full flex justify-around pb-3",
-            selectedProject.deployment_url === null && "justify-start pl-3"
+            selectedFile.deployment_url === null && "justify-start pl-3"
           )}
         >
           <TooltipLink
             image="/github.svg"
-            link={selectedProject.github_url}
+            link={selectedFile.github_url}
             tooltip="Source Code"
           />
 
-          {selectedProject.deployment_url !== null && (
+          {selectedFile.deployment_url !== null && (
             <TooltipLink
               image="/internet-explorer.png"
-              link={selectedProject.deployment_url}
+              link={selectedFile.deployment_url}
               tooltip="Visit Demo"
             />
           )}

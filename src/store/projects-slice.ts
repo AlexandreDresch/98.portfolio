@@ -11,7 +11,6 @@ interface ProjectsState {
   frontend: Project[];
   backend: Project[];
   mobile: Project[];
-  selectedProject: Project | null;
   status: "initial" | "pending" | "fulfilled" | "rejected";
   error: ErrorDetail | null;
 }
@@ -20,7 +19,6 @@ const initialState: ProjectsState = {
   frontend: [],
   backend: [],
   mobile: [],
-  selectedProject: null,
   status: "initial",
   error: null,
 };
@@ -58,14 +56,7 @@ export const getProjectsData = createAsyncThunk<
 const projectsSlice = createSlice({
   name: "projects",
   initialState,
-  reducers: {
-    selectProject: (state, action: PayloadAction<Project>) => {
-      state.selectedProject = action.payload;
-    },
-    clearSelectedProject: (state) => {
-      state.selectedProject = null;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(getProjectsData.pending, (state) => {
@@ -95,5 +86,4 @@ const projectsSlice = createSlice({
   },
 });
 
-export const { selectProject, clearSelectedProject } = projectsSlice.actions;
 export const projectsReducer = projectsSlice.reducer;

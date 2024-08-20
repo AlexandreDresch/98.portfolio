@@ -49,8 +49,8 @@ export default function ImageSlider({ images }: ImageSliderProps) {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="-left-[31px] rounded-none h-full border-[0.5px] border-black border-t-white border-r-white bg-[#C0C0C0] hover:bg-[#C0C0C0]" />
-        <CarouselNext className="-right-[31px] rounded-none h-full border-[0.5px] border-black border-t-white border-l-white bg-[#C0C0C0] hover:bg-[#C0C0C0]" />
+        <CarouselPrevious className="disabled:opacity-100 disabled:bg-[#cecece] -left-[31px] rounded-none h-full border-[0.5px] border-black border-t-white border-r-white bg-[#C0C0C0] hover:bg-[#C0C0C0]" />
+        <CarouselNext className="disabled:opacity-100 disabled:bg-[#cecece] -right-[31px] rounded-none h-full border-[0.5px] border-black border-t-white border-l-white bg-[#C0C0C0] hover:bg-[#C0C0C0]" />
       </Carousel>
       <div className="py-2 text-center text-sm text-muted-foreground">
         Image {current} of {count}

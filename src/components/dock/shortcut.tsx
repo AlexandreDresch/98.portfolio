@@ -4,7 +4,7 @@ import Image from "next/image";
 import Draggable from "react-draggable";
 import { Dialog, DialogTrigger, DialogContent } from "../ui/dialog";
 import { useAppDispatch } from "@/store/store";
-import { clearSelectedProject } from "@/store/projects-slice";
+import { clearSelectedFile } from "@/store/folders-slice";
 import { openFolder } from "@/store/folders-slice";
 import { ShortcutProps } from "@/types";
 import { cn } from "@/lib/utils";
@@ -14,7 +14,7 @@ export default function Shortcut({ folder, children }: ShortcutProps) {
   const dispatch = useAppDispatch();
 
   function handleSelection() {
-    dispatch(clearSelectedProject());
+    dispatch(clearSelectedFile());
     dispatch(openFolder(folder.id));
   }
 
@@ -39,7 +39,7 @@ export default function Shortcut({ folder, children }: ShortcutProps) {
         </span>
       </DialogTrigger>
       <Draggable handle=".dragger">
-        <DialogContent className="border-[1px] border-solid border-black border-t-white border-l-white bg-[#C0C0C0] p-[1px]">
+        <DialogContent className="border-[1px] border-solid border-black border-t-white border-l-white bg-[#C0C0C0] p-[1px]" onInteractOutside={(e) => e.preventDefault()}>
           <FolderLayout folder={folder}>{children}</FolderLayout>
         </DialogContent>
       </Draggable>

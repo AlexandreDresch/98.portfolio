@@ -1,11 +1,10 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { selectProject } from "@/store/projects-slice";
+import { openFile, selectFile } from "@/store/folders-slice";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { Project, ProjectContainerProps } from "@/types";
 import Image from "next/image";
-import { useState } from "react";
 import ImageSlider from "../shared/image-slider";
 import { ScrollArea } from "../ui/scroll-area";
 import MarkdownViewer from "./markdown-viewer";
@@ -13,30 +12,24 @@ import { Separator } from "../ui/separator";
 
 export default function ProjectContainer({ projects }: ProjectContainerProps) {
   const dispatch = useAppDispatch();
-  const { selectedProject } = useAppSelector((state) => state.projects);
-  const [openedProject, setOpenedProject] = useState(false);
+  const { selectedFile, isFileOpen } = useAppSelector((state) => state.folders);
 
   const handleSelectProject = (project: Project) => {
-    dispatch(selectProject(project));
+    dispatch(selectFile(project));
   };
 
   const handleOpenProject = () => {
-    setOpenedProject((prevOpenedProject) => !prevOpenedProject);
-  };
-
-  const handleCloseProject = () => {
-    setOpenedProject(false);
+    dispatch(openFile());
   };
 
   return (
     <div className="w-full h-[400px] flex">
-      {openedProject && selectedProject ? (
+      {isFileOpen && selectedFile ? (
         <ScrollArea className="pt-2 space-y-3 w-full h-[450px]">
-
-          {selectedProject.images.length > 1 && (
+          {selectedFile.images.length > 1 && (
             <>
               <h3 className="font-medium pl-3 text-lg">Project Images</h3>
-              <ImageSlider images={selectedProject.images} />
+              <ImageSlider images={selectedFile.images} />
             </>
           )}
 
@@ -71,15 +64,14 @@ export default function ProjectContainer({ projects }: ProjectContainerProps) {
                 width={40}
                 height={40}
                 className={cn(
-                  selectedProject?.id === project.id && "brightness-75"
+                  selectedFile?.id === project.id && "brightness-75"
                 )}
               />
 
               <p
                 className={cn(
                   "text-sm",
-                  selectedProject?.id === project.id &&
-                    "text-white bg-[#010f80]"
+                  selectedFile?.id === project.id && "text-white bg-[#010f80]"
                 )}
               >
                 {project.name}
