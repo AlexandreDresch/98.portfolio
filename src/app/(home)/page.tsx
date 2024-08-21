@@ -1,11 +1,7 @@
-import Desktop from "@/components/desktop/desktop";
-import Dock from "@/components/dock/dock";
+import DesktopLayout from "@/components/desktop/desktop-layout";
 
-export default function Home() {
+export default function Home() {  
   return (
-    <main className="flex min-h-screen flex-col bg-[url('/windows-98-cloud.jpg')] box-border crt">
-      <Desktop />
-      <Dock />
-    </main>
+    <DesktopLayout />
   );
 }
