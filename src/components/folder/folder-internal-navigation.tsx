@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { useAppDispatch, useAppSelector } from "@/store/store";
-import { openFile, closeFile } from "@/store/folders-slice";
+import { closeFile, reOpenFile } from "@/store/folders-slice";
 
 export default function FolderInternalNavigation() {
   const dispatch = useAppDispatch();
@@ -10,7 +10,7 @@ export default function FolderInternalNavigation() {
   );
 
   const handleReOpenProject = () => {
-    dispatch(openFile());
+    dispatch(reOpenFile());
   };
 
   const handleCloseProject = () => {

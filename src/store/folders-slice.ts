@@ -28,7 +28,7 @@ const foldersSlice = createSlice({
 
       if (folder) {
         folder.isOpen = true;
-        setTimeout(() => (document.body.style.pointerEvents = ""), 0)
+        setTimeout(() => (document.body.style.pointerEvents = ""), 0);
 
         const dockFolder = state.dockFolders.find((f) => f.id === folderId);
         if (!dockFolder) {
@@ -75,10 +75,16 @@ const foldersSlice = createSlice({
         state.isFileOpen = true;
       }
     },
+    reOpenFile: (state) => {
+      if (state.lastFileOpened) {
+        state.selectedFile = state.lastFileOpened;
+        state.isFileOpen = true;
+      }
+    },
     closeFile: (state) => {
       if (state.selectedFile) {
         state.isFileOpen = false;
-        
+
         state.lastFileOpened = state.selectedFile;
       }
     },
@@ -92,6 +98,7 @@ export const {
   selectFile,
   clearSelectedFile,
   openFile,
+  reOpenFile,
   closeFile,
 } = foldersSlice.actions;
 export const foldersReducer = foldersSlice.reducer;
