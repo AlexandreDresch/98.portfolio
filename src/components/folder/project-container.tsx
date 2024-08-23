@@ -5,10 +5,7 @@ import { openFile, selectFile } from "@/store/folders-slice";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { Project, ProjectContainerProps } from "@/types";
 import Image from "next/image";
-import ImageSlider from "../shared/image-slider";
-import { ScrollArea } from "../ui/scroll-area";
-import MarkdownViewer from "./markdown-viewer";
-import { Separator } from "../ui/separator";
+import Link from "next/link";
 
 export default function ProjectContainer({ projects }: ProjectContainerProps) {
   const dispatch = useAppDispatch();
@@ -23,28 +20,79 @@ export default function ProjectContainer({ projects }: ProjectContainerProps) {
   };
 
   return (
-    <div className="w-full h-[400px] flex">
+    <div className="w-full h-[400px] flex justify-center">
       {isFileOpen && selectedFile ? (
-        <ScrollArea className="pt-2 space-y-3 w-full h-[450px]">
-          {selectedFile.images.length > 1 && (
-            <>
-              <h3 className="font-medium pl-3 text-lg">Project Images</h3>
-              <ImageSlider images={selectedFile.images} />
-            </>
+        <div className="grid grid-cols-5 grid-rows-6 gap-4 gap-y-3 p-4">
+          <div className="flex flex-col items-center cursor-pointer gap-1">
+            <Image
+              src="/icons/notepad.png"
+              alt="Project Image"
+              width={38}
+              height={38}
+            />
+
+            <span className={cn("font-normal text-sm")}>README.md</span>
+          </div>
+
+          {selectedFile.deployment_url && (
+            <Link
+              href={selectedFile.github_url}
+              target="_blank"
+              className="flex flex-col items-center cursor-pointer gap-1"
+            >
+              <Image
+                src="/icons/internet-file.png"
+                alt="Project Image"
+                width={38}
+                height={38}
+              />
+
+              <span className={cn("font-normal text-sm")}>
+                {selectedFile.name}
+              </span>
+            </Link>
           )}
 
-          <Separator className="px-3 my-3" />
+          {selectedFile.github_url && (
+            <Link
+              href={selectedFile.github_url}
+              target="_blank"
+              className="flex flex-col items-center cursor-pointer gap-1"
+            >
+              <Image
+                src="/icons/github-file.png"
+                alt="Project Image"
+                width={38}
+                height={38}
+              />
 
-          <>
-            <h3 className="font-medium pl-3 text-lg">README</h3>
+              <span className={cn("font-normal text-sm")}>
+                {selectedFile.name}
+              </span>
+            </Link>
+          )}
 
-            <div className="size-full bg-white p-2">
-              <MarkdownViewer documentPath="/AlexandreDresch/DriveEmporium" />
-            </div>
-          </>
-        </ScrollArea>
+          {selectedFile.images &&
+            selectedFile.images.map((image, index) => (
+              <div
+                key={image}
+                className="flex flex-col items-center cursor-pointer gap-1"
+              >
+                <Image
+                  src="/icons/kodak-image.png"
+                  alt="Project Image"
+                  width={38}
+                  height={38}
+                />
+
+                <span className={cn("font-normal text-sm")}>
+                  Image {index + 1}
+                </span>
+              </div>
+            ))}
+        </div>
       ) : (
-        <div className="grid grid-cols-4 grid-rows-4 gap-4 gap-y-0 p-4">
+        <div className="grid grid-cols-6 grid-rows-6 gap-4 gap-y-0 p-4">
           {projects.map((project) => (
             <div
               key={project.id}
