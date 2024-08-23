@@ -22,7 +22,7 @@ export default function FolderContent({
             isFileOpen && "bg-white"
           )}
         >
-          {!isFileOpen && <FolderContentLeft folder={folder} />}
+          <FolderContentLeft folder={folder} />
 
           <div
             className={cn(

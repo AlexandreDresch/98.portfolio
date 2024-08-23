@@ -10,7 +10,7 @@ export default function FolderContentLeft({ folder }: FolderContentLeftProps) {
   const { selectedFile } = useAppSelector((state) => state.folders);
 
   return (
-    <div className="w-1/3 min-h-max flex flex-col justify-between">
+    <div className="w-1/3 min-w-[295px] min-h-max flex flex-col justify-between">
       <div className="size-full pt-3 pl-3 pb-3">
         <Image
           width={100}
