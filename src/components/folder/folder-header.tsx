@@ -1,13 +1,18 @@
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { useAppDispatch } from "@/store/store";
-import { closeFolder, minimizeFolder } from "@/store/folders-slice";
+import {
+  clearSelectedFile,
+  closeFolder,
+  minimizeFolder,
+} from "@/store/folders-slice";
 import { FolderHeaderProps } from "@/types";
 
 export default function FolderHeader({ folder }: FolderHeaderProps) {
   const dispatch = useAppDispatch();
 
   function handleClose() {
+    dispatch(clearSelectedFile());
     dispatch(closeFolder(folder.id));
   }
 
