@@ -20,7 +20,6 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Calendar } from "../ui/calendar";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { useEffect } from "react";
@@ -48,13 +47,12 @@ export default function Dock() {
   return (
     <Card className="crt w-full h-8 flex items-center bg-[#C0C0C0] fixed bottom-0 left-0 rounded-none border-white border-0 border-t-[1px] z-50 ">
       <DropdownMenu>
-        <Button
-          asChild
-          size="icon"
-          variant="w98"
-          className="flex items-center w-[70px] h-6"
-        >
-          <DropdownMenuTrigger>
+        <DropdownMenuTrigger asChild>
+          <Button
+            size="icon"
+            variant="w98"
+            className="flex items-center w-[70px] h-6"
+          >
             <Image
               width={0}
               height={0}
@@ -63,8 +61,8 @@ export default function Dock() {
               className="w-auto"
             />
             <span className="font-semibold">Start</span>
-          </DropdownMenuTrigger>
-        </Button>
+          </Button>
+        </DropdownMenuTrigger>
 
         <DropdownMenuContent
           className="crt w-[300px] p-0 flex gap-2 shadow-none h-96 bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-2 border-solid border-black border-t-white border-l-white border-b-transparent rounded-none"
@@ -164,8 +162,8 @@ export default function Dock() {
       />
 
       <div className="bg-[#C0C0C0] border border-solid border-[#808080] w-44 h-6 flex items-center p-1">
-        <Popover>
-          <PopoverTrigger>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
             {projectsStatus === "initial" || projectsStatus === "pending" ? (
               <Image
                 width={100}
@@ -194,9 +192,9 @@ export default function Dock() {
                 className="w-[18px] mr-2"
               />
             )}
-          </PopoverTrigger>
+          </DropdownMenuTrigger>
 
-          <PopoverContent
+          <DropdownMenuContent
             className="crt w-auto mb-0.5 p-0 border-2 border-t-white border-l-white border-r-black border-b-transparent  rounded-none bg-[#C0C0C0]"
             align="center"
           >
@@ -217,12 +215,12 @@ export default function Dock() {
                   : "Something went wrong! Please try again."
               }
             />
-          </PopoverContent>
-        </Popover>
-        <Popover>
-          <PopoverTrigger asChild>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
             <Button
-              asChild
               size="icon"
               variant="ghost"
               className="flex items-center w-auto h-auto hover:cursor-pointer"
@@ -235,9 +233,9 @@ export default function Dock() {
                 className="w-4"
               />
             </Button>
-          </PopoverTrigger>
+          </DropdownMenuTrigger>
 
-          <PopoverContent
+          <DropdownMenuContent
             className="crt w-auto mb-0.5 mr-2 p-0 border-2 border-t-white border-l-white border-r-black border-b-transparent  rounded-none bg-[#C0C0C0]"
             align="center"
           >
@@ -248,13 +246,12 @@ export default function Dock() {
               }
               initialFocus
             />
-          </PopoverContent>
-        </Popover>
+          </DropdownMenuContent>
+        </DropdownMenu>
 
         <DropdownMenu>
-          <DropdownMenuTrigger>
+          <DropdownMenuTrigger asChild>
             <Button
-              asChild
               size="icon"
               variant="ghost"
               className="flex items-center w-auto h-auto mx-2"
