@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Button } from "../ui/button";
-import { useAppDispatch } from "@/store/store";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import {
   clearSelectedFile,
   closeFolder,
@@ -10,6 +10,8 @@ import { FolderHeaderProps } from "@/types";
 
 export default function FolderHeader({ folder }: FolderHeaderProps) {
   const dispatch = useAppDispatch();
+
+  const { selectedFile, isFileOpen } = useAppSelector((state) => state.folders);
 
   function handleClose() {
     dispatch(clearSelectedFile());
@@ -24,13 +26,21 @@ export default function FolderHeader({ folder }: FolderHeaderProps) {
       <div className="absolute w-full flex justify-between px-1 top-[2px]">
         <div className="flex gap-1 items-center">
           <Image
-            width={0}
-            height={0}
-            alt="Open folder icon"
-            src={folder.image}
+            width={16}
+            height={16}
+            alt={selectedFile && isFileOpen ? selectedFile.name : folder.name}
+            src={
+              selectedFile && isFileOpen
+                ? selectedFile.type === "BACKEND"
+                  ? "/icons/backend-icon.png"
+                  : "/icons/frontend-icon.png"
+                : folder.image
+            }
             className="w-4 h-4"
           />
-          <span className="text-white text-sm">{folder.name}</span>
+          <span className="text-white text-sm">
+            {selectedFile && isFileOpen ? selectedFile.name : folder.name}
+          </span>
         </div>
 
         <div className="flex gap-[3px] items-center">
