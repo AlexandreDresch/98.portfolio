@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/store/store";
 import { Project, ProjectContainerProps } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
+import ImageViewer from "../image-viewer/image-viewer";
 
 export default function ProjectContainer({ projects }: ProjectContainerProps) {
   const dispatch = useAppDispatch();
@@ -36,7 +37,7 @@ export default function ProjectContainer({ projects }: ProjectContainerProps) {
 
           {selectedFile.deployment_url && (
             <Link
-              href={selectedFile.github_url}
+              href={selectedFile.deployment_url}
               target="_blank"
               className="flex flex-col items-center cursor-pointer gap-1"
             >
@@ -74,21 +75,23 @@ export default function ProjectContainer({ projects }: ProjectContainerProps) {
 
           {selectedFile.images &&
             selectedFile.images.map((image, index) => (
-              <div
-                key={image}
-                className="flex flex-col items-center cursor-pointer gap-1"
-              >
-                <Image
-                  src="/icons/kodak-image.png"
-                  alt="Project Image"
-                  width={38}
-                  height={38}
-                />
+              // <div
+              //   key={image}
+              //   className="flex flex-col items-center cursor-pointer gap-1"
+              // >
+              //   <Image
+              //     src="/icons/kodak-image.png"
+              //     alt="Project Image"
+              //     width={38}
+              //     height={38}
+              //   />
 
-                <span className={cn("font-normal text-sm")}>
-                  Image {index + 1}
-                </span>
-              </div>
+              //   <span className={cn("font-normal text-sm")}>
+              //     Image {index + 1}
+              //   </span>
+              // </div>
+
+              <ImageViewer key={image} url={image} name={`Image ${index + 1}`} />
             ))}
         </div>
       ) : (

@@ -39,7 +39,7 @@ export default function Shortcut({ folder, children }: ShortcutProps) {
         </span>
       </DialogTrigger>
       <Draggable handle=".dragger">
-        <DialogContent className="border-[1px] border-solid border-black border-t-white border-l-white bg-[#C0C0C0] p-[1px]" onInteractOutside={(e) => e.preventDefault()}>
+        <DialogContent className="border-[1px] border-solid border-black border-t-white border-l-white bg-[#C0C0C0] p-[1px]">
           <FolderLayout folder={folder}>{children}</FolderLayout>
         </DialogContent>
       </Draggable>
