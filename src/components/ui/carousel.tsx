@@ -2,11 +2,11 @@ import * as React from "react";
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { Separator } from "./separator";
 
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
@@ -31,7 +31,7 @@ type CarouselContextProps = {
 
 const CarouselContext = React.createContext<CarouselContextProps | null>(null);
 
-function useCarousel() {
+export function useCarousel() {
   const context = React.useContext(CarouselContext);
 
   if (!context) {
@@ -141,6 +141,41 @@ const Carousel = React.forwardRef<
           aria-roledescription="carousel"
           {...props}
         >
+          <div className="flex items-center gap-1 bg-[#C0C0C0] h-14 p-[2px]">
+            <Separator
+              orientation="vertical"
+              className="bg-[#C0C0C0] h-full w-1 border-l-[1px] border-l-white border-r-[1px] border-r-[#808080]"
+            />
+            <Button
+              variant="ghost"
+              className="w-20 flex flex-col px-1 py-0 h-max rounded-none border-[1px] border-transparent hover:border-black hover:border-t-white hover:border-l-white"
+            onClick={scrollPrev}
+            >
+              <Image
+                width={0}
+                height={0}
+                alt="Go back"
+                src="/arrow-left.svg"
+                className="w-6 h-auto"
+              />
+              <span className="text-xs">Back</span>
+            </Button>
+
+            <Button
+              variant="ghost"
+              className="w-20 flex flex-col px-1 py-0 h-max rounded-none border-[1px] border-transparent hover:border-black hover:border-t-white hover:border-l-white"
+              onClick={scrollNext}
+            >
+              <Image
+                width={0}
+                height={0}
+                alt="Go forward"
+                src="/arrow-right.svg"
+                className="w-6 h-auto"
+              />
+              <span className="text-xs">Forward</span>
+            </Button>
+          </div>
           {children}
         </div>
       </CarouselContext.Provider>
