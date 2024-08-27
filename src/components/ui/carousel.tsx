@@ -2,7 +2,6 @@ import * as React from "react";
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react";
-
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
@@ -14,6 +13,8 @@ type CarouselOptions = UseCarouselParameters[0];
 type CarouselPlugin = UseCarouselParameters[1];
 
 type CarouselProps = {
+  current: number;
+  count: number;
   opts?: CarouselOptions;
   plugins?: CarouselPlugin;
   orientation?: "horizontal" | "vertical";
@@ -53,6 +54,8 @@ const Carousel = React.forwardRef<
       plugins,
       className,
       children,
+      current,
+      count,
       ...props
     },
     ref
@@ -66,6 +69,10 @@ const Carousel = React.forwardRef<
     );
     const [canScrollPrev, setCanScrollPrev] = React.useState(false);
     const [canScrollNext, setCanScrollNext] = React.useState(false);
+    const [isAutoPlaying, setIsAutoPlaying] = React.useState(false);
+    const autoplayInterval = React.useRef<ReturnType<
+      typeof setInterval
+    > | null>(null);
 
     const onSelect = React.useCallback((api: CarouselApi) => {
       if (!api) {
@@ -76,13 +83,37 @@ const Carousel = React.forwardRef<
       setCanScrollNext(api.canScrollNext());
     }, []);
 
+    const stopAutoPlay = React.useCallback(() => {
+      if (autoplayInterval.current) {
+        clearInterval(autoplayInterval.current);
+        autoplayInterval.current = null;
+        setIsAutoPlaying(false);
+      }
+    }, []);
+
     const scrollPrev = React.useCallback(() => {
+      stopAutoPlay();
       api?.scrollPrev();
-    }, [api]);
+    }, [api, stopAutoPlay]);
 
     const scrollNext = React.useCallback(() => {
+      stopAutoPlay();
       api?.scrollNext();
-    }, [api]);
+    }, [api, stopAutoPlay]);
+
+    const toggleAutoPlay = React.useCallback(() => {
+      if (isAutoPlaying) {
+        stopAutoPlay();
+      } else {
+        const interval = setInterval(() => {
+          if (api?.canScrollNext()) {
+            api.scrollNext();
+          }
+        }, 2500);
+        autoplayInterval.current = interval;
+        setIsAutoPlaying(true);
+      }
+    }, [api, isAutoPlaying, stopAutoPlay]);
 
     const handleKeyDown = React.useCallback(
       (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -119,6 +150,12 @@ const Carousel = React.forwardRef<
       };
     }, [api, onSelect]);
 
+    React.useEffect(() => {
+      return () => {
+        stopAutoPlay();
+      };
+    }, [stopAutoPlay]);
+
     return (
       <CarouselContext.Provider
         value={{
@@ -131,6 +168,8 @@ const Carousel = React.forwardRef<
           scrollNext,
           canScrollPrev,
           canScrollNext,
+          current,
+          count,
         }}
       >
         <div
@@ -141,15 +180,15 @@ const Carousel = React.forwardRef<
           aria-roledescription="carousel"
           {...props}
         >
-          <div className="flex items-center gap-1 bg-[#C0C0C0] h-14 p-[2px]">
+          <div className="flex items-center gap-2 bg-[#C0C0C0] h-14 p-[2px]">
             <Separator
               orientation="vertical"
               className="bg-[#C0C0C0] h-full w-1 border-l-[1px] border-l-white border-r-[1px] border-r-[#808080]"
             />
             <Button
               variant="ghost"
-              className="w-20 flex flex-col px-1 py-0 h-max rounded-none border-[1px] border-transparent hover:border-black hover:border-t-white hover:border-l-white"
-            onClick={scrollPrev}
+              className="size-12 flex flex-col p-1 rounded-none border-[1px] border-transparent hover:border-black hover:border-t-white hover:border-l-white"
+              onClick={scrollPrev}
             >
               <Image
                 width={0}
@@ -158,12 +197,11 @@ const Carousel = React.forwardRef<
                 src="/arrow-left.svg"
                 className="w-6 h-auto"
               />
-              <span className="text-xs">Back</span>
             </Button>
 
             <Button
               variant="ghost"
-              className="w-20 flex flex-col px-1 py-0 h-max rounded-none border-[1px] border-transparent hover:border-black hover:border-t-white hover:border-l-white"
+              className="size-12 flex flex-col p-1 rounded-none border-[1px] border-transparent hover:border-black hover:border-t-white hover:border-l-white"
               onClick={scrollNext}
             >
               <Image
@@ -173,8 +211,56 @@ const Carousel = React.forwardRef<
                 src="/arrow-right.svg"
                 className="w-6 h-auto"
               />
-              <span className="text-xs">Forward</span>
             </Button>
+
+            <Separator
+              orientation="vertical"
+              className="bg-[#C0C0C0] h-full w-1 border-l-[1px] border-l-white border-r-[1px] border-r-[#808080]"
+            />
+
+            <Button
+              variant="ghost"
+              className="size-12 flex flex-col p-1 rounded-none border-[1px] border-transparent hover:border-black hover:border-t-white hover:border-l-white"
+              onClick={toggleAutoPlay}
+            >
+              <Image
+                width={30}
+                height={24}
+                alt="Go forward"
+                src="/icons/multimedia.png"
+                className="w-7 h-auto"
+              />
+            </Button>
+
+            <Button
+              variant="ghost"
+              className="size-12 flex flex-col p-1 rounded-none border-[1px] border-transparent hover:border-black hover:border-t-white hover:border-l-white"
+              onClick={toggleAutoPlay}
+            >
+              <Image
+                width={30}
+                height={24}
+                alt="Go forward"
+                src="/icons/magnifying-glass.png"
+                className="w-7 h-auto"
+              />
+            </Button>
+
+            <Separator
+              orientation="vertical"
+              className="bg-[#C0C0C0] h-full w-1 border-l-[1px] border-l-white border-r-[1px] border-r-[#808080]"
+            />
+
+            <div className="ml-auto bg-white p-2">
+              <p>
+                Image {current} of {count}
+              </p>
+            </div>
+
+            <Separator
+              orientation="vertical"
+              className="bg-[#C0C0C0] h-full w-1 border-l-[1px] border-l-white border-r-[1px] border-r-[#808080]"
+            />
           </div>
           {children}
         </div>

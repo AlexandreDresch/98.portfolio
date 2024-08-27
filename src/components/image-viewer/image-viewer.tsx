@@ -2,15 +2,12 @@ import React from "react";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import { Button } from "../ui/button";
 import Image from "next/image";
-import FolderHeader from "../folder/folder-header";
-import { Folder } from "@/types";
-import { Separator } from "../ui/separator";
-import FolderNavigationMenu from "../folder/folder-navigation-menu";
 import ImageViewerHeader from "./image-viewer-header";
 import FolderFooterMessage from "../folder/folder-footer-message";
 import ImageViewerContentHeader from "./image-viewer-content-header";
 import ImageSlider from "./image-slider";
 import { useAppSelector } from "@/store/store";
+import Draggable from "react-draggable";
 
 export default function ImageViewer({
   url,
@@ -38,27 +35,29 @@ export default function ImageViewer({
           <span className="font-normal text-sm">{name}</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="top-1/2 left-1/2 border-[1px] border-solid border-black border-t-white border-l-white bg-[#C0C0C0] p-[1px]">
-        <>
-          <ImageViewerHeader />
-          <div className="size-full min-h-[500px] crt">
-            <div className="border-[1px] border-[#808080] flex flex-col min-h-max flex-1 mt-[-15px]">
-              <ImageViewerContentHeader />
+      <Draggable handle=".dragger1">
+        <DialogContent className="top-1/2 left-1/2 border-[1px] border-solid border-black border-t-white border-l-white bg-[#C0C0C0] p-[1px]">
+          <>
+            <ImageViewerHeader />
+            <div className="size-full min-h-[500px] crt">
+              <div className="border-[1px] border-[#808080] flex flex-col min-h-max flex-1 mt-[-15px]">
+                <ImageViewerContentHeader />
 
-              <div className="size-full relative bg-white h-[540px]">
-                {selectedFile?.images && (
-                  <ImageSlider images={selectedFile?.images} />
-                )}
+                <div className="size-full relative bg-white h-[540px]">
+                  {selectedFile?.images && (
+                    <ImageSlider images={selectedFile?.images} />
+                  )}
+                </div>
+
+                <FolderFooterMessage
+                  folderName={name}
+                  icon="/icons/kodak-image.png"
+                />
               </div>
-
-              <FolderFooterMessage
-                folderName={name}
-                icon="/icons/kodak-image.png"
-              />
             </div>
-          </div>
-        </>
-      </DialogContent>
+          </>
+        </DialogContent>
+      </Draggable>
     </Dialog>
   );
 }

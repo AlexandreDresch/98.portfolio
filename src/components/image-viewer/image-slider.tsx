@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Carousel,
   CarouselContent,
@@ -25,28 +26,32 @@ export default function ImageSlider({ images }: ImageSliderProps) {
     });
   }, [api]);
 
-
   return (
     <div className="flex flex-col items-center">
-      <Carousel className="w-full max-w-[890px] h-full" setApi={setApi}>
+      <Carousel
+        className="w-full max-w-[890px] h-full"
+        setApi={setApi}
+        opts={{
+          loop: true,
+        }}
+        current={current}
+        count={count}
+      >
         <CarouselContent>
           {images.map((image, index) => (
             <CarouselItem key={index}>
-                  <div className="relative w-full max-w-[890px] h-[490px]">
-                    <Image
-                      src={image}
-                      alt={`Project Image ${index + 1}`}
-                      fill
-                      className="object-contain p-2"
-                    />
-                  </div>
+              <div className="relative w-full max-w-[890px] h-[490px]">
+                <Image
+                  src={image}
+                  alt={`Project Image ${index + 1}`}
+                  fill
+                  className="object-contain p-2"
+                />
+              </div>
             </CarouselItem>
           ))}
         </CarouselContent>
       </Carousel>
-      {/* <div className="py-2 text-center text-sm text-muted-foreground">
-        Image {current} of {count}
-      </div> */}
     </div>
   );
 }
