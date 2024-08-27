@@ -22,7 +22,7 @@ export default function FolderInternalNavigation() {
       <Button
         variant="ghost"
         className="w-20 flex flex-col px-1 py-0 h-max rounded-none border-[1px] border-transparent hover:border-black hover:border-t-white hover:border-l-white"
-        disabled={!isFileOpen}
+        disabled={!isFileOpen || selectedFile === null}
         onClick={handleCloseProject}
       >
         <Image

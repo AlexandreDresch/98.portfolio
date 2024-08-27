@@ -75,22 +75,6 @@ export default function ProjectContainer({ projects }: ProjectContainerProps) {
 
           {selectedFile.images &&
             selectedFile.images.map((image, index) => (
-              // <div
-              //   key={image}
-              //   className="flex flex-col items-center cursor-pointer gap-1"
-              // >
-              //   <Image
-              //     src="/icons/kodak-image.png"
-              //     alt="Project Image"
-              //     width={38}
-              //     height={38}
-              //   />
-
-              //   <span className={cn("font-normal text-sm")}>
-              //     Image {index + 1}
-              //   </span>
-              // </div>
-
               <ImageViewer key={image} url={image} name={`Image ${index + 1}`} />
             ))}
         </div>

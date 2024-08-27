@@ -36,7 +36,7 @@ export default function ImageViewer({
         </Button>
       </DialogTrigger>
       <Draggable handle=".dragger1">
-        <DialogContent className="top-1/2 left-1/2 border-[1px] border-solid border-black border-t-white border-l-white bg-[#C0C0C0] p-[1px]">
+        <DialogContent className="border-[1px] border-solid border-black border-t-white border-l-white bg-[#C0C0C0] p-[1px]">
           <>
             <ImageViewerHeader />
             <div className="size-full min-h-[500px] crt">
