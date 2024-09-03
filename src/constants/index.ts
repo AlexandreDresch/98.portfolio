@@ -328,3 +328,24 @@ export const folders: Folder[] = [
     documentPath: null,
   },
 ];
+
+export const programs = [
+  {
+    id: 1,
+    name: "VS Code",
+    isOpen: false,
+    icon: "/vs-code.png",
+  },
+  {
+    id: 2,
+    name: "Internet Explorer",
+    isOpen: false,
+    icon: "/internet-explorer.png",
+  },
+  {
+    id: 3,
+    name: "Image Viewer",
+    isOpen: false,
+    icon: "/image-viewer.png",
+  },
+];
