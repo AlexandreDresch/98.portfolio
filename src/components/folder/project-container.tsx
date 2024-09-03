@@ -7,6 +7,7 @@ import { Project, ProjectContainerProps } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import ImageViewer from "../image-viewer/image-viewer";
+import VSCode from "../vscode/vscode";
 
 export default function ProjectContainer({ projects }: ProjectContainerProps) {
   const dispatch = useAppDispatch();
@@ -72,6 +73,8 @@ export default function ProjectContainer({ projects }: ProjectContainerProps) {
               </span>
             </Link>
           )}
+
+          <VSCode />
 
           {selectedFile.images &&
             selectedFile.images.map((image, index) => (
