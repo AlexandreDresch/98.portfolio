@@ -74,3 +74,36 @@ export interface ImageMagnifierProps {
   src: string;
   alt: string;
 }
+
+export interface WindowHeaderProps {
+  icon: string;
+  title: string;
+  onMinimize: () => void;
+  onMaximize: () => void;
+  onClose: () => void;
+}
+
+export interface MenuItemProps {
+  label: string;
+  disabled?: boolean;
+  shortcut?: string;
+  handleSetMessage: (event: React.MouseEvent) => void;
+}
+
+export interface MenuSubItemProps {
+  label: string;
+  items: Array<MenuItemProps>;
+  handleSetMessage: (event: React.MouseEvent) => void;
+}
+
+type MenuItemType = MenuItemProps | MenuSubItemProps;
+
+interface MenuItems {
+  [key: string]: MenuItemType[];
+}
+
+export interface DropdownProps {
+  title: string;
+  items: Array<MenuItemProps | MenuSubItemProps>;
+  handleSetMessage: (event: React.MouseEvent) => void;
+}
