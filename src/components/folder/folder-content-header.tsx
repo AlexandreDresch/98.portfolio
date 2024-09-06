@@ -1,21 +1,28 @@
 import Image from "next/image";
 import FolderInternalNavigation from "./folder-internal-navigation";
-import FolderNavigationMenu from "./folder-navigation-menu";
 import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
-import { FolderContentHeaderProps } from "@/types";
+import {
+  FolderContentHeaderProps,
+  MenuItemProps,
+  MenuSubItemProps,
+} from "@/types";
+import WindowNavigationMenu from "../shared/window-navigation-menu/window-navigation-menu";
+import { folderNavigationMenuItems, FooterMessages } from "@/constants";
 
-export default function FolderContentHeader({ folder }: FolderContentHeaderProps) {
+export default function FolderContentHeader({
+  folder,
+}: FolderContentHeaderProps) {
   return (
     <>
-      <div className="h-7 flex items-center px-[2px] border-t-[1px] border-t-white border-b-[1px] border-b-[#808080] gap-1">
-        <Separator
-          orientation="vertical"
-          className="bg-[#C0C0C0] h-5 w-1 border-l-[1px] border-l-white border-r-[1px] border-r-[#808080]"
-        />
-
-        <FolderNavigationMenu />
-      </div>
+      <WindowNavigationMenu
+        menuItems={
+          folderNavigationMenuItems as unknown as
+            | MenuItemProps
+            | MenuSubItemProps
+        }
+        messages={FooterMessages}
+      />
 
       <div className="h-14 flex items-center px-[2px] border-t-[1px] border-t-white border-b-[1px] border-b-[#808080] gap-1">
         <Separator

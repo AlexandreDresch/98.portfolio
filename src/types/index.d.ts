@@ -107,3 +107,11 @@ export interface DropdownProps {
   items: Array<MenuItemProps | MenuSubItemProps>;
   handleSetMessage: (event: React.MouseEvent) => void;
 }
+
+export interface WindowNavigationMenuProps {
+  menuItems: MenuItemProps | MenuSubItemProps;
+  messages?: {
+    name: string;
+    message: string;
+  }[];
+}

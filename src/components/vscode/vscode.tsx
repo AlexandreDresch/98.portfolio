@@ -11,6 +11,7 @@ import { MenuItemProps, MenuSubItemProps } from "@/types";
 
 export default function VSCode() {
   const { selectedFile } = useAppSelector((state) => state.folders);
+
   return (
     <Dialog>
       <DialogTrigger asChild>
