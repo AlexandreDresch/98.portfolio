@@ -19,7 +19,7 @@ export default function Dropdown({
         {title}
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="crt w-48 py-[2px] px-0 flex gap-2 shadow-none bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none"
+        className="crt w-auto py-[2px] px-0 flex gap-2 shadow-none bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none"
         align="start"
       >
         <div className="w-full">

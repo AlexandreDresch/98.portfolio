@@ -21,7 +21,6 @@ export default function WindowNavigationMenu({
         .join(" ")
         .replace(/\s+/g, "")
         .trim();
-
       const messageObject = FooterMessages.find(
         (item) => item.name === textContent
       );
@@ -29,6 +28,7 @@ export default function WindowNavigationMenu({
       if (messageObject) {
         dispatch(setFooterMessage(messageObject.message));
       }
+      return;
     }
 
     const message = (event.target as HTMLElement).innerText;
@@ -37,7 +37,7 @@ export default function WindowNavigationMenu({
 
   return (
     <div className="flex items-center gap-1">
-      <div className="h-7 flex items-center px-[2px] border-t-[1px] border-t-white border-b-[1px] border-b-[#808080] gap-1">
+      <div className="h-7 w-full flex items-center px-[2px] border-t-[1px] border-t-white border-b-[1px] border-b-[#808080] gap-1">
         <Separator
           orientation="vertical"
           className="bg-[#C0C0C0] h-5 w-1 border-l-[1px] border-l-white border-r-[1px] border-r-[#808080]"

@@ -18,7 +18,6 @@ export default function MenuItem({
       }`}
       onMouseEnter={handleSetMessage}
       onMouseLeave={() => dispatch(setFooterMessage(""))}
-      disabled={disabled}
     >
       <span>{label}</span>
       {shortcut && <span>{shortcut}</span>}
