@@ -235,7 +235,6 @@ const Carousel = React.forwardRef<
             <Button
               variant="ghost"
               className="size-12 flex flex-col p-1 rounded-none border-[1px] border-transparent hover:border-black hover:border-t-white hover:border-l-white"
-              onClick={toggleAutoPlay}
             >
               <Image
                 width={30}
