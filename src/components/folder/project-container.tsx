@@ -78,7 +78,7 @@ export default function ProjectContainer({ projects }: ProjectContainerProps) {
 
           {selectedFile.images &&
             selectedFile.images.map((image, index) => (
-              <ImageViewer key={image} url={image} name={`Image ${index + 1}`} />
+              <ImageViewer key={image} name={`Image ${index + 1}`} />
             ))}
         </div>
       ) : (
