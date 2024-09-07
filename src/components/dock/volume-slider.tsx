@@ -6,11 +6,25 @@ import Image from "next/image";
 
 export default function VolumeSlider() {
   const [volume, setVolume] = useState(50);
+  const [muted, setMuted] = useState(false);
 
-  const handleVolumeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newVolume = event.target.value;
-    console.log(`Volume: ${newVolume}`);
-    setVolume(+newVolume);
+  const handleVolumeChange = (value: number[]) => {
+    const newVolume = value[0];
+    setVolume(newVolume);
+    if (muted && newVolume > 0) {
+      setMuted(false);
+    } else if (newVolume === 0) {
+      setMuted(true);
+    }
+  };
+
+  const toggleMute = () => {
+    setMuted(!muted);
+    if (!muted) {
+      setVolume(0);
+    } else {
+      setVolume(50);
+    }
   };
 
   return (
@@ -18,20 +32,20 @@ export default function VolumeSlider() {
       <span className="text-center text-sm pl-2">Volume</span>
       <div className="flex gap-2">
         <Image
-          src={"/volume.png"}
+          src="/volume.png"
           alt="volume"
-          width={0}
-          height={0}
+          width={32}
+          height={32}
           className="w-8 h-32"
         />
         <div className="w-max h-full flex flex-col py-2 pl-4 pr-12 border border-dashed border-[#808080]">
           <Slider
             className="w-full h-full"
             orientation="vertical"
-            defaultValue={[volume]}
+            value={[muted ? 0 : volume]}
             max={100}
             step={1}
-            onChange={handleVolumeChange}
+            onValueChange={handleVolumeChange}
           />
         </div>
       </div>
@@ -41,6 +55,8 @@ export default function VolumeSlider() {
           <Checkbox
             id="mute"
             className="h-3 w-3 bg-white rounded-none border-2 border-r-[#C0C0C0] border-b-[#C0C0C0]"
+            checked={muted}
+            onCheckedChange={toggleMute}
           />
         </div>
         <label
