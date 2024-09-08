@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 📁 My Portfolio - Windows 98 Edition
 
-## Getting Started
+Welcome to my portfolio, designed to transport you back to the nostalgic days of Windows 98! 🖥️ This project showcases my skills, experience, and creativity in a retro-style environment that reflects my love for the classics.
 
-First, run the development server:
+## 🌟 Features
+
+- **Windows 98 UI**: Enjoy a fully interactive and authentic Windows 98 interface, complete with vintage icons, sounds, and animations.
+- **Projects**: Explore my work in a familiar environment, just like browsing through your old files. Click on folders, open programs, and discover what I’ve been up to.
+- **Interactive Desktop**: Move windows, minimize programs to the taskbar, and even experience those old-school tooltips.
+- **Retro Fun**: Play around with the simulation, and who knows? You might find some hidden Easter eggs!
+
+## 🚀 Technologies Used
+
+- **Next.js (React)**: For building the interactive UI components.
+- **Redux**: Managing the state of programs and folders, just like managing your desktop.
+- **Framer Motion**: Adding smooth and delightful animations to enhance the Windows 98 experience.
+- **TypeScript**: Ensuring code quality and reliability.
+- **Tailwind CSS**: Crafting the pixel-perfect Windows 98 design.
+
+## 🛠️ Installation
+
+**Clone the repository:**
+
+```bash
+git clone https://github.com/AlexandreDresch/98.portfolio.git
+```
+
+**Install dependencies:**
+
+```bash
+cd 98.portfolio
+npm install
+```
+
+**Populate `.env` file based on `.env.EXAMPLE`**
+
+**Run the development server:**
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Open your browser** and go to http://localhost:3000 to see the project in action!
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🌐 Live Demo
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Check out the live version of my portfolio [here](https://98-portfolio-two.vercel.app).
 
-## Learn More
+## ✨ Inspiration
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+This portfolio is a tribute to the golden era of personal computing. The Windows 98 theme isn't just for fun—it's a reflection of how I approach my work: blending nostalgia with modern technology to create something truly unique.
