@@ -331,19 +331,19 @@ export const folders: Folder[] = [
 
 export const programs = [
   {
-    id: 1,
+    id: 9,
     name: "VS Code",
     isOpen: false,
-    icon: "/vs-code.png",
+    icon: "/icons/vscode.png",
   },
   {
-    id: 2,
+    id: 10,
     name: "Internet Explorer",
     isOpen: false,
     icon: "/internet-explorer.png",
   },
   {
-    id: 3,
+    id: 11,
     name: "Image Viewer",
     isOpen: false,
     icon: "/image-viewer.png",

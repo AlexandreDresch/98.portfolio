@@ -3,12 +3,14 @@ import { useDispatch, TypedUseSelectorHook, useSelector } from "react-redux";
 import { footerMessageReducer } from "./footer-message-slice";
 import { projectsReducer } from "./projects-slice";
 import { foldersReducer } from "./folders-slice";
+import { programsReducer } from "./programs-slice";
 
 export const store = configureStore({
   reducer: {
     footerMessage: footerMessageReducer,
     projects: projectsReducer,
     folders: foldersReducer,
+    programs: programsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),

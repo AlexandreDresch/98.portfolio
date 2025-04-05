@@ -2,18 +2,59 @@ import Image from "next/image";
 import Draggable from "react-draggable";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import { Button } from "../ui/button";
-import { useAppSelector } from "@/store/store";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import WindowHeader from "../shared/window-header";
 import FolderFooterMessage from "../folder/folder-footer-message";
 import WindowNavigationMenu from "../shared/window-navigation-menu/window-navigation-menu";
 import { vscodeNavigationMenuItems } from "@/constants";
 import { MenuItemProps, MenuSubItemProps } from "@/types";
+import {
+  addToDock,
+  closeProgram,
+  minimizeAndAddToDock,
+  openProgram,
+} from "@/store/programs-slice";
+import { useEffect, useState } from "react";
+import { removeDockFolder } from "@/store/folders-slice";
 
 export default function VSCode() {
+  const dispatch = useAppDispatch();
+
   const { selectedFile } = useAppSelector((state) => state.folders);
+  const program = useAppSelector((state) =>
+    state.programs.programs.find((p) => p.id === 9)
+  );
+
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [firstOpen, setFirstOpen] = useState(true);
+
+  useEffect(() => {
+    setIsDialogOpen(program?.isOpen ?? false);
+  }, [program?.isOpen]);
+
+  const handleOpen = () => {
+    dispatch(openProgram(9));
+    
+    if (firstOpen) {
+      dispatch(addToDock(9));
+      setFirstOpen(false);
+    }
+  };
+
+  const handleClose = () => {
+    dispatch(closeProgram(9));
+    dispatch(removeDockFolder(9));
+  };
+
+  const handleMinimize = () => {
+    dispatch(minimizeAndAddToDock(9));
+  };
 
   return (
-    <Dialog>
+    <Dialog
+      open={isDialogOpen}
+      onOpenChange={(open) => (open ? handleOpen() : handleMinimize())}
+    >
       <DialogTrigger asChild>
         <Button
           variant="ghost"
@@ -35,9 +76,9 @@ export default function VSCode() {
             <WindowHeader
               icon="/icons/vscode.png"
               title="Visual Studio Code"
-              onClose={() => {}}
+              onClose={handleClose}
               onMaximize={() => {}}
-              onMinimize={() => {}}
+              onMinimize={handleMinimize}
             />
             <div className="size-full min-h-[500px]">
               <div className="border-[1px] border-[#808080] flex flex-col min-h-max flex-1 mt-[-15px]">

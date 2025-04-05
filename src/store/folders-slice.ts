@@ -2,7 +2,7 @@ import { folders } from "@/constants";
 import { Folder, Project } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface FoldersState {
+export interface FoldersState {
   folders: Folder[];
   dockFolders: Folder[];
   selectedFile: Project | null;
@@ -88,6 +88,23 @@ const foldersSlice = createSlice({
         state.lastFileOpened = state.selectedFile;
       }
     },
+    addDockFolder(state, action: PayloadAction<Folder>) {
+      const newFolder = action.payload;
+      const existingFolder = state.dockFolders.find(
+        (folder) => folder.id === newFolder.id
+      );
+
+      if (!existingFolder) {
+        state.dockFolders.push(newFolder);
+      }
+    },
+
+    removeDockFolder(state, action: PayloadAction<number>) {
+      const folderId = action.payload;
+      state.dockFolders = state.dockFolders.filter(
+        (folder) => folder.id !== folderId
+      );
+    },
   },
 });
 
@@ -100,5 +117,7 @@ export const {
   openFile,
   reOpenFile,
   closeFile,
+  addDockFolder,
+  removeDockFolder,
 } = foldersSlice.actions;
 export const foldersReducer = foldersSlice.reducer;

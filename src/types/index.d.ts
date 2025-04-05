@@ -31,6 +31,7 @@ export interface Folder {
   image: string;
   isDocument: boolean;
   documentType: "pdf" | "markdown" | null;
+  isProgram?: boolean;
   documentPath: string | null;
 }
 
