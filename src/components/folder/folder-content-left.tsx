@@ -45,7 +45,7 @@ export default function FolderContentLeft({ folder }: FolderContentLeftProps) {
       {selectedFile && (
         <div
           className={cn(
-            "w-full flex justify-around pb-3",
+            "w-full relative -top-10 flex justify-around pb-3",
             selectedFile.deployment_url === null && "justify-start pl-3"
           )}
         >
