@@ -9,56 +9,60 @@ import WindowNavigationMenu from "../shared/window-navigation-menu/window-naviga
 import { vscodeNavigationMenuItems } from "@/constants";
 import { MenuItemProps, MenuSubItemProps } from "@/types";
 import {
-  addToDock,
   closeProgram,
-  minimizeAndAddToDock,
   openProgram,
+  minimizeProgram,
+  toggleProgram,
 } from "@/store/programs-slice";
 import { useEffect, useState } from "react";
-import { removeDockFolder } from "@/store/folders-slice";
 
 export default function VSCode() {
   const dispatch = useAppDispatch();
-
   const { selectedFile } = useAppSelector((state) => state.folders);
   const program = useAppSelector((state) =>
     state.programs.programs.find((p) => p.id === 9)
   );
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [firstOpen, setFirstOpen] = useState(true);
 
   useEffect(() => {
     setIsDialogOpen(program?.isOpen ?? false);
   }, [program?.isOpen]);
 
   const handleOpen = () => {
-    dispatch(openProgram(9));
-    
-    if (firstOpen) {
-      dispatch(addToDock(9));
-      setFirstOpen(false);
+    if (!program?.isOpen) {
+      dispatch(openProgram(9));
     }
   };
 
   const handleClose = () => {
     dispatch(closeProgram(9));
-    dispatch(removeDockFolder(9));
   };
 
   const handleMinimize = () => {
-    dispatch(minimizeAndAddToDock(9));
+    dispatch(minimizeProgram(9));
+  };
+
+  const handleToggle = () => {
+    dispatch(toggleProgram(9));
   };
 
   return (
     <Dialog
       open={isDialogOpen}
-      onOpenChange={(open) => (open ? handleOpen() : handleMinimize())}
+      onOpenChange={(open) => {
+        if (open) {
+          handleOpen();
+        } else {
+          handleMinimize();
+        }
+      }}
     >
       <DialogTrigger asChild>
         <Button
           variant="ghost"
           className="flex flex-col items-center cursor-pointer gap-1 mt-3"
+          onClick={handleToggle}
         >
           <Image
             src="/icons/vscode.png"
@@ -66,8 +70,9 @@ export default function VSCode() {
             width={38}
             height={38}
           />
-
-          <span className="font-normal text-sm">{selectedFile?.name}</span>
+          <span className="font-normal text-sm">
+            {selectedFile?.name || "VS Code"}
+          </span>
         </Button>
       </DialogTrigger>
       <Draggable handle={`.dragger`}>
@@ -89,7 +94,6 @@ export default function VSCode() {
                       | MenuSubItemProps
                   }
                 />
-
                 <div className="size-full h-[540px]">
                   <iframe
                     src="https://github1s.com/AlexandreDresch/98.portfolio/tree/main/src"
@@ -97,7 +101,6 @@ export default function VSCode() {
                     className="size-full"
                   ></iframe>
                 </div>
-
                 <FolderFooterMessage
                   folderName="Visual Studio Code"
                   icon="/icons/vscode.png"

@@ -38,7 +38,6 @@ const foldersSlice = createSlice({
         }
       }
     },
-
     closeFolder(state, action: PayloadAction<number>) {
       const folderId = action.payload;
       const folder = state.folders.find((folder) => folder.id === folderId);
@@ -48,7 +47,6 @@ const foldersSlice = createSlice({
         state.dockFolders = state.dockFolders.filter((f) => f.id !== folderId);
       }
     },
-
     minimizeFolder(state, action: PayloadAction<number>) {
       const folderId = action.payload;
       const folder = state.folders.find((folder) => folder.id === folderId);
@@ -88,23 +86,6 @@ const foldersSlice = createSlice({
         state.lastFileOpened = state.selectedFile;
       }
     },
-    addDockFolder(state, action: PayloadAction<Folder>) {
-      const newFolder = action.payload;
-      const existingFolder = state.dockFolders.find(
-        (folder) => folder.id === newFolder.id
-      );
-
-      if (!existingFolder) {
-        state.dockFolders.push(newFolder);
-      }
-    },
-
-    removeDockFolder(state, action: PayloadAction<number>) {
-      const folderId = action.payload;
-      state.dockFolders = state.dockFolders.filter(
-        (folder) => folder.id !== folderId
-      );
-    },
   },
 });
 
@@ -117,7 +98,5 @@ export const {
   openFile,
   reOpenFile,
   closeFile,
-  addDockFolder,
-  removeDockFolder,
 } = foldersSlice.actions;
 export const foldersReducer = foldersSlice.reducer;

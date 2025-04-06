@@ -334,19 +334,19 @@ export const programs = [
     id: 9,
     name: "VS Code",
     isOpen: false,
-    icon: "/icons/vscode.png",
+    image: "/icons/vscode.png",
   },
   {
     id: 10,
     name: "Internet Explorer",
     isOpen: false,
-    icon: "/internet-explorer.png",
+    image: "/internet-explorer.png",
   },
   {
     id: 11,
     name: "Image Viewer",
     isOpen: false,
-    icon: "/image-viewer.png",
+    image: "/image-viewer.png",
   },
 ];
 
