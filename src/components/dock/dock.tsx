@@ -26,8 +26,8 @@ import { useEffect } from "react";
 import { getProjectsData } from "@/store/projects-slice";
 import MessageContainer from "./message-container";
 import Link from "next/link";
-import { openFolder } from "@/store/folders-slice";
 import DockList from "./dock-list";
+import { openWindow } from "@/store/window-manager-slice";
 
 export default function Dock() {
   const dispatch = useAppDispatch();
@@ -35,7 +35,7 @@ export default function Dock() {
   const projectsStatus = useAppSelector((state) => state.projects.status);
 
   const handleOpen = (id: number) => {
-    dispatch(openFolder(id));
+    dispatch(openWindow(id));
   };
 
   useEffect(() => {
