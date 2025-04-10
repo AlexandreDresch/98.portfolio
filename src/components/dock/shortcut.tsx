@@ -5,17 +5,17 @@ import Draggable from "react-draggable";
 import { Dialog, DialogTrigger, DialogContent } from "../ui/dialog";
 import { useAppDispatch } from "@/store/store";
 import { clearSelectedFile } from "@/store/folders-slice";
-import { openFolder } from "@/store/folders-slice";
 import { ShortcutProps } from "@/types";
 import { cn } from "@/lib/utils";
 import FolderLayout from "../folder/folder-layout";
+import { openWindow } from "@/store/window-manager-slice";
 
 export default function Shortcut({ folder, children }: ShortcutProps) {
   const dispatch = useAppDispatch();
 
   function handleSelection() {
     dispatch(clearSelectedFile());
-    dispatch(openFolder(folder.id));
+    dispatch(openWindow(folder.id));
   }
 
   return (

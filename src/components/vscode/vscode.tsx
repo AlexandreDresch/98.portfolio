@@ -8,61 +8,44 @@ import FolderFooterMessage from "../folder/folder-footer-message";
 import WindowNavigationMenu from "../shared/window-navigation-menu/window-navigation-menu";
 import { vscodeNavigationMenuItems } from "@/constants";
 import { MenuItemProps, MenuSubItemProps } from "@/types";
-import {
-  closeProgram,
-  openProgram,
-  minimizeProgram,
-  toggleProgram,
-} from "@/store/programs-slice";
+import { openWindow, minimizeWindow, closeWindow } from "@/store/window-manager-slice";
 import { useEffect, useState } from "react";
 
 export default function VSCode() {
   const dispatch = useAppDispatch();
   const { selectedFile } = useAppSelector((state) => state.folders);
   const program = useAppSelector((state) =>
-    state.programs.programs.find((p) => p.id === 9)
+    state.windows.windows.find((p) => p.id === 9 && p.type === 'program')
   );
 
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  useEffect(() => {
-    setIsDialogOpen(program?.isOpen ?? false);
-  }, [program?.isOpen]);
-
   const handleOpen = () => {
+    console.log("Opening VSCode");
     if (!program?.isOpen) {
-      dispatch(openProgram(9));
+      dispatch(openWindow(9));
     }
   };
 
-  const handleClose = () => {
-    dispatch(closeProgram(9));
-  };
-
   const handleMinimize = () => {
-    dispatch(minimizeProgram(9));
+    dispatch(minimizeWindow(9));
   };
 
-  const handleToggle = () => {
-    dispatch(toggleProgram(9));
+  const handleClose = () => {
+    dispatch(closeWindow(9));
   };
 
   return (
-    <Dialog
-      open={isDialogOpen}
-      onOpenChange={(open) => {
-        if (open) {
-          handleOpen();
-        } else {
-          handleMinimize();
-        }
-      }}
-    >
+    <Dialog onOpenChange={(open) => {
+      if (open) {
+        handleOpen();
+      } else {
+        handleMinimize();
+      }
+    }}>
       <DialogTrigger asChild>
         <Button
           variant="ghost"
           className="flex flex-col items-center cursor-pointer gap-1 mt-3"
-          onClick={handleToggle}
+          onClick={handleOpen}
         >
           <Image
             src="/icons/vscode.png"

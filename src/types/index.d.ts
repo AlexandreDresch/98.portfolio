@@ -116,3 +116,14 @@ export interface WindowNavigationMenuProps {
     message: string;
   }[];
 }
+
+export interface Program {
+  id: number;
+  name: string;
+  isOpen: boolean;
+  image: string;
+}
+
+export type WindowItem = (Folder | Program) & {
+  type: 'folder' | 'program';
+};

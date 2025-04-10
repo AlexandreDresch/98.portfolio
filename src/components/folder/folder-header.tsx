@@ -3,9 +3,11 @@ import { Button } from "../ui/button";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import {
   clearSelectedFile,
-  closeFolder,
-  minimizeFolder,
 } from "@/store/folders-slice";
+import {
+  closeWindow,
+  minimizeWindow,
+} from "@/store/window-manager-slice";
 import { FolderHeaderProps } from "@/types";
 
 export default function FolderHeader({ folder }: FolderHeaderProps) {
@@ -15,11 +17,11 @@ export default function FolderHeader({ folder }: FolderHeaderProps) {
 
   function handleClose() {
     dispatch(clearSelectedFile());
-    dispatch(closeFolder(folder.id));
+    dispatch(closeWindow(folder.id));
   }
 
   function handleMinimize() {
-    dispatch(minimizeFolder(folder.id));
+    dispatch(minimizeWindow(folder.id));
   }
   return (
     <div className="dragger w-full h-6 relative bg-gradient-to-r mt-0 from-[#010f80] to-[#1084d0]">
