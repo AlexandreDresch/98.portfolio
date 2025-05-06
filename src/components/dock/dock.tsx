@@ -45,7 +45,7 @@ export default function Dock() {
   }, [projectsStatus, dispatch]);
 
   return (
-    <Card className="crt w-full h-8 flex items-center bg-[#C0C0C0] fixed bottom-0 left-0 rounded-none border-white border-0 border-t-[1px] z-50 ">
+    <Card className="crt w-full h-8 flex items-center bg-[#C0C0C0] fixed bottom-0 left-0 rounded-none border-white border-0 border-t-[1px] z-[100]">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button

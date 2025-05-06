@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Draggable from "react-draggable";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
@@ -7,22 +9,31 @@ import WindowHeader from "../shared/window-header";
 import FolderFooterMessage from "../folder/folder-footer-message";
 import WindowNavigationMenu from "../shared/window-navigation-menu/window-navigation-menu";
 import { vscodeNavigationMenuItems } from "@/constants";
-import { MenuItemProps, MenuSubItemProps } from "@/types";
-import { openWindow, minimizeWindow, closeWindow } from "@/store/window-manager-slice";
-import { useEffect, useState } from "react";
+import type { MenuItemProps, MenuSubItemProps } from "@/types";
+import {
+  openWindow,
+  minimizeWindow,
+  closeWindow,
+} from "@/store/window-manager-slice";
+import { useState, useEffect } from "react";
 
 export default function VSCode() {
   const dispatch = useAppDispatch();
   const { selectedFile } = useAppSelector((state) => state.folders);
   const program = useAppSelector((state) =>
-    state.windows.windows.find((p) => p.id === 9 && p.type === 'program')
+    state.windows.windows.find((p) => p.id === 9 && p.type === "program")
   );
 
-  const handleOpen = () => {
-    console.log("Opening VSCode");
-    if (!program?.isOpen) {
-      dispatch(openWindow(9));
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  useEffect(() => {
+    if (program?.isOpen) {
+      setIsDialogOpen(true);
     }
+  }, [program?.isOpen]);
+
+  const handleOpen = () => {
+    dispatch(openWindow(9));
   };
 
   const handleMinimize = () => {
@@ -34,18 +45,26 @@ export default function VSCode() {
   };
 
   return (
-    <Dialog onOpenChange={(open) => {
-      if (open) {
-        handleOpen();
-      } else {
-        handleMinimize();
-      }
-    }}>
+    <Dialog
+      open={isDialogOpen || program?.isOpen}
+      onOpenChange={(open) => {
+        if (open) {
+          handleOpen();
+        } else {
+          if (isDialogOpen) {
+            handleMinimize();
+          }
+        }
+      }}
+    >
       <DialogTrigger asChild>
         <Button
           variant="ghost"
           className="flex flex-col items-center cursor-pointer gap-1 mt-3"
-          onClick={handleOpen}
+          onClick={() => {
+            handleOpen();
+            setIsDialogOpen(true);
+          }}
         >
           <Image
             src="/icons/vscode.png"
@@ -58,8 +77,17 @@ export default function VSCode() {
           </span>
         </Button>
       </DialogTrigger>
-      <Draggable handle={`.dragger`}>
-        <DialogContent className="crt border-[1px] border-solid border-black border-t-white border-l-white bg-[#C0C0C0] p-[1px]">
+      <Draggable handle=".dragger">
+        <DialogContent
+          className="crt border-[1px] border-solid border-black border-t-white border-l-white bg-[#C0C0C0] p-[1px] z-[60]"
+          onEscapeKeyDown={(e) => {
+            e.preventDefault();
+            handleMinimize();
+          }}
+          onInteractOutside={(e) => {
+            e.preventDefault();
+          }}
+        >
           <>
             <WindowHeader
               icon="/icons/vscode.png"
