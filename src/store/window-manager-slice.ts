@@ -1,18 +1,20 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Folder, Program, WindowItem } from "@/types";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import type { WindowItem } from "@/types";
 import { folders, programs } from "@/constants";
 
 interface WindowManagerState {
   windows: WindowItem[];
   dockItems: WindowItem[];
+  activeWindowId: number | null;
 }
 
 const initialState: WindowManagerState = {
   windows: [
-    ...programs.map(p => ({ ...p, type: 'program' as const })),
-    ...folders.map(f => ({ ...f, type: 'folder' as const }))
+    ...programs.map((p) => ({ ...p, type: "program" as const })),
+    ...folders.map((f) => ({ ...f, type: "folder" as const })),
   ],
   dockItems: [],
+  activeWindowId: null,
 };
 
 const windowManagerSlice = createSlice({
@@ -21,41 +23,35 @@ const windowManagerSlice = createSlice({
   reducers: {
     openWindow(state, action: PayloadAction<number>) {
       const id = action.payload;
-      const item = state.windows.find(w => w.id === id);
-      
+      const item = state.windows.find((w) => w.id === id);
+
       if (!item) return;
 
+      state.activeWindowId = id;
+
       item.isOpen = true;
-      
-      const dockItem = state.dockItems.find(d => d.id === id);
+
+      const dockItem = state.dockItems.find((d) => d.id === id);
       if (dockItem) {
         dockItem.isOpen = true;
       } else {
         state.dockItems.push({ ...item, isOpen: true });
       }
-
-      state.windows.forEach(w => {
-        if (w.id !== id && w.isOpen) {
-          w.isOpen = false;
-        }
-      });
-      
-      state.dockItems.forEach(d => {
-        if (d.id !== id && d.isOpen) {
-          d.isOpen = false;
-        }
-      });
     },
 
     minimizeWindow(state, action: PayloadAction<number>) {
       const id = action.payload;
-      const item = state.windows.find(w => w.id === id);
-      
+      const item = state.windows.find((w) => w.id === id);
+
       if (item) {
         item.isOpen = false;
       }
 
-      const dockItem = state.dockItems.find(d => d.id === id);
+      if (state.activeWindowId === id) {
+        state.activeWindowId = null;
+      }
+
+      const dockItem = state.dockItems.find((d) => d.id === id);
       if (dockItem) {
         dockItem.isOpen = false;
       } else if (item) {
@@ -65,33 +61,54 @@ const windowManagerSlice = createSlice({
 
     closeWindow(state, action: PayloadAction<number>) {
       const id = action.payload;
-      state.windows = state.windows.filter(w => w.id !== id);
-      state.dockItems = state.dockItems.filter(d => d.id !== id);
+
+      if (state.activeWindowId === id) {
+        state.activeWindowId = null;
+      }
+
+      const windowIndex = state.windows.findIndex((w) => w.id === id);
+      if (windowIndex !== -1) {
+        state.windows[windowIndex].isOpen = false;
+      }
+
+      state.dockItems = state.dockItems.filter((d) => d.id !== id);
     },
 
     toggleWindow(state, action: PayloadAction<number>) {
       const id = action.payload;
-      const item = state.windows.find(w => w.id === id);
-      const dockItem = state.dockItems.find(d => d.id === id);
+      const item = state.windows.find((w) => w.id === id);
+      const dockItem = state.dockItems.find((d) => d.id === id);
 
       if (item) {
         item.isOpen = !item.isOpen;
-        
+
+        if (item.isOpen) {
+          state.activeWindowId = id;
+        } else if (state.activeWindowId === id) {
+          state.activeWindowId = null;
+        }
+
         if (dockItem) {
           dockItem.isOpen = item.isOpen;
         } else {
           state.dockItems.push({ ...item, isOpen: item.isOpen });
         }
       }
-    }
+    },
+
+    activateWindow(state, action: PayloadAction<number>) {
+      const id = action.payload;
+      state.activeWindowId = id;
+    },
   },
 });
 
-export const { 
-  openWindow, 
-  minimizeWindow, 
+export const {
+  openWindow,
+  minimizeWindow,
   closeWindow,
-  toggleWindow
+  toggleWindow,
+  activateWindow,
 } = windowManagerSlice.actions;
 
 export const windowManagerReducer = windowManagerSlice.reducer;

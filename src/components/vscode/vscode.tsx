@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Draggable from "react-draggable";
-import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import WindowHeader from "../shared/window-header";
@@ -14,23 +13,32 @@ import {
   openWindow,
   minimizeWindow,
   closeWindow,
+  activateWindow,
 } from "@/store/window-manager-slice";
 import { useState, useEffect } from "react";
 
-export default function VSCode() {
+interface VSCodeProps {
+  renderTrigger: boolean;
+}
+
+export default function VSCode({ renderTrigger = false }: VSCodeProps) {
   const dispatch = useAppDispatch();
   const { selectedFile } = useAppSelector((state) => state.folders);
   const program = useAppSelector((state) =>
     state.windows.windows.find((p) => p.id === 9 && p.type === "program")
   );
+  const activeWindowId = useAppSelector(
+    (state) => state.windows.activeWindowId
+  );
 
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isWindowOpen, setIsWindowOpen] = useState(false);
+  const [position, setPosition] = useState({ x: 100, y: 50 });
 
   useEffect(() => {
-    if (program?.isOpen) {
-      setIsDialogOpen(true);
+    if (program) {
+      setIsWindowOpen(program.isOpen);
     }
-  }, [program?.isOpen]);
+  }, [program]);
 
   const handleOpen = () => {
     dispatch(openWindow(9));
@@ -44,27 +52,19 @@ export default function VSCode() {
     dispatch(closeWindow(9));
   };
 
+  const handleActivate = () => {
+    dispatch(activateWindow(9));
+  };
+
+  const zIndex = activeWindowId === 9 ? 70 : 60;
+
   return (
-    <Dialog
-      open={isDialogOpen || program?.isOpen}
-      onOpenChange={(open) => {
-        if (open) {
-          handleOpen();
-        } else {
-          if (isDialogOpen) {
-            handleMinimize();
-          }
-        }
-      }}
-    >
-      <DialogTrigger asChild>
+    <>
+      {renderTrigger && (
         <Button
           variant="ghost"
           className="flex flex-col items-center cursor-pointer gap-1 mt-3"
-          onClick={() => {
-            handleOpen();
-            setIsDialogOpen(true);
-          }}
+          onClick={handleOpen}
         >
           <Image
             src="/icons/vscode.png"
@@ -76,51 +76,53 @@ export default function VSCode() {
             {selectedFile?.name || "VS Code"}
           </span>
         </Button>
-      </DialogTrigger>
-      <Draggable handle=".dragger">
-        <DialogContent
-          className="crt border-[1px] border-solid border-black border-t-white border-l-white bg-[#C0C0C0] p-[1px] z-[60]"
-          onEscapeKeyDown={(e) => {
-            e.preventDefault();
-            handleMinimize();
-          }}
-          onInteractOutside={(e) => {
-            e.preventDefault();
-          }}
+      )}
+
+      {isWindowOpen && (
+        <Draggable
+          handle=".dragger"
+          defaultPosition={position}
+          onStop={(e, data) => setPosition({ x: data.x, y: data.y })}
         >
-          <>
-            <WindowHeader
-              icon="/icons/vscode.png"
-              title="Visual Studio Code"
-              onClose={handleClose}
-              onMaximize={() => {}}
-              onMinimize={handleMinimize}
-            />
-            <div className="size-full min-h-[500px]">
-              <div className="border-[1px] border-[#808080] flex flex-col min-h-max flex-1 mt-[-15px]">
-                <WindowNavigationMenu
-                  menuItems={
-                    vscodeNavigationMenuItems as unknown as
-                      | MenuItemProps
-                      | MenuSubItemProps
-                  }
-                />
-                <div className="size-full h-[540px]">
-                  <iframe
-                    src="https://github1s.com/AlexandreDresch/98.portfolio/tree/main/src"
-                    title="VsCode"
-                    className="size-full"
-                  ></iframe>
+          <div
+            className={`fixed size-full min-h-[500px] crt border-[1px] border-solid border-black border-t-white border-l-white bg-[#C0C0C0] p-[1px]`}
+            style={{ zIndex, left: 0, top: 0 }}
+            onClick={handleActivate}
+          >
+            <div className="dragger">
+              <WindowHeader
+                icon="/icons/vscode.png"
+                title="Visual Studio Code"
+                onClose={handleClose}
+                onMaximize={() => {}}
+                onMinimize={handleMinimize}
+              />
+              <div className="">
+                <div className="border-[1px] border-[#808080] flex flex-col min-h-max flex-1 mt-[-15px]">
+                  <WindowNavigationMenu
+                    menuItems={
+                      vscodeNavigationMenuItems as unknown as
+                        | MenuItemProps
+                        | MenuSubItemProps
+                    }
+                  />
+                  <div className="size-full h-[540px]">
+                    <iframe
+                      src="https://github1s.com/AlexandreDresch/98.portfolio/tree/main/src"
+                      title="VsCode"
+                      className="size-full"
+                    ></iframe>
+                  </div>
+                  <FolderFooterMessage
+                    folderName="Visual Studio Code"
+                    icon="/icons/vscode.png"
+                  />
                 </div>
-                <FolderFooterMessage
-                  folderName="Visual Studio Code"
-                  icon="/icons/vscode.png"
-                />
               </div>
             </div>
-          </>
-        </DialogContent>
-      </Draggable>
-    </Dialog>
+          </div>
+        </Draggable>
+      )}
+    </>
   );
 }

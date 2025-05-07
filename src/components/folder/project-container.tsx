@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import { openFile, selectFile } from "@/store/folders-slice";
 import { useAppDispatch, useAppSelector } from "@/store/store";
-import { Project, ProjectContainerProps } from "@/types";
+import type { Project, ProjectContainerProps } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import ImageViewer from "../image-viewer/image-viewer";
@@ -74,7 +74,7 @@ export default function ProjectContainer({ projects }: ProjectContainerProps) {
             </Link>
           )}
 
-          <VSCode />
+          <VSCode renderTrigger={true} />
 
           {selectedFile.images &&
             selectedFile.images.map((image, index) => (
