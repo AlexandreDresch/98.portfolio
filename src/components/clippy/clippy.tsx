@@ -26,36 +26,30 @@ export default function Clippy() {
   );
   const [isOpen, setIsOpen] = useState(false);
 
-  // Get the current message text
   const currentMessage =
     messages.find((m) => m.id === currentMessageId)?.text ||
     "Hi! I'm Clippy, your assistant. Can I help you?";
 
-  // Random appearance
   useEffect(() => {
-    // Show Clippy randomly every 2-5 minutes if not already visible
     const randomAppearance = () => {
-      const randomTime = Math.floor(Math.random() * (300000 - 120000) + 120000); // 2-5 minutes
+      const randomTime = Math.floor(Math.random() * (300000 - 120000) + 120000);
       const timer = setTimeout(() => {
         dispatch(showRandomClippyMessage());
-        randomAppearance(); // Schedule next appearance
+        randomAppearance();
       }, randomTime);
 
       return () => clearTimeout(timer);
     };
 
     const initialTimer = setTimeout(() => {
-      // Initial appearance after 30 seconds
       dispatch(showRandomClippyMessage());
-      randomAppearance(); // Start the random cycle
+      randomAppearance();
     }, 30000);
 
     return () => clearTimeout(initialTimer);
   }, [dispatch]);
 
-  // Show contextual help when certain actions are performed
   useEffect(() => {
-    // Example: Listen for window-related actions
     const handleWindowAction = (e: Event) => {
       if ((e as CustomEvent).detail?.type === "window") {
         dispatch(showContextualClippyMessage("tips"));
@@ -66,7 +60,6 @@ export default function Clippy() {
     return () => window.removeEventListener("app-action", handleWindowAction);
   }, [dispatch]);
 
-  // Handle dropdown open/close
   const handleOpenChange = (open: boolean) => {
     setIsOpen(open);
     if (open) {
@@ -74,18 +67,15 @@ export default function Clippy() {
     }
   };
 
-  // Handle dismissal
   const handleDismiss = (duration: number | null) => {
     dispatch(dismissClippy(duration));
     setIsOpen(false);
   };
 
   const handleShowAnotherTip = (e: React.MouseEvent) => {
-    // Prevent the default behavior (which would close the dropdown)
     e.preventDefault();
     e.stopPropagation();
 
-    // Show a new random message
     dispatch(showRandomClippyMessage());
   };
 
