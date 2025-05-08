@@ -1,18 +1,24 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import StartScreen from "./start-screen";
 import Desktop from "./desktop";
 import Dock from "../dock/dock";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import BootTerminal from "./boot-terminal";
+import { useWindowsSound } from "../shared/sound-manager";
 
 export default function DesktopLayout() {
   const [showStartScreen, setShowStartScreen] = useState(true);
+  const [showTerminal, setShowTerminal] = useState(false);
+  const [showDesktop, setShowDesktop] = useState(false);
   const [triggerAnimation, setTriggerAnimation] = useState(false);
+
+  const { playSound } = useWindowsSound();
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Enter") {
+      if (event.key === "Enter" && showStartScreen && !triggerAnimation) {
         setTriggerAnimation(true);
       }
     };
@@ -22,30 +28,61 @@ export default function DesktopLayout() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [showStartScreen, triggerAnimation]);
+
+  const handleStartScreenComplete = () => {
+    setShowStartScreen(false);
+    setShowTerminal(true);
+  };
+
+  const handleBootComplete = () => {
+    setShowTerminal(false);
+    setShowDesktop(true);
+
+    playSound("startup");
+  };
 
   return (
     <div className="bg-black">
-      {showStartScreen ? (
-        <motion.div
-          initial={{ scale: 1 }}
-          animate={triggerAnimation ? { scale: 0 } : {}}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
-          onAnimationComplete={() => setShowStartScreen(false)}
-        >
-          <StartScreen />
-        </motion.div>
-      ) : (
-        <motion.main
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
-          className="flex min-h-screen flex-col bg-[url('/windows-98-cloud.jpg')] box-border crt rounded-none"
-        >
-          <Desktop />
-          <Dock />
-        </motion.main>
-      )}
+      <AnimatePresence>
+        {showStartScreen && (
+          <motion.div
+            key="start-screen"
+            initial={{ scale: 1 }}
+            animate={triggerAnimation ? { scale: 0 } : {}}
+            exit={{ scale: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            onAnimationComplete={handleStartScreenComplete}
+          >
+            <StartScreen />
+          </motion.div>
+        )}
+
+        {showTerminal && (
+          <motion.div
+            key="terminal"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <BootTerminal onBootComplete={handleBootComplete} />
+          </motion.div>
+        )}
+
+        {showDesktop && (
+          <motion.main
+            key="desktop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="flex min-h-screen flex-col bg-[url('/windows-98-cloud.jpg')] box-border crt rounded-none"
+          >
+            <Desktop />
+            <Dock />
+          </motion.main>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
