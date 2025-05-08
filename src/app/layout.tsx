@@ -3,6 +3,7 @@ import { Titillium_Web } from "next/font/google";
 import "./globals.css";
 
 import ReduxProvider from "@/store/redux-provider";
+import SoundManager from "@/components/shared/sound-manager";
 
 const titillium = Titillium_Web({
   subsets: ["latin"],
@@ -23,7 +24,10 @@ export default function RootLayout({
   return (
     <ReduxProvider>
       <html lang="en">
-        <body className={titillium.className}>{children}</body>
+        <body className={titillium.className}>
+          <SoundManager />
+          {children}
+        </body>
       </html>
     </ReduxProvider>
   );
