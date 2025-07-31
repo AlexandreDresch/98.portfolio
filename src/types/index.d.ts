@@ -14,6 +14,18 @@ export interface Project {
 
 type ProjectStatus = "initial" | "pending" | "fulfilled" | "rejected";
 
+export interface Program {
+  id: number;
+  name: string;
+  isOpen: boolean;
+  image: string;
+  description?: string;
+}
+
+export interface ProgramsContainerProps {
+  programs: Program[];
+}
+
 export interface MessageContainerProps {
   status: ProjectStatus;
   message?: string;

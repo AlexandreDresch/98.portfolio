@@ -8,6 +8,33 @@ import { FolderContentLeftProps } from "@/types";
 
 export default function FolderContentLeft({ folder }: FolderContentLeftProps) {
   const { selectedFile } = useAppSelector((state) => state.folders);
+  const { selectedProgram } = useAppSelector((state) => state.windows);
+
+  const selectedItem = selectedFile || selectedProgram || folder;
+
+  const getImageSrc = () => {
+    if (selectedFile) {
+      switch (selectedFile.type) {
+        case "BACKEND":
+          return "/icons/backend-icon.png";
+        case "FRONTEND":
+          return "/icons/frontend-icon.png";
+        default:
+          return folder.image;
+      }
+    }
+    return selectedProgram ? selectedProgram.image : folder.image;
+  };
+
+  const getDescription = () => {
+    if (!selectedFile && !selectedProgram) {
+      return "Select an item to view its description. Double click to open.";
+    }
+    if ("description" in selectedItem) {
+      return selectedItem.description;
+    }
+    return "No description available.";
+  };
 
   return (
     <div className="w-1/3 min-w-[295px] min-h-max flex flex-col justify-between">
@@ -16,30 +43,16 @@ export default function FolderContentLeft({ folder }: FolderContentLeftProps) {
           width={100}
           height={100}
           quality={100}
-          alt={selectedFile ? selectedFile.name : folder.name}
-          src={
-            selectedFile
-              ? selectedFile.type === "BACKEND"
-                ? "/icons/backend-icon.png"
-                : selectedFile.type === "FRONTEND"
-                ? "/icons/frontend-icon.png"
-                : "/icons/mobile-icon.png"
-              : folder.image
-          }
+          alt={selectedItem.name}
+          src={getImageSrc()}
           className="w-14 h-auto"
         />
 
-        <h3 className="font-semibold text-xl">
-          {selectedFile ? selectedFile.name : folder.name}
-        </h3>
+        <h3 className="font-semibold text-xl">{selectedItem.name}</h3>
 
         <Separator className="h-[2px] bg-rainbow my-3" />
 
-        <p className="text-sm">
-          {selectedFile === null
-            ? "Select an item to view its description. Double click to open."
-            : selectedFile.description}
-        </p>
+        <p className="text-sm">{getDescription()}</p>
       </div>
 
       {selectedFile && (

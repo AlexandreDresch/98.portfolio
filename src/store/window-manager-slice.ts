@@ -1,11 +1,12 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { WindowItem } from "@/types";
+import type { Program, WindowItem } from "@/types";
 import { folders, programs } from "@/constants";
 
 interface WindowManagerState {
   windows: WindowItem[];
   dockItems: WindowItem[];
   activeWindowId: number | null;
+  selectedProgram: Program | null;
 }
 
 const initialState: WindowManagerState = {
@@ -15,6 +16,7 @@ const initialState: WindowManagerState = {
   ],
   dockItems: [],
   activeWindowId: null,
+  selectedProgram: null,
 };
 
 const windowManagerSlice = createSlice({
@@ -66,6 +68,10 @@ const windowManagerSlice = createSlice({
         state.activeWindowId = null;
       }
 
+      if (state.selectedProgram?.id === id) {
+        state.selectedProgram = null;
+      }
+
       const windowIndex = state.windows.findIndex((w) => w.id === id);
       if (windowIndex !== -1) {
         state.windows[windowIndex].isOpen = false;
@@ -100,6 +106,15 @@ const windowManagerSlice = createSlice({
       const id = action.payload;
       state.activeWindowId = id;
     },
+
+    selectProgram(state, action: PayloadAction<number | null>) {
+      if (action.payload === null) {
+        state.selectedProgram = null;
+      } else {
+        const item = state.windows.find((w) => w.id === action.payload);
+        state.selectedProgram = item ? { ...item } : null;
+      }
+    },
   },
 });
 
@@ -109,6 +124,7 @@ export const {
   closeWindow,
   toggleWindow,
   activateWindow,
+  selectProgram,
 } = windowManagerSlice.actions;
 
 export const windowManagerReducer = windowManagerSlice.reducer;

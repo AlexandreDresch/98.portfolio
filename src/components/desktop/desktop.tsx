@@ -6,6 +6,9 @@ import { useAppSelector } from "@/store/store";
 import ProjectContainer from "../folder/project-container";
 import NotAvailable from "../shared/not-available";
 import { Folder } from "@/types";
+import ProgramsContainer from "../folder/programs-container";
+import { programs } from "@/constants";
+import Doom from "../programs/DOOM/doom";
 
 export default function Desktop() {
   const { frontend, backend } = useAppSelector((state) => state.projects);
@@ -19,6 +22,9 @@ export default function Desktop() {
           {folder.name === "Backend" && <ProjectContainer projects={backend} />}
           {folder.name === "Frontend" && (
             <ProjectContainer projects={frontend} />
+          )}
+          {folder.name === "Games" && (
+            <ProgramsContainer programs={[programs.find((p) => p.id === 15)!]} />
           )}
           {folder.name === "Recycle Bin" && (
             <NotAvailable message="Not available yet." />
@@ -34,6 +40,8 @@ export default function Desktop() {
           )}
         </Shortcut>
       ))}
+
+      <Doom renderTrigger={false} />
 
       <Clippy />
     </div>
