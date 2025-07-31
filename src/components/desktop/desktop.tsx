@@ -41,7 +41,7 @@ export default function Desktop() {
         </Shortcut>
       ))}
 
-      <Doom renderTrigger={false} />
+      <Doom />
 
       <Clippy />
     </div>
