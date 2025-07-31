@@ -327,6 +327,15 @@ export const folders: Folder[] = [
     documentType: null,
     documentPath: null,
   },
+  {
+    id: 17,
+    name: "Games",
+    isOpen: false,
+    image: "/folder.png",
+    isDocument: false,
+    documentType: null,
+    documentPath: null,
+  },
 ];
 
 export const programs = [
@@ -347,6 +356,38 @@ export const programs = [
     name: "Image Viewer",
     isOpen: false,
     image: "/image-viewer.png",
+  },
+  {
+    id: 12,
+    name: "Notepad",
+    isOpen: false,
+    image: "/notepad.png",
+  },
+  {
+    id: 13,
+    name: "Calculator",
+    isOpen: false,
+    image: "/calculator.png",
+  },
+  {
+    id: 14,
+    name: "Paint",
+    isOpen: false,
+    image: "/paint.png",
+  },
+  {
+    id: 15,
+    name: "DOOM",
+    isOpen: false,
+    description:
+      "Remember the classic DOOM game with this clone built by Yüg (eugeniosegala on GitHub).",
+    image: "/doom.png",
+  },
+  {
+    id: 16,
+    name: "Command Prompt",
+    isOpen: false,
+    image: "/command-prompt.png",
   },
 ];
 
