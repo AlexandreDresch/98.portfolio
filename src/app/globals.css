@@ -123,3 +123,19 @@
 }
 .crt {
 }
+
+body {
+  cursor: url('/cursors/w98-arrow.cur'), auto;
+}
+
+a, button {
+  cursor: url('/cursors/w98-pointer.cur'), pointer;
+}
+
+input, textarea {
+  cursor: url('/cursors/w98-ibeam.cur'), text;
+}
+
+.is-busy {
+  cursor: url('/cursors/w98-hourglass.cur'), wait;
+}
