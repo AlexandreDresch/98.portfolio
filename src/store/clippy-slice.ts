@@ -66,6 +66,21 @@ const initialMessages: ClippyMessage[] = [
     text: "Want to contact me? Check out the Contact Me shortcut in the desktop.",
     category: "help",
   },
+  {
+    id: 11,
+    text: "You can play a game of DOOM by opening the Games folder and clicking on the DOOM icon.",
+    category: "fun",
+  },
+  {
+    id: 12,
+    text: "Did you know? Lamps in video games are using real electricity.",
+    category: "general",
+  },
+  {
+    id: 13,
+    text: "The waves keep coming. Crashing. Over and over. We're buried in cold water.",
+    category: "fun",
+  },
 ];
 
 const initialState: ClippyState = {
