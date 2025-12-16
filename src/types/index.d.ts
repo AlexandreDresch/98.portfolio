@@ -40,6 +40,7 @@ export interface Folder {
   id: number;
   name: string;
   isOpen: boolean;
+  isMaximized: boolean;
   image: string;
   isDocument: boolean;
   documentType: "pdf" | "markdown" | null;
@@ -133,6 +134,7 @@ export interface Program {
   id: number;
   name: string;
   isOpen: boolean;
+  isMaximized: boolean;
   image: string;
 }
 

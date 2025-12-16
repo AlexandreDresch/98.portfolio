@@ -61,6 +61,25 @@ const windowManagerSlice = createSlice({
       }
     },
 
+    maximizeWindow(state, action: PayloadAction<number>) {
+      const id = action.payload;
+      const item = state.windows.find((w) => w.id === id);
+
+      if (item) {
+        item.isMaximized = !item.isMaximized;
+
+        if (item.isMaximized) {
+          state.windows.forEach((window) => {
+            if (window.id !== id) {
+              window.isMaximized = false;
+            }
+          });
+        }
+
+        state.activeWindowId = id;
+      }
+    },
+
     closeWindow(state, action: PayloadAction<number>) {
       const id = action.payload;
 
@@ -121,6 +140,7 @@ const windowManagerSlice = createSlice({
 export const {
   openWindow,
   minimizeWindow,
+  maximizeWindow,
   closeWindow,
   toggleWindow,
   activateWindow,

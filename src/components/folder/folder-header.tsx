@@ -1,12 +1,11 @@
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { useAppDispatch, useAppSelector } from "@/store/store";
-import {
-  clearSelectedFile,
-} from "@/store/folders-slice";
+import { clearSelectedFile } from "@/store/folders-slice";
 import {
   closeWindow,
   minimizeWindow,
+  maximizeWindow,
 } from "@/store/window-manager-slice";
 import { FolderHeaderProps } from "@/types";
 
@@ -14,6 +13,11 @@ export default function FolderHeader({ folder }: FolderHeaderProps) {
   const dispatch = useAppDispatch();
 
   const { selectedFile, isFileOpen } = useAppSelector((state) => state.folders);
+
+  const windowItem = useAppSelector((state) =>
+    state.windows.windows.find((w) => w.id === folder.id)
+  );
+  const isMaximized = windowItem?.isMaximized || false;
 
   function handleClose() {
     dispatch(clearSelectedFile());
@@ -23,6 +27,11 @@ export default function FolderHeader({ folder }: FolderHeaderProps) {
   function handleMinimize() {
     dispatch(minimizeWindow(folder.id));
   }
+
+  function handleMaximize() {
+    dispatch(maximizeWindow(folder.id));
+  }
+
   return (
     <div className="dragger w-full h-6 relative bg-gradient-to-r mt-0 from-[#010f80] to-[#1084d0]">
       <div className="absolute w-full flex justify-between px-1 top-[2px]">
@@ -63,6 +72,7 @@ export default function FolderHeader({ folder }: FolderHeaderProps) {
           <Button
             variant="w98"
             className="bg-[#C0C0C0] w-6 h-5 p-1 flex items-center justify-center"
+            onClick={handleMaximize}
           >
             <Image
               width={0}
