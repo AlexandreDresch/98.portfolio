@@ -22,9 +22,9 @@ export default function ProjectContainer({ projects }: ProjectContainerProps) {
   };
 
   return (
-    <div className="w-full h-[400px] flex justify-center">
+    <div className="size-full min-w-0 flex">
       {isFileOpen && selectedFile ? (
-        <div className="grid grid-cols-5 grid-rows-6 gap-4 gap-y-3 p-4">
+        <div className="grid w-full h-fit grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-4 p-4">
           <div className="flex flex-col items-center cursor-pointer gap-1">
             <Image
               src="/icons/notepad.png"
@@ -82,7 +82,7 @@ export default function ProjectContainer({ projects }: ProjectContainerProps) {
             ))}
         </div>
       ) : (
-        <div className="grid grid-cols-6 grid-rows-6 gap-4 gap-y-0 p-4">
+        <div className="grid w-full h-fit grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-4 p-4">
           {projects.map((project) => (
             <div
               key={project.id}

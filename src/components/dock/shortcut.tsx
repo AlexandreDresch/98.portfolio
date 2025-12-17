@@ -202,7 +202,7 @@ export default function Shortcut({ folder, children }: ShortcutProps) {
         onMouseDown={handleMouseDown}
       >
         <div
-          className="overflow-auto overflow-y-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+          className="w-full h-full min-w-0 overflow-auto overflow-y-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
           style={{
             height: isMaximized ? "calc(100vh - 24px)" : "calc(100% - 24px)",
             

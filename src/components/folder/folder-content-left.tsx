@@ -9,6 +9,9 @@ import { FolderContentLeftProps } from "@/types";
 export default function FolderContentLeft({ folder }: FolderContentLeftProps) {
   const { selectedFile } = useAppSelector((state) => state.folders);
   const { selectedProgram } = useAppSelector((state) => state.windows);
+  const windowItem = useAppSelector((state) =>
+    state.windows.windows.find((w) => w.id === folder.id)
+  );
 
   const selectedItem = selectedFile || selectedProgram || folder;
 
@@ -37,7 +40,12 @@ export default function FolderContentLeft({ folder }: FolderContentLeftProps) {
   };
 
   return (
-    <div className="w-1/3 min-w-[295px] min-h-max flex flex-col justify-between">
+    <div
+      className={cn(
+        "w-1/3 min-w-[295px] min-h-max flex flex-col justify-between",
+        windowItem?.isMaximized && "w-1/4"
+      )}
+    >
       <div className="size-full pt-3 pl-3 pb-3">
         <Image
           width={100}

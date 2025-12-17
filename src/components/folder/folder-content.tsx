@@ -10,6 +10,9 @@ export default function FolderContent({
   children,
 }: FolderContentProps) {
   const { isFileOpen } = useAppSelector((state) => state.folders);
+  const windowItem = useAppSelector((state) =>
+    state.windows.windows.find((w) => w.id === folder.id)
+  );
 
   return (
     <div className="size-full min-h-[500px] crt">
@@ -27,7 +30,8 @@ export default function FolderContent({
           <div
             className={cn(
               "w-2/3 h-full bg-gradient-to-r from-transparent via-white to-white",
-              isFileOpen && "w-full"
+              isFileOpen && "w-full",
+              windowItem?.isMaximized && "w-full"
             )}
           >
             {children}
