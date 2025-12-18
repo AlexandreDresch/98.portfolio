@@ -10,11 +10,10 @@ export default function FolderFooterMessage({
   const { selectedFile, isFileOpen } = useAppSelector((state) => state.folders);
 
   return (
-    <div className="w-auto h-5 ml-[2px] bg-[#C0C0C0] flex items-center gap-1">
+    <div className="flex-none shrink-0 h-5 px-1 bg-[#C0C0C0] flex items-center gap-1 box-border overflow-hidden">
       <Image
-        width={100}
-        height={100}
-        quality={100}
+        width={16}
+        height={16}
         alt={selectedFile && isFileOpen ? selectedFile.name : folderName}
         src={
           selectedFile && isFileOpen
@@ -23,10 +22,12 @@ export default function FolderFooterMessage({
               : "/icons/frontend-icon.png"
             : icon
         }
-        className="w-4 h-auto"
+        className="w-4 h-4 flex-none"
       />
 
-      <span className="text-xs">{footerMessage}</span>
+      <span className="text-xs leading-none whitespace-nowrap">
+        {footerMessage}
+      </span>
     </div>
   );
 }

@@ -195,17 +195,16 @@ export default function Shortcut({ folder, children }: ShortcutProps) {
           top: `${position.y}px`,
           zIndex,
           width: isMaximized ? "100vw" : "800px",
-          maxWidth: "calc(100vw - 2px)",
+          maxWidth: "calc(100vw - 1px)",
           maxHeight: "calc(100vh - 32px)",
           minWidth: "800px",
         }}
         onMouseDown={handleMouseDown}
       >
         <div
-          className="w-full h-full min-w-0 overflow-auto overflow-y-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+          className="flex flex-col w-full min-w-0 h-full min-h-0"
           style={{
-            height: isMaximized ? "calc(100vh - 24px)" : "calc(100% - 24px)",
-            
+            height: isMaximized ? "calc(100dvh - 32px)" : "calc(100% - 32px)",
           }}
         >
           <FolderLayout folder={folder}>{children}</FolderLayout>

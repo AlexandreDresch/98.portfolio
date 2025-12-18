@@ -76,9 +76,11 @@ export default function DesktopLayout() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className="flex min-h-screen flex-col bg-[url('/windows-98-cloud.jpg')] box-border crt rounded-none"
+            className="flex h-[100dvh] flex-col bg-[url('/windows-98-cloud.jpg')] box-border crt rounded-none"
           >
-            <Desktop />
+            <div className="flex-1 min-h-0 relative overflow-hidden">
+              <Desktop />
+            </div>
             <Dock />
           </motion.main>
         )}

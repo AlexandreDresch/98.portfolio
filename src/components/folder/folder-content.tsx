@@ -15,13 +15,15 @@ export default function FolderContent({
   );
 
   return (
-    <div className="size-full min-h-[500px] crt">
-      <div className="border-[1px] border-[#808080] flex flex-col h-full flex-1">
-        <FolderContentHeader folder={folder} />
+    <div className="flex flex-1 min-h-0 w-full min-w-0 crt">
+      <div className="flex flex-col flex-1 min-h-0 border border-[#808080] box-border">
+        <div className="flex-none shrink-0">
+          <FolderContentHeader folder={folder} />
+        </div>
 
         <div
           className={cn(
-            "flex h-full bg-[url('/folder-background.jpg')] bg-contain m-[2px]",
+            "flex flex-1 min-h-0 bg-[url('/folder-background.jpg')] bg-contain p-[2px] box-border",
             isFileOpen && "bg-white"
           )}
         >
@@ -29,7 +31,7 @@ export default function FolderContent({
 
           <div
             className={cn(
-              "w-2/3 h-full bg-gradient-to-r from-transparent via-white to-white",
+              "flex flex-1 min-h-0 bg-gradient-to-r from-transparent via-white to-white",
               isFileOpen && "w-full",
               windowItem?.isMaximized && "w-full"
             )}
@@ -38,7 +40,9 @@ export default function FolderContent({
           </div>
         </div>
 
-        <FolderFooterMessage folderName={folder.name} icon={folder.image} />
+        <div className="flex-none shrink-0">
+          <FolderFooterMessage folderName={folder.name} icon={folder.image} />
+        </div>
       </div>
     </div>
   );

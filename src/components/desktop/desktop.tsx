@@ -16,7 +16,7 @@ export default function Desktop() {
   const folders = windows.filter((window) => window.type === "folder");
 
   return (
-    <div className="pt-4 flex flex-col gap-8 min-w-[100dvw] min-h-[100dvh] relative overflow-hidden">
+    <div className="pt-4 flex flex-col gap-8 size-full relative overflow-hidden">
       {folders.map((folder) => (
         <Shortcut folder={folder as Folder} key={folder.id}>
           {folder.name === "Backend" && <ProjectContainer projects={backend} />}
