@@ -16,7 +16,7 @@ export default function Desktop() {
   const folders = windows.filter((window) => window.type === "folder");
 
   return (
-    <div className="pt-4 flex flex-col gap-8 size-full relative overflow-hidden">
+    <div className="pt-4 grid grid-flow-col auto-cols-[96px] grid-rows-[repeat(auto-fit,96px)] gap-x-6 gap-y-8 size-full relative overflow-hidden">
       {folders.map((folder) => (
         <Shortcut folder={folder as Folder} key={folder.id}>
           {folder.name === "Backend" && <ProjectContainer projects={backend} />}
@@ -24,7 +24,9 @@ export default function Desktop() {
             <ProjectContainer projects={frontend} />
           )}
           {folder.name === "Games" && (
-            <ProgramsContainer programs={[programs.find((p) => p.id === 15)!]} />
+            <ProgramsContainer
+              programs={[programs.find((p) => p.id === 15)!]}
+            />
           )}
           {folder.name === "Recycle Bin" && (
             <NotAvailable message="Not available yet." />

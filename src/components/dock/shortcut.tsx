@@ -110,6 +110,7 @@ export default function Shortcut({ folder, children }: ShortcutProps) {
   const handleShortcutClick = () => {
     dispatch(clearSelectedFile());
     dispatch(selectProgram(folder.id));
+    dispatch(activateWindow(folder.id));
   };
 
   const handleMouseDown = (e: React.MouseEvent) => {
