@@ -1,6 +1,40 @@
+"use client";
+
+import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
+import { useEffect } from "react";
+import { Toast } from "../ui/toast";
 
 export default function StartScreen() {
+  const { toast, showToast } = useToast();
+
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key.toLowerCase() === "f") {
+        showToast(
+          <div className="flex items-center gap-2 crt font-mono">
+            <Image
+              src="/images/pay-respect.gif"
+              alt="Press F"
+              width={24}
+              height={24}
+              className="w-24 h-auto pixelated"
+            />
+
+            <div className="text-xs text-slate-400">
+              <p className="text-slate-100 font-semibold">Respect paid.</p>
+              <p>You will be remembered.</p>
+            </div>
+          </div>,
+          4000
+        );
+      }
+    }
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [showToast]);
+
   return (
     <main className="crt w-screen h-screen bg-black text-gray-500 flex p-10 relative text-xl lg:text-2xl font-semibold lg:p-20">
       <div className="w-full space-y-10">
@@ -77,6 +111,8 @@ export default function StartScreen() {
           01101101 01110000 01110101 01110100 01100101 01110010
         </p>
       </div>
+
+      <Toast toast={toast} />
     </main>
   );
 }
