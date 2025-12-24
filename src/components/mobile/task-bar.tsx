@@ -21,7 +21,7 @@ export default function Taskbar({
   onBack,
 }: TaskbarProps) {
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 h-10 bg-[#c0c0c0] border-[2px] border-solid border-black border-t-white border-l-white rounded-none flex items-center px-2 gap-2 select-none">
+    <div className="crt fixed bottom-0 left-0 right-0 z-50 h-10 bg-[#c0c0c0] border-[2px] border-solid border-black border-t-white border-l-white rounded-none border-b-0 flex items-center px-2 gap-2 select-none">
       <motion.button
         whileTap={buttonTap}
         onClick={onRecentApps}
