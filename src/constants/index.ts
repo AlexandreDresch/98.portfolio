@@ -826,3 +826,54 @@ export const vscodeNavigationMenuItems = {
     { label: "About", shortcut: "" },
   ],
 };
+
+export const allMobileApps = [
+  { label: "Notepad", iconImage: "/icons/notepad-2.png" },
+  { label: "Camera", iconImage: "/icons/camera.png" },
+  { label: "Documents", iconImage: "/folder.png" },
+  { label: "Files", iconImage: "/file.png" },
+  { label: "Calendar", iconImage: "/calendar-3.png" },
+  {
+    label: "Internet",
+    iconImage: "/internet-explorer-blue-e-icon-pixelated.jpg",
+  },
+  {
+    label: "Gallery",
+    iconImage: "/windows-98-picture-frame-with-tree-icon-pixelated.jpg",
+  },
+  {
+    label: "Play Store",
+    iconImage: "/colorful-play-button-triangle-red-blue-yellow-icon.jpg",
+  },
+  { label: "OneDrive", iconImage: "/gray-cloud-icon-pixelated.jpg" },
+  { label: "Maps", iconImage: "/globe-earth-icon-green-blue-pixelated.jpg" },
+  { label: "Clock", iconImage: "/pixelated-clock-icon-windows-98-style.jpg" },
+  { label: "Word", iconImage: "/document-icon-pixelated.jpg" },
+  { label: "Notes", iconImage: "/notepad-icon-pixelated.jpg" },
+  { label: "Pictures", iconImage: "/picture-icon-pixelated.jpg" },
+  { label: "Photos", iconImage: "/image-icon-pixelated.jpg" },
+  {
+    label: "Preferences",
+    iconImage: "/pixelated-settings-gear-icon-windows-98.jpg",
+  },
+  {
+    label: "My Computer",
+    iconImage: "/pixelated-computer-monitor-icon-windows-98.jpg",
+  },
+  {
+    label: "Recycle Bin",
+    iconImage: "/pixelated-recycle-bin-trash-icon-windows-98.jpg",
+  },
+  {
+    label: "Games",
+    iconImage: "/pixelated-game-controller-icon-windows-98.jpg",
+  },
+  {
+    label: "Media Player",
+    iconImage: "/pixelated-music-note-icon-windows-98.jpg",
+  },
+  {
+    label: "Mail",
+    iconImage: "/pixelated-envelope-mail-icon-windows-98.jpg",
+  },
+];

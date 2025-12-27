@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
 interface App {
-  icon: string;
   label: string;
   iconImage?: string;
 }
@@ -19,8 +18,14 @@ interface RecentAppsDrawerProps {
 
 const drawerVariants = {
   hidden: { y: "100%" },
-  visible: { y: 0, transition: { type: "tween", ease: "linear", duration: 0.18 } },
-  exit: { y: "100%", transition: { type: "tween", ease: "linear", duration: 0.15 } },
+  visible: {
+    y: 0,
+    transition: { type: "tween", ease: "linear", duration: 0.18 },
+  },
+  exit: {
+    y: "100%",
+    transition: { type: "tween", ease: "linear", duration: 0.15 },
+  },
 };
 
 const itemVariants = {
@@ -62,8 +67,18 @@ export default function RecentAppsDrawer({
             <div className="flex items-center justify-between bg-[#000080] text-white px-2 py-1 select-none">
               <span className="text-[12px] font-bold">Recent Applications</span>
 
-              <Button variant="w98" className="bg-[#C0C0C0] w-6 h-5 p-1 flex items-center justify-center" onClick={onClose}>
-                <Image src="/close.svg" alt="close icon" width={0} height={0} className="w-3 h-auto" />
+              <Button
+                variant="w98"
+                className="bg-[#C0C0C0] w-6 h-5 p-1 flex items-center justify-center"
+                onClick={onClose}
+              >
+                <Image
+                  src="/close.svg"
+                  alt="close icon"
+                  width={0}
+                  height={0}
+                  className="w-3 h-auto"
+                />
               </Button>
             </div>
 
@@ -76,22 +91,48 @@ export default function RecentAppsDrawer({
               ) : (
                 <div className="space-y-2">
                   {recentApps.map((app, index) => (
-                    <motion.div key={index} variants={itemVariants} initial="hidden" animate="visible" transition={{ delay: index * 0.03 }} className="win98-border bg-[#c0c0c0] p-2 flex items-center gap-3 active:win98-border-inset">
+                    <motion.div
+                      key={index}
+                      variants={itemVariants}
+                      initial="hidden"
+                      animate="visible"
+                      transition={{ delay: index * 0.03 }}
+                      className="win98-border bg-[#c0c0c0] p-2 flex items-center gap-3 active:win98-border-inset"
+                    >
                       <div className="w-10 h-10 flex items-center justify-center border border-t-[#404040] border-l-[#404040] border-r-white border-b-white bg-[#808080]">
-                        {app.iconImage ? (
-                          <Image src={app.iconImage} alt={app.label} width={32} height={32} className="image-rendering-pixelated" />
-                        ) : (
-                          <span className="text-xl">{app.icon}</span>
+                        {app.iconImage && (
+                          <Image
+                            src={app.iconImage}
+                            alt={app.label}
+                            width={32}
+                            height={32}
+                            className="image-rendering-pixelated"
+                          />
                         )}
                       </div>
 
                       <div className="flex-1">
-                        <p className="text-[11px] font-bold text-black">{app.label}</p>
+                        <p className="text-[11px] font-bold text-black">
+                          {app.label}
+                        </p>
                       </div>
 
-                      <button onClick={() => onRemoveApp(index)} className="win98-border bg-[#c0c0c0] w-6 h-6 flex items-center justify-center active:win98-border-inset">
-                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                          <path d="M3 3L9 9M3 9L9 3" stroke="black" strokeWidth="2" strokeLinecap="square" />
+                      <button
+                        onClick={() => onRemoveApp(index)}
+                        className="win98-border bg-[#c0c0c0] w-6 h-6 flex items-center justify-center active:win98-border-inset"
+                      >
+                        <svg
+                          width="12"
+                          height="12"
+                          viewBox="0 0 12 12"
+                          fill="none"
+                        >
+                          <path
+                            d="M3 3L9 9M3 9L9 3"
+                            stroke="black"
+                            strokeWidth="2"
+                            strokeLinecap="square"
+                          />
                         </svg>
                       </button>
                     </motion.div>

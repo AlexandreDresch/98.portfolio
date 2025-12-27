@@ -3,20 +3,19 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { Folder as DesktopItem } from "@/types";
 
 interface AppIconProps {
-  label: string;
+  item: DesktopItem;
   bgColor?: string;
-  iconImage: string;
   small?: boolean;
   className?: string;
-  onClick?: () => void;
+  onClick?: (item: DesktopItem) => void;
 }
 
 export default function AppIcon({
-  label,
+  item,
   bgColor = "#c0c0c0",
-  iconImage,
   small = false,
   className,
   onClick,
@@ -24,27 +23,20 @@ export default function AppIcon({
   return (
     <motion.button
       type="button"
-      onClick={onClick}
+      onClick={() => onClick?.(item)}
       className={cn(
-        "border-[2px] border-solid border-black border-t-white border-l-white rounded-none px-[2px] gap-1 hover:border-black hover:border-b-white hover:border-r-white",
-        "flex flex-col items-center justify-center gap-1",
+        "border-[2px] border-black border-t-white border-l-white",
+        "rounded-none flex flex-col items-center justify-center gap-1",
         "select-none outline-none",
+        "hover:border-black hover:border-b-white hover:border-r-white",
         small ? "p-2" : "p-3",
         className
       )}
       style={{ backgroundColor: bgColor }}
       tabIndex={0}
-      whileHover={{
-        filter: "brightness(1.03)",
-      }}
-      whileTap={{
-        x: 1,
-        y: 1,
-      }}
-      transition={{
-        duration: 0.08,
-        ease: "linear",
-      }}
+      whileHover={{ filter: "brightness(1.03)" }}
+      whileTap={{ x: 1, y: 1 }}
+      transition={{ duration: 0.08, ease: "linear" }}
     >
       <div
         className={cn(
@@ -53,8 +45,8 @@ export default function AppIcon({
         )}
       >
         <Image
-          src={iconImage || "/placeholder.svg"}
-          alt={label}
+          src={item.image || "/placeholder.svg"}
+          alt={item.name}
           width={small ? 24 : 32}
           height={small ? 24 : 32}
           draggable={false}
@@ -62,17 +54,14 @@ export default function AppIcon({
         />
       </div>
 
-      {label && (
-        <span
-          className={cn(
-            "text-black text-center leading-tight",
-            small ? "text-[10px]" : "text-xs",
-            "font-bold"
-          )}
-        >
-          {label}
-        </span>
-      )}
+      <span
+        className={cn(
+          "text-black text-center leading-tight font-bold",
+          small ? "text-[10px]" : "text-xs"
+        )}
+      >
+        {item.name}
+      </span>
     </motion.button>
   );
 }

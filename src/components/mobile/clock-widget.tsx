@@ -34,7 +34,7 @@ export default function ClockWidget() {
   }, []);
 
   return (
-    <div className="col-span-2 row-span-2 flex items-center justify-center p-4 select-none">
+    <div className="col-span-full row-span-2 flex items-center justify-center p-4 select-none">
       <div className="flex flex-col items-center gap-1">
         <AnimatePresence mode="wait">
           <motion.div

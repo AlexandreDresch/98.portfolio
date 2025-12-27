@@ -4,18 +4,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import AppIcon from "./app-icon";
 import Image from "next/image";
-
-interface App {
-  icon: string;
-  label: string;
-  iconImage?: string;
-}
+import  { Folder } from "@/types";
 
 interface AllAppsDrawerProps {
   show: boolean;
-  apps: App[];
+  folders: Folder[];
   onClose: () => void;
-  onAppClick: (app: App) => void;
+  onFolderClick: (folder: Folder) => void;
 }
 
 const drawerVariants = {
@@ -42,9 +37,9 @@ const iconVariants = {
 
 export default function AllAppsDrawer({
   show,
-  apps,
+  folders,
   onClose,
-  onAppClick,
+  onFolderClick,
 }: AllAppsDrawerProps) {
   return (
     <AnimatePresence>
@@ -69,7 +64,7 @@ export default function AllAppsDrawer({
             onDragEnd={(e, { offset, velocity }) => {
               if (offset.x > 120 || velocity.x > 600) onClose();
             }}
-            className="crt fixed inset-y-0 right-0 w-full max-w-md bg-[#008080] z-50 flex flex-col border-[2px] border-solid border-black border-t-white border-l-white rounded-none"
+            className="crt fixed inset-y-0 right-0 w-full max-w-md bg-[#008080] z-50 flex flex-col border-[2px] border-solid border-black border-t-white border-l-white"
           >
             <div className="flex items-center justify-between bg-[#000080] text-white px-2 py-1 select-none">
               <span className="text-[12px] font-bold">All Applications</span>
@@ -81,7 +76,7 @@ export default function AllAppsDrawer({
               >
                 <Image
                   src="/close.svg"
-                  alt="close icon"
+                  alt="close"
                   width={0}
                   height={0}
                   className="w-3 h-auto"
@@ -96,17 +91,16 @@ export default function AllAppsDrawer({
               className="flex-1 bg-[#c0c0c0] p-3 overflow-y-auto overscroll-contain"
             >
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                {apps.map((app, index) => (
-                  <motion.div key={index} variants={iconVariants}>
+                {folders.map((folder) => (
+                  <motion.div key={folder.id} variants={iconVariants}>
                     <AppIcon
-                      iconImage={app.iconImage || "/icons/default-app-icon.png"}
-                      label={app.label}
+                      item={folder}
                       bgColor="#c0c0c0"
+                      className="w-full"
                       onClick={() => {
-                        onAppClick(app);
+                        onFolderClick(folder);
                         onClose();
                       }}
-                      className="w-full"
                     />
                   </motion.div>
                 ))}
