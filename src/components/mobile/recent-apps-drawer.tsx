@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 
 interface App {
   label: string;
@@ -39,6 +40,11 @@ export default function RecentAppsDrawer({
   onClose,
   onRemoveApp,
 }: RecentAppsDrawerProps) {
+  const dispatch = useAppDispatch();
+
+  const openFolders = useAppSelector((state) =>
+    state.windows.windows.filter((f) => f.isOpen)
+  );
   return (
     <AnimatePresence>
       {show && (
@@ -117,24 +123,26 @@ export default function RecentAppsDrawer({
                         </p>
                       </div>
 
-                      <button
+                      <Button
+                        variant="w98"
                         onClick={() => onRemoveApp(index)}
-                        className="win98-border bg-[#c0c0c0] w-6 h-6 flex items-center justify-center active:win98-border-inset"
+                        className="h-6 w-6 p-0 text-black border border-t-[#404040] border-l-[#404040] border-r-white border-b-white rounded-none flex items-center justify-center bg-[#808080]"
                       >
                         <svg
                           width="12"
                           height="12"
                           viewBox="0 0 12 12"
-                          fill="none"
+                          className="block"
                         >
                           <path
                             d="M3 3L9 9M3 9L9 3"
-                            stroke="black"
+                            stroke="currentColor"
                             strokeWidth="2"
                             strokeLinecap="square"
+                            shapeRendering="crispEdges"
                           />
                         </svg>
-                      </button>
+                      </Button>
                     </motion.div>
                   ))}
                 </div>

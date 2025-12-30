@@ -14,8 +14,9 @@ import { AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Folder } from "@/types";
 import { folders } from "@/constants";
-import { useAppDispatch } from "@/store/store";
-import { openWindow } from "@/store/window-manager-slice";
+import { useAppDispatch, useAppSelector } from "@/store/store";
+import { openWindow, closeWindow } from "@/store/window-manager-slice";
+import MobileWindow from "./mobile-window";
 
 export default function MobileLayout() {
   const [showBoot, setShowBoot] = useState(true);
@@ -36,6 +37,8 @@ export default function MobileLayout() {
   const utilities = ["Mobile", "Contact me"];
 
   const documents = ["My Resume", "98.portfolio"];
+
+  const { dockItems } = useAppSelector((state) => state.windows);
 
   useEffect(() => {
     document.body.style.overflow = isDrawerOpen ? "hidden" : "";
@@ -59,6 +62,10 @@ export default function MobileLayout() {
   const handleHomeClick = () => {
     setShowAllApps(false);
     setShowRecentApps(false);
+    if (dockItems.length > 0) {
+      const lastOpened = dockItems[dockItems.length - 1];
+      dispatch(closeWindow(lastOpened.id));
+    }
     window.scrollTo({ top: 0 });
   };
 
@@ -68,6 +75,12 @@ export default function MobileLayout() {
   };
 
   const handleBackClick = () => {
+    if (dockItems.length > 0) {
+      const lastOpened = dockItems[dockItems.length - 1];
+      dispatch(closeWindow(lastOpened.id));
+      return;
+    }
+
     if (showRecentApps) setShowRecentApps(false);
     else if (showAllApps) setShowAllApps(false);
   };
@@ -170,6 +183,8 @@ export default function MobileLayout() {
         onClose={() => setShowAllApps(false)}
         onFolderClick={handleFolderClick}
       />
+
+      <MobileWindow />
     </div>
   );
 }
