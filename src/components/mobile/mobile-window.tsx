@@ -6,9 +6,15 @@ import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { closeWindow } from "@/store/window-manager-slice";
 import Image from "next/image";
+import { getProjectsData } from "@/store/projects-slice";
+import { useEffect } from "react";
 
 export default function MobileWindow() {
   const dispatch = useAppDispatch();
+  
+  useEffect(() => {
+    dispatch(getProjectsData());
+  }, [dispatch]);
 
   const window = useAppSelector((state) => {
     const items = state.windows.dockItems;
@@ -24,7 +30,7 @@ export default function MobileWindow() {
         animate={{ y: 0 }}
         exit={{ y: "100%" }}
         transition={{ type: "spring", stiffness: 260, damping: 30 }}
-        className="fixed inset-0 z-50 bg-[#c0c0c0] flex flex-col"
+        className="fixed inset-0 z-50 bg-[#c0c0c0] flex flex-col crt"
       >
         <div className="bg-[#000080] text-white px-2 py-1 flex justify-between items-center">
           <span className="text-xs font-bold">{window.name}</span>

@@ -21,6 +21,8 @@ export default function ProjectContainer({ projects }: ProjectContainerProps) {
     dispatch(openFile());
   };
 
+  console.log(projects);
+
   return (
     <div className="size-full min-w-0 flex">
       {isFileOpen && selectedFile ? (
