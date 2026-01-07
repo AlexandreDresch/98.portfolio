@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function NotAvailable({ message }: { message: string }) {
   return (
-    <div className="flex size-full mt-20 justify-center items-center flex-col space-y-2">
+    <div className="flex size-full justify-center items-center flex-col space-y-2">
       <Image
         src="/images/98-computer.gif"
         width={300}
