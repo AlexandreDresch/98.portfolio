@@ -7,6 +7,8 @@ import {
   ContextMenuItem,
   ContextMenuSeparator,
 } from "@/components/ui/context-menu";
+import { useAppDispatch } from "@/store/store";
+import { openWindow } from "@/store/window-manager-slice";
 
 interface DesktopContextMenuProps {
   children: React.ReactNode;
@@ -15,6 +17,12 @@ interface DesktopContextMenuProps {
 export default function DesktopContextMenu({
   children,
 }: DesktopContextMenuProps) {
+  const dispatch = useAppDispatch();
+
+  const handleOpenProgram = (id: number) => {
+    dispatch(openWindow(id));
+  };
+
   return (
     <ContextMenu>
       <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
@@ -42,7 +50,10 @@ export default function DesktopContextMenu({
 
         <ContextMenuSeparator className="h-0.5 mx-1 my-0.5 bg-[#808080] border-b border-white" />
 
-        <ContextMenuItem className="p-1 rounded-none text-sm cursor-default data-[state=open]:bg-[#010f80] focus:bg-[#010f80] focus:text-white data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+        <ContextMenuItem
+          className="p-1 rounded-none text-sm cursor-default data-[state=open]:bg-[#010f80] focus:bg-[#010f80] focus:text-white data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+          onClick={() => handleOpenProgram(18)}
+        >
           Properties
         </ContextMenuItem>
       </ContextMenuContent>

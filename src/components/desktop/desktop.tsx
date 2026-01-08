@@ -10,6 +10,8 @@ import ProgramsContainer from "../folder/programs-container";
 import { programs } from "@/constants";
 import Doom from "../programs/DOOM/doom";
 import DesktopContextMenu from "./desktop-context-menu";
+import ControlPanel from "../programs/control-panel";
+import FolderContainer from "../folder/folder-container";
 
 export default function Desktop() {
   const { frontend, backend } = useAppSelector((state) => state.projects);
@@ -43,6 +45,11 @@ export default function Desktop() {
             )}
             {folder.name === "Contact me" && (
               <NotAvailable message="Not available yet." />
+            )}
+            {folder.name === "Control Panel" && (
+              <FolderContainer>
+                <ControlPanel />
+              </FolderContainer>
             )}
           </Shortcut>
         ))}

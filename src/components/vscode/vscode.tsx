@@ -85,7 +85,7 @@ export default function VSCode({ renderTrigger = false }: VSCodeProps) {
           onStop={(e, data) => setPosition({ x: data.x, y: data.y })}
         >
           <div
-            className={`fixed size-full min-h-[500px]crt border-[1px] border-solid border-black border-t-white border-l-white bg-[#C0C0C0] p-[1px]`}
+            className={`fixed size-full min-h-[500px] marker:crt border-[1px] border-solid border-black border-t-white border-l-white bg-[#C0C0C0] p-[1px]`}
             style={{ zIndex, left: 0, top: 0 }}
             onClick={handleActivate}
           >

@@ -345,6 +345,16 @@ export const folders: Folder[] = [
     documentType: null,
     documentPath: null,
   },
+  {
+    id: 18,
+    name: "Control Panel",
+    isOpen: false,
+    isMaximized: false,
+    image: "/icons/control-panel.png",
+    isDocument: false,
+    documentType: null,
+    documentPath: null,
+  },
 ];
 
 export const programs = [
