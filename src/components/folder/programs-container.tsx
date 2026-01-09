@@ -22,7 +22,7 @@ export default function ProgramsContainer({
 
   return (
     <div className="w-full h-[400px] flex justify-center">
-      <div className="grid grid-cols-6 grid-rows-6 gap-4 gap-y-0 p-4">
+      <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-4 gap-y-0 p-4">
         {programs.map((program) => (
           <div
             key={program.id}

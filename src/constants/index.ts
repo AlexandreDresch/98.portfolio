@@ -416,6 +416,47 @@ export const programs = [
     isMaximized: false,
     image: "/command-prompt.png",
   },
+  {
+    id: 19,
+    name: "Display",
+    isOpen: false,
+    isMaximized: false,
+    image: "/icons/display.png",
+    description: "Adjust display settings such as resolution and color depth.",
+  },
+  {
+    id: 20,
+    name: "Keyboard",
+    isOpen: false,
+    isMaximized: false,
+    image: "/icons/keyboard.png",
+    description: "Configure keyboard settings and preferences.",
+  }
+  ,
+  {
+    id: 21,
+    name: "Mouse",
+    isOpen: false,
+    isMaximized: false,
+    image: "/icons/mouse.png",
+    description: "Modify mouse settings including pointer speed and button configuration.",
+  },
+  {
+    id: 22,
+    name: "Date/Time",
+    isOpen: false,
+    isMaximized: false,
+    image: "/icons/date-time.png",
+    description: "Set the system date and time, as well as time zone settings.",
+  },
+  {
+    id: 23,
+    name: "System",
+    isOpen: false,
+    isMaximized: false,
+    image: "/icons/system.png",
+    description: "View and manage system information and hardware settings.",
+  }
 ];
 
 export const folderNavigationMenuItems = {
