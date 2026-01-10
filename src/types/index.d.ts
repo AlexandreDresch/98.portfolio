@@ -41,6 +41,7 @@ export interface Folder {
   name: string;
   isOpen: boolean;
   isMaximized: boolean;
+  isMinimized: boolean;
   image: string;
   isDocument: boolean;
   documentType: "pdf" | "markdown" | null;
@@ -135,6 +136,7 @@ export interface Program {
   name: string;
   isOpen: boolean;
   isMaximized: boolean;
+  isMinimized: boolean;
   image: string;
 }
 
