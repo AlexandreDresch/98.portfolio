@@ -12,6 +12,7 @@ import Doom from "../programs/DOOM/doom";
 import DesktopContextMenu from "./desktop-context-menu";
 import ControlPanel from "../programs/control-panel";
 import FolderContainer from "../folder/folder-container";
+import WelcomeMessage from "./welcome-message";
 
 export default function Desktop() {
   const { frontend, backend } = useAppSelector((state) => state.projects);
@@ -57,6 +58,8 @@ export default function Desktop() {
         <Doom />
 
         <Clippy />
+
+        <WelcomeMessage />
       </div>
     </DesktopContextMenu>
   );

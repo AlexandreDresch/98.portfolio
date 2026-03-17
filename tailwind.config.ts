@@ -21,6 +21,10 @@ const config = {
       backgroundImage: ({ theme }) => ({
         rainbow: `linear-gradient(to right, ${theme('colors.red.500')},${theme('colors.yellow.500')},${theme('colors.green.500')},${theme('colors.blue.500')})`,
       }),
+      fontFamily: {
+        inter: ["var(--font-inter)"],
+        jost: ["var(--font-jost)"],
+      },
       colors: {
         w98background: "#C0C0C0",
         border: "hsl(var(--border))",
