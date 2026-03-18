@@ -143,3 +143,15 @@ export interface Program {
 export type WindowItem = (Folder | Program) & {
   type: 'folder' | 'program';
 };
+
+export type WallpaperMode = "fill" | "tile";
+export type Language = "en" | "pt" | "es" | "fr";
+export type TimeFormat = "12h" | "24h";
+
+export interface SettingsState {
+  wallpaper: string;
+  wallpaperMode: WallpaperMode;
+  language: Language;
+  timeFormat: TimeFormat;
+  overrideDateTime: string | null;
+}

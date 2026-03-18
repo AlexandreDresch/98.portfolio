@@ -1,0 +1,53 @@
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+export type WallpaperMode = "fill" | "tile";
+export type Language = "en" | "pt" | "es" | "fr";
+export type TimeFormat = "12h" | "24h";
+
+export interface SettingsState {
+  wallpaper: string;
+  wallpaperMode: WallpaperMode;
+  language: Language;
+  timeFormat: TimeFormat;
+  overrideDateTime: string | null;
+}
+
+const initialState: SettingsState = {
+  wallpaper: "/wallpapers/win98_default.jpg",
+  wallpaperMode: "tile",
+  language: "en",
+  timeFormat: "24h",
+  overrideDateTime: null,
+};
+
+const settingsSlice = createSlice({
+  name: "settings",
+  initialState,
+  reducers: {
+    setWallpaper(state, action: PayloadAction<string>) {
+      state.wallpaper = action.payload;
+    },
+    setWallpaperMode(state, action: PayloadAction<WallpaperMode>) {
+      state.wallpaperMode = action.payload;
+    },
+    setLanguage(state, action: PayloadAction<Language>) {
+      state.language = action.payload;
+    },
+    setTimeFormat(state, action: PayloadAction<TimeFormat>) {
+      state.timeFormat = action.payload;
+    },
+    setOverrideDateTime(state, action: PayloadAction<string | null>) {
+      state.overrideDateTime = action.payload;
+    },
+  },
+});
+
+export const {
+  setWallpaper,
+  setWallpaperMode,
+  setLanguage,
+  setTimeFormat,
+  setOverrideDateTime,
+} = settingsSlice.actions;
+
+export const settingsReducer = settingsSlice.reducer;

@@ -9,6 +9,7 @@ import { projectsReducer } from "./projects-slice";
 import { foldersReducer } from "./folders-slice";
 import { windowManagerReducer } from "./window-manager-slice";
 import { clippyReducer } from "./clippy-slice";
+import { settingsReducer } from "./settings-slice";
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
     folders: foldersReducer,
     windows: windowManagerReducer,
     clippy: clippyReducer,
+    settings: settingsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),
