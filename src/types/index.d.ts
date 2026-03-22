@@ -147,7 +147,7 @@ export interface Program {
 }
 
 export type WindowItem = (Folder | Program) & {
-  type: 'folder' | 'program';
+  type: "folder" | "program";
 };
 
 export type WallpaperMode = "fill" | "tile";
@@ -161,3 +161,18 @@ export interface SettingsState {
   timeFormat: TimeFormat;
   overrideDateTime: string | null;
 }
+
+export type WindowWrapperProps = {
+  id: number;
+  title: string;
+  icon: string;
+  children: React.ReactNode;
+
+  className?: string;
+
+  controls?: {
+    close?: boolean;
+    minimize?: boolean;
+    maximize?: boolean;
+  };
+};
