@@ -90,13 +90,19 @@ export interface ImageMagnifierProps {
   alt: string;
 }
 
-export interface WindowHeaderProps {
+export type WindowHeaderProps = {
   icon: string;
   title: string;
-  onMinimize: () => void;
-  onMaximize: () => void;
-  onClose: () => void;
-}
+  onClose?: () => void;
+  onMinimize?: () => void;
+  onMaximize?: () => void;
+
+  controls?: {
+    close?: boolean;
+    minimize?: boolean;
+    maximize?: boolean;
+  };
+};
 
 export interface MenuItemProps {
   label: string;
