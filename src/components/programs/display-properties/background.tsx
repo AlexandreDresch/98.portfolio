@@ -1,17 +1,31 @@
-import { Win98Button } from "@/components/shared/win-98-button";
+import Image from "next/image";
 import MonitorPreview from "./monitor-preview";
+import { Win98Button } from "@/components/shared/win-98-button";
 
-export default function Background({ wallpapers, selectedWallpaper, displayMode, setSelectedWallpaper, setDisplayMode }: {
-  wallpapers: { name: string; color: string }[];
+type Wallpaper =
+  | { name: string; color: string }
+  | { name: string; image: string };
+
+export default function Background({
+  wallpapers,
+  selectedWallpaper,
+  displayMode,
+  setSelectedWallpaper,
+  setDisplayMode,
+}: {
+  wallpapers: Wallpaper[];
   selectedWallpaper: number;
   displayMode: string;
   setSelectedWallpaper: (index: number) => void;
   setDisplayMode: (mode: string) => void;
 }) {
   const displayOptions = ["Tile", "Center", "Stretch", "Fill"];
+
+  const currentWallpaper = wallpapers[selectedWallpaper];
+
   return (
     <>
-      <MonitorPreview color={wallpapers[selectedWallpaper].color} />
+      <MonitorPreview wallpaper={currentWallpaper} displayMode={displayMode} />
 
       <fieldset className="border border-[#808080] border-t-white border-l-white p-2">
         <legend className="px-1 text-xs">Wallpaper</legend>
@@ -34,10 +48,23 @@ export default function Background({ wallpapers, selectedWallpaper, displayMode,
                     : "hover:bg-[#c0c0c0]"
                 }`}
               >
-                <div
-                  className="w-4 h-4 border border-[#808080] flex-shrink-0"
-                  style={{ backgroundColor: wp.color }}
-                />
+                <div className="w-4 h-4 border border-[#808080] flex-shrink-0 overflow-hidden">
+                  {"image" in wp ? (
+                    <Image
+                      src={wp.image}
+                      className="w-full h-full object-cover"
+                      width={16}
+                      height={16}
+                      alt={wp.name}
+                    />
+                  ) : (
+                    <div
+                      className="w-full h-full"
+                      style={{ backgroundColor: wp.color }}
+                    />
+                  )}
+                </div>
+
                 <span className="text-xs truncate">{wp.name}</span>
               </div>
             ))}
@@ -55,9 +82,7 @@ export default function Background({ wallpapers, selectedWallpaper, displayMode,
                 className="w-full bg-white border-2 border-[#808080] border-t-[#404040] border-l-[#404040] text-xs px-1 py-[2px]"
               >
                 {displayOptions.map((opt) => (
-                  <option key={opt} value={opt}>
-                    {opt}
-                  </option>
+                  <option key={opt}>{opt}</option>
                 ))}
               </select>
             </div>

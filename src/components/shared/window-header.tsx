@@ -16,10 +16,12 @@ export default function WindowHeader({
     maximize: true,
   },
 }: WindowHeaderProps) {
+  console.log(controls);
+
   return (
     <div
       className={cn(
-        "crt z-50 w-full h-6 relative bg-gradient-to-r mt-0 from-[#010f80] to-[#1084d0]",
+        "crt dragger z-50 w-full h-6 relative bg-gradient-to-r mt-0 from-[#010f80] to-[#1084d0]",
       )}
     >
       <div className="absolute w-full flex justify-between px-1 top-[2px]">
