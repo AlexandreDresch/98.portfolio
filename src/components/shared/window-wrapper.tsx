@@ -118,7 +118,7 @@ export default function WindowWrapper({
         >
           <motion.div
             layout
-            className="dragger flex flex-col w-full min-w-0 h-full min-h-0"
+            className="flex flex-col w-full min-w-0 h-full min-h-0"
             style={{
               height: program?.isMaximized ? "calc(100dvh - 32px)" : "100%",
             }}

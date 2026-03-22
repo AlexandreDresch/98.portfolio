@@ -16,7 +16,6 @@ export default function WindowHeader({
     maximize: true,
   },
 }: WindowHeaderProps) {
-  console.log(controls);
 
   return (
     <div

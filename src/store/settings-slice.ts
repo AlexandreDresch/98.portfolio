@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export type WallpaperMode = "fill" | "tile";
+export type WallpaperMode = "fill" | "tile" | "center" | "stretch";
 export type Language = "en" | "pt" | "es" | "fr";
 export type TimeFormat = "12h" | "24h";
 
@@ -13,7 +13,7 @@ export interface SettingsState {
 }
 
 const initialState: SettingsState = {
-  wallpaper: "/wallpapers/win98_default.jpg",
+  wallpaper: "/wallpaper/default.jpg",
   wallpaperMode: "tile",
   language: "en",
   timeFormat: "24h",

@@ -14,21 +14,27 @@ export default function MonitorPreview({
   displayMode: string;
   isScreenSaver?: boolean;
 }) {
+  const normalizedDisplayMode = displayMode.toLowerCase();
   const backgroundStyle =
     "image" in wallpaper
       ? {
           backgroundImage: `url(${wallpaper.image})`,
-          backgroundSize:
-            displayMode === "Stretch"
-              ? "100% 100%"
-              : displayMode === "Fill"
-              ? "cover"
-              : displayMode === "Center"
-              ? "auto"
-              : "auto",
-          backgroundRepeat: displayMode === "Tile" ? "repeat" : "no-repeat",
-          backgroundPosition: "center",
           backgroundColor: "#008080",
+
+          backgroundRepeat:
+            normalizedDisplayMode === "tile" ? "repeat" : "no-repeat",
+
+          backgroundSize:
+            normalizedDisplayMode === "fill"
+              ? "cover"
+              : normalizedDisplayMode === "stretch"
+                ? "100% 100%"
+                : normalizedDisplayMode === "center"
+                  ? "120px auto"
+                  : "80px auto",
+
+          backgroundPosition:
+            normalizedDisplayMode === "center" ? "center" : "top left",
         }
       : {
           backgroundColor: wallpaper.color,
@@ -38,9 +44,13 @@ export default function MonitorPreview({
     <div className="flex justify-center mb-4">
       <div className="relative w-[300px]">
         <div
-          className="absolute top-[22px] left-[22px] w-[256px] h-[192px] overflow-hidden"
+          className="absolute top-[22px] left-[22px] w-[256px] h-[192px] overflow-hidden flex"
           style={backgroundStyle}
-        />
+        >
+          {isScreenSaver && (
+            <div className="text-white text-xs animate-pulse">Screen Saver</div>
+          )}
+        </div>
 
         <Image
           src="/images/display.png"

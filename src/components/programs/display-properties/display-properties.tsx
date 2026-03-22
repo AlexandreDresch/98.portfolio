@@ -1,9 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Background from "./background";
 import { Win98Button } from "@/components/shared/win-98-button";
 import WindowWrapper from "@/components/shared/window-wrapper";
+import { useAppDispatch, useAppSelector } from "@/store/store";
+import { setWallpaper, setWallpaperMode } from "@/store/settings-slice";
+import { WallpaperMode } from "@/types";
+import { closeWindow } from "@/store/window-manager-slice";
 
 const wallpapers = [
   { name: "(None)", color: "#008080" },
@@ -30,6 +34,35 @@ export function DisplayProperties() {
   const [activeTab, setActiveTab] = useState("Background");
   const [selectedWallpaper, setSelectedWallpaper] = useState(0);
   const [displayMode, setDisplayMode] = useState("Fill");
+
+  const dispatch = useAppDispatch();
+  const { wallpaper, wallpaperMode } = useAppSelector(
+    (state) => state.settings,
+  );
+
+  useEffect(() => {
+    const index = wallpapers.findIndex(
+      (wp) => "image" in wp && wp.image === wallpaper,
+    );
+
+    if (index !== -1) setSelectedWallpaper(index);
+
+    setDisplayMode(
+      wallpaperMode.charAt(0).toUpperCase() + wallpaperMode.slice(1),
+    );
+  }, [wallpaper, wallpaperMode]);
+
+  const handleApply = () => {
+    const selected = wallpapers[selectedWallpaper];
+
+    if ("image" in selected) {
+      dispatch(setWallpaper(selected.image || ""));
+    } else {
+      dispatch(setWallpaper(""));
+    }
+
+    dispatch(setWallpaperMode(displayMode.toLowerCase() as WallpaperMode));
+  };
 
   return (
     <WindowWrapper
@@ -72,9 +105,16 @@ export function DisplayProperties() {
         {activeTab !== "Background" && <p>Not implemented</p>}
 
         <div className="py-2 flex justify-end gap-1">
-          <Win98Button>OK</Win98Button>
-          <Win98Button>Cancel</Win98Button>
-          <Win98Button>Apply</Win98Button>
+          <Win98Button
+            onClick={() => {
+              handleApply();
+              closeWindow(19);
+            }}
+          >
+            OK
+          </Win98Button>
+          <Win98Button onClick={() => closeWindow(19)}>Cancel</Win98Button>
+          <Win98Button onClick={() => handleApply()}>Apply</Win98Button>
         </div>
       </div>
     </WindowWrapper>

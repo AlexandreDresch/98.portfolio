@@ -7,6 +7,8 @@ import Dock from "../dock/dock";
 import { AnimatePresence, motion } from "framer-motion";
 import BootTerminal from "./boot-terminal";
 import { useWindowsSound } from "../shared/sound-manager";
+import { useAppSelector } from "@/store/store";
+import { cn } from "@/lib/utils";
 
 export default function DesktopLayout() {
   const [showStartScreen, setShowStartScreen] = useState(true);
@@ -15,6 +17,10 @@ export default function DesktopLayout() {
   const [triggerAnimation, setTriggerAnimation] = useState(false);
 
   const { playSound } = useWindowsSound();
+
+  const { wallpaper, wallpaperMode } = useAppSelector(
+    (state) => state.settings,
+  );
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -76,7 +82,24 @@ export default function DesktopLayout() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className="flex h-[100dvh] flex-col bg-[url('/windows-98-cloud.jpg')] box-border crt rounded-none"
+            className="flex h-[100dvh] flex-col box-border crt rounded-none"
+            style={{
+              backgroundImage: wallpaper ? `url(${wallpaper})` : undefined,
+              backgroundColor: "#008080",
+
+              backgroundRepeat:
+                wallpaperMode === "tile" ? "repeat" : "no-repeat",
+
+              backgroundSize:
+                wallpaperMode === "fill"
+                  ? "cover"
+                  : wallpaperMode === "stretch"
+                    ? "100% 100%"
+                    : "800px auto",
+
+              backgroundPosition:
+                wallpaperMode === "center" ? "center" : "top left",
+            }}
           >
             <div className="flex-1 min-h-0 relative overflow-hidden">
               <Desktop />
