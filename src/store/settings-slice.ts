@@ -20,6 +20,19 @@ const initialState: SettingsState = {
   overrideDateTime: null,
 };
 
+export const loadSettings = (): SettingsState | undefined => {
+  if (typeof window === "undefined") return undefined;
+
+  try {
+    const serialized = localStorage.getItem("settings");
+    if (!serialized) return undefined;
+
+    return JSON.parse(serialized) as SettingsState;
+  } catch {
+    return undefined;
+  }
+};
+
 const settingsSlice = createSlice({
   name: "settings",
   initialState,

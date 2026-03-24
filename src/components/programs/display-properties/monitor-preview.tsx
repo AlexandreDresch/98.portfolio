@@ -64,7 +64,7 @@ export default function MonitorPreview({
           className="absolute size-[4px] z-20"
           style={{
             bottom: "28px",
-            left: "56%",
+            left: "55.5%",
             transform: "translateX(-50%)",
           }}
           animate={{
