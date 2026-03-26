@@ -150,7 +150,7 @@ export type WindowItem = (Folder | Program) & {
   type: "folder" | "program";
 };
 
-export type WallpaperMode = "fill" | "tile";
+export type WallpaperMode = "fill" | "tile" | "center" | "stretch";
 export type Language = "en" | "pt" | "es" | "fr";
 export type TimeFormat = "12h" | "24h";
 
@@ -160,6 +160,8 @@ export interface SettingsState {
   language: Language;
   timeFormat: TimeFormat;
   overrideDateTime: string | null;
+
+  screenSaver: ScreenSaverSettings;
 }
 
 export type WindowWrapperProps = {
@@ -176,3 +178,9 @@ export type WindowWrapperProps = {
     maximize?: boolean;
   };
 };
+
+export interface ScreenSaverSettings {
+  type: number;
+  waitMinutes: number;
+  passwordProtected: boolean;
+}

@@ -1,3 +1,4 @@
+import { ScreenSaverSettings } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type WallpaperMode = "fill" | "tile" | "center" | "stretch";
@@ -10,6 +11,8 @@ export interface SettingsState {
   language: Language;
   timeFormat: TimeFormat;
   overrideDateTime: string | null;
+
+  screenSaver: ScreenSaverSettings;
 }
 
 const initialState: SettingsState = {
@@ -18,6 +21,12 @@ const initialState: SettingsState = {
   language: "en",
   timeFormat: "24h",
   overrideDateTime: null,
+
+  screenSaver: {
+    type: 0,
+    waitMinutes: 14,
+    passwordProtected: false,
+  },
 };
 
 export const loadSettings = (): SettingsState | undefined => {
@@ -52,6 +61,15 @@ const settingsSlice = createSlice({
     setOverrideDateTime(state, action: PayloadAction<string | null>) {
       state.overrideDateTime = action.payload;
     },
+    setScreenSaverType(state, action: PayloadAction<number>) {
+      state.screenSaver.type = action.payload;
+    },
+    setScreenSaverWait(state, action: PayloadAction<number>) {
+      state.screenSaver.waitMinutes = action.payload;
+    },
+    setScreenSaverPassword(state, action: PayloadAction<boolean>) {
+      state.screenSaver.passwordProtected = action.payload;
+    },
   },
 });
 
@@ -61,6 +79,9 @@ export const {
   setLanguage,
   setTimeFormat,
   setOverrideDateTime,
+  setScreenSaverType,
+  setScreenSaverWait,
+  setScreenSaverPassword,
 } = settingsSlice.actions;
 
 export const settingsReducer = settingsSlice.reducer;

@@ -48,7 +48,9 @@ export default function MonitorPreview({
           style={backgroundStyle}
         >
           {isScreenSaver && (
-            <div className="text-white text-xs animate-pulse">Screen Saver</div>
+            <div className="text-white text-xs animate-pulse flex items-center justify-center w-full">
+              <span>Screen Saver</span>
+            </div>
           )}
         </div>
 

@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/store/store";
 import { setWallpaper, setWallpaperMode } from "@/store/settings-slice";
 import { WallpaperMode } from "@/types";
 import { closeWindow } from "@/store/window-manager-slice";
+import ScreenSaver from "./screen-saver/screen-saver";
 
 const wallpapers = [
   { name: "(None)", color: "#008080" },
@@ -70,7 +71,7 @@ export function DisplayProperties() {
       title="Display Properties"
       icon="/icons/display.png"
       controls={{ close: true, minimize: false, maximize: false }}
-      className="!w-[420px]"
+      className={`!w-[420px] ${activeTab === "Screen Saver" && "!h-[660px]"}`}
     >
       <div className="px-2 pt-2">
         <div className="flex">
@@ -102,7 +103,11 @@ export function DisplayProperties() {
           />
         )}
 
-        {activeTab !== "Background" && <p>Not implemented</p>}
+        {activeTab === "Screen Saver" && <ScreenSaver />}
+
+        {activeTab !== "Background" && activeTab !== "Screen Saver" && (
+          <p>Not implemented</p>
+        )}
 
         <div className="py-2 flex justify-end gap-1">
           <Win98Button
