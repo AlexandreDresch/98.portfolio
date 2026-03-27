@@ -11,11 +11,17 @@ export function Starfield() {
     let w = (canvas.width = window.innerWidth);
     let h = (canvas.height = window.innerHeight);
 
-    const stars = Array.from({ length: 300 }).map(() => ({
-      x: Math.random() * w - w / 2,
-      y: Math.random() * h - h / 2,
-      z: Math.random() * w,
-    }));
+    const stars = Array.from({ length: 600 }).map(() => {
+      const angle = Math.random() * Math.PI * 2;
+
+      const radius = Math.sqrt(Math.random()) * Math.max(w, h);
+
+      return {
+        x: Math.cos(angle) * radius,
+        y: Math.sin(angle) * radius,
+        z: Math.random() * w,
+      };
+    });
 
     function draw() {
       ctx.fillStyle = "black";
