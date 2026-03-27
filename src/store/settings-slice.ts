@@ -36,7 +36,16 @@ export const loadSettings = (): SettingsState | undefined => {
     const serialized = localStorage.getItem("settings");
     if (!serialized) return undefined;
 
-    return JSON.parse(serialized) as SettingsState;
+    const parsed = JSON.parse(serialized);
+
+    return {
+      ...initialState,
+      ...parsed,
+      screenSaver: {
+        ...initialState.screenSaver,
+        ...(parsed.screenSaver || {}),
+      },
+    };
   } catch {
     return undefined;
   }

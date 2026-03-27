@@ -5,14 +5,15 @@ import { FlyingWindows } from "./screensavers/flying-windows";
 
 export function ScreenSaverRenderer({ type }: { type: number }) {
   switch (type) {
-    case 3:
+    case 1:
       return <Pipes3D />;
-    case 12:
+    case 2:
       return <Mystify />;
-    case 14:
+    case 3:
       return <Starfield />;
-    case 10:
+    case 4:
       return <FlyingWindows />;
+    case 0:
     default:
       return <div className="fixed inset-0 bg-black" />;
   }
