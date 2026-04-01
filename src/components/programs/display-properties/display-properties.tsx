@@ -113,13 +113,23 @@ export function DisplayProperties() {
           <Win98Button
             onClick={() => {
               handleApply();
-              closeWindow(19);
+              dispatch(closeWindow(19));
             }}
           >
             OK
           </Win98Button>
-          <Win98Button onClick={() => closeWindow(19)}>Cancel</Win98Button>
-          <Win98Button onClick={() => handleApply()}>Apply</Win98Button>
+
+          <Win98Button
+            onClick={() => dispatch(closeWindow(19))}
+          >
+            Cancel
+          </Win98Button>
+
+          <Win98Button
+            onClick={handleApply}
+          >
+            Apply
+          </Win98Button>
         </div>
       </div>
     </WindowWrapper>
