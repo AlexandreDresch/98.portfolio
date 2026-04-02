@@ -8,6 +8,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import BootTerminal from "./boot-terminal";
 import { useWindowsSound } from "../shared/sound-manager";
 import { useAppSelector } from "@/store/store";
+import { ScreensaverManager } from "../programs/display-properties/screen-saver/screen-saver-manager";
 
 export default function DesktopLayout() {
   const [showStartScreen, setShowStartScreen] = useState(true);
@@ -102,6 +103,7 @@ export default function DesktopLayout() {
           >
             <div className="flex-1 min-h-0 relative overflow-hidden">
               <Desktop />
+              <ScreensaverManager />
             </div>
             <Dock />
           </motion.main>
