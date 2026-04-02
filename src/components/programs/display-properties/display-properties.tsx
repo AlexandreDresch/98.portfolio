@@ -5,14 +5,18 @@ import Background from "./background";
 import { Win98Button } from "@/components/shared/win-98-button";
 import WindowWrapper from "@/components/shared/window-wrapper";
 import { useAppDispatch, useAppSelector } from "@/store/store";
-import { setWallpaper, setWallpaperMode } from "@/store/settings-slice";
+import {
+  setWallpaper,
+  setWallpaperMode,
+  applySettings,
+  resetSettings,
+} from "@/store/settings-slice";
 import { WallpaperMode } from "@/types";
 import { closeWindow } from "@/store/window-manager-slice";
 import ScreenSaver from "./screen-saver/screen-saver";
 
 const wallpapers = [
   { name: "(None)", color: "#008080" },
-
   { name: "Sky", image: "/wallpaper/default.jpg" },
   { name: "Car", image: "/wallpaper/car.jpg" },
   { name: "Cassette", image: "/wallpaper/cassette.jpg" },
@@ -37,33 +41,31 @@ export function DisplayProperties() {
   const [displayMode, setDisplayMode] = useState("Fill");
 
   const dispatch = useAppDispatch();
-  const { wallpaper, wallpaperMode } = useAppSelector(
-    (state) => state.settings,
-  );
+
+  const { draft, applied } = useAppSelector((state) => state.settings);
 
   useEffect(() => {
     const index = wallpapers.findIndex(
-      (wp) => "image" in wp && wp.image === wallpaper,
+      (wp) => "image" in wp && wp.image === draft.wallpaper,
     );
 
     if (index !== -1) setSelectedWallpaper(index);
 
     setDisplayMode(
-      wallpaperMode.charAt(0).toUpperCase() + wallpaperMode.slice(1),
+      draft.wallpaperMode.charAt(0).toUpperCase() +
+        draft.wallpaperMode.slice(1),
     );
-  }, [wallpaper, wallpaperMode]);
+  }, [draft.wallpaper, draft.wallpaperMode]);
 
-  const handleApply = () => {
-    const selected = wallpapers[selectedWallpaper];
+  const handleWallpaperChange = (index: number, mode: string) => {
+    const selected = wallpapers[index];
 
-    if ("image" in selected) {
-      dispatch(setWallpaper(selected.image || ""));
-    } else {
-      dispatch(setWallpaper(""));
-    }
+    dispatch(setWallpaper("image" in selected ? selected.image || "" : ""));
 
-    dispatch(setWallpaperMode(displayMode.toLowerCase() as WallpaperMode));
+    dispatch(setWallpaperMode(mode.toLowerCase() as WallpaperMode));
   };
+
+  const isDirty = JSON.stringify(draft) !== JSON.stringify(applied);
 
   return (
     <WindowWrapper
@@ -97,9 +99,12 @@ export function DisplayProperties() {
           <Background
             wallpapers={wallpapers}
             selectedWallpaper={selectedWallpaper}
-            setSelectedWallpaper={setSelectedWallpaper}
+            setSelectedWallpaper={(i) => {
+              setSelectedWallpaper(i);
+            }}
             displayMode={displayMode}
             setDisplayMode={setDisplayMode}
+            onChange={handleWallpaperChange}
           />
         )}
 
@@ -112,7 +117,7 @@ export function DisplayProperties() {
         <div className="py-2 flex justify-end gap-1">
           <Win98Button
             onClick={() => {
-              handleApply();
+              dispatch(applySettings());
               dispatch(closeWindow(19));
             }}
           >
@@ -120,13 +125,17 @@ export function DisplayProperties() {
           </Win98Button>
 
           <Win98Button
-            onClick={() => dispatch(closeWindow(19))}
+            onClick={() => {
+              dispatch(resetSettings());
+              dispatch(closeWindow(19));
+            }}
           >
             Cancel
           </Win98Button>
 
           <Win98Button
-            onClick={handleApply}
+            disabled={!isDirty}
+            onClick={() => dispatch(applySettings())}
           >
             Apply
           </Win98Button>

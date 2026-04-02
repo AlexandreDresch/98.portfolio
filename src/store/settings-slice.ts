@@ -1,32 +1,47 @@
-import { ScreenSaverSettings } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type WallpaperMode = "fill" | "tile" | "center" | "stretch";
 export type Language = "en" | "pt" | "es" | "fr";
 export type TimeFormat = "12h" | "24h";
 
-export interface SettingsState {
+export interface ScreenSaverSettings {
+  type: number;
+  waitMinutes: number;
+  passwordProtected: boolean;
+}
+
+export interface CoreSettings {
   wallpaper: string;
   wallpaperMode: WallpaperMode;
-  language: Language;
-  timeFormat: TimeFormat;
-  overrideDateTime: string | null;
-
   screenSaver: ScreenSaverSettings;
 }
 
-const initialState: SettingsState = {
+export interface SettingsState {
+  applied: CoreSettings;
+  draft: CoreSettings;
+
+  language: Language;
+  timeFormat: TimeFormat;
+  overrideDateTime: string | null;
+}
+
+const defaultCore: CoreSettings = {
   wallpaper: "/wallpaper/default.jpg",
   wallpaperMode: "tile",
-  language: "en",
-  timeFormat: "24h",
-  overrideDateTime: null,
-
   screenSaver: {
     type: 0,
     waitMinutes: 14,
     passwordProtected: false,
   },
+};
+
+const initialState: SettingsState = {
+  applied: defaultCore,
+  draft: defaultCore,
+
+  language: "en",
+  timeFormat: "24h",
+  overrideDateTime: null,
 };
 
 export const loadSettings = (): SettingsState | undefined => {
@@ -41,9 +56,13 @@ export const loadSettings = (): SettingsState | undefined => {
     return {
       ...initialState,
       ...parsed,
-      screenSaver: {
-        ...initialState.screenSaver,
-        ...(parsed.screenSaver || {}),
+      applied: {
+        ...defaultCore,
+        ...(parsed.applied || {}),
+      },
+      draft: {
+        ...defaultCore,
+        ...(parsed.applied || {}),
       },
     };
   } catch {
@@ -51,33 +70,50 @@ export const loadSettings = (): SettingsState | undefined => {
   }
 };
 
+const clone = <T>(obj: T): T => JSON.parse(JSON.stringify(obj));
+
 const settingsSlice = createSlice({
   name: "settings",
   initialState,
   reducers: {
     setWallpaper(state, action: PayloadAction<string>) {
-      state.wallpaper = action.payload;
+      state.draft.wallpaper = action.payload;
     },
+
     setWallpaperMode(state, action: PayloadAction<WallpaperMode>) {
-      state.wallpaperMode = action.payload;
+      state.draft.wallpaperMode = action.payload;
     },
+
+    setScreenSaverType(state, action: PayloadAction<number>) {
+      state.draft.screenSaver.type = action.payload;
+    },
+
+    setScreenSaverWait(state, action: PayloadAction<number>) {
+      state.draft.screenSaver.waitMinutes = action.payload;
+    },
+
+    setScreenSaverPassword(state, action: PayloadAction<boolean>) {
+      state.draft.screenSaver.passwordProtected = action.payload;
+    },
+
+    applySettings(state) {
+      state.applied = clone(state.draft);
+    },
+
+    resetSettings(state) {
+      state.draft = clone(state.applied);
+    },
+
     setLanguage(state, action: PayloadAction<Language>) {
       state.language = action.payload;
     },
+
     setTimeFormat(state, action: PayloadAction<TimeFormat>) {
       state.timeFormat = action.payload;
     },
+
     setOverrideDateTime(state, action: PayloadAction<string | null>) {
       state.overrideDateTime = action.payload;
-    },
-    setScreenSaverType(state, action: PayloadAction<number>) {
-      state.screenSaver.type = action.payload;
-    },
-    setScreenSaverWait(state, action: PayloadAction<number>) {
-      state.screenSaver.waitMinutes = action.payload;
-    },
-    setScreenSaverPassword(state, action: PayloadAction<boolean>) {
-      state.screenSaver.passwordProtected = action.payload;
     },
   },
 });
@@ -85,12 +121,14 @@ const settingsSlice = createSlice({
 export const {
   setWallpaper,
   setWallpaperMode,
-  setLanguage,
-  setTimeFormat,
-  setOverrideDateTime,
   setScreenSaverType,
   setScreenSaverWait,
   setScreenSaverPassword,
+  applySettings,
+  resetSettings,
+  setLanguage,
+  setTimeFormat,
+  setOverrideDateTime,
 } = settingsSlice.actions;
 
 export const settingsReducer = settingsSlice.reducer;

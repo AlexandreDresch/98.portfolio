@@ -8,7 +8,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import BootTerminal from "./boot-terminal";
 import { useWindowsSound } from "../shared/sound-manager";
 import { useAppSelector } from "@/store/store";
-import { cn } from "@/lib/utils";
 
 export default function DesktopLayout() {
   const [showStartScreen, setShowStartScreen] = useState(true);
@@ -19,7 +18,7 @@ export default function DesktopLayout() {
   const { playSound } = useWindowsSound();
 
   const { wallpaper, wallpaperMode } = useAppSelector(
-    (state) => state.settings,
+    (state) => state.settings.applied,
   );
 
   useEffect(() => {

@@ -12,12 +12,14 @@ export default function Background({
   displayMode,
   setSelectedWallpaper,
   setDisplayMode,
+  onChange,
 }: {
   wallpapers: Wallpaper[];
   selectedWallpaper: number;
   displayMode: string;
   setSelectedWallpaper: (index: number) => void;
   setDisplayMode: (mode: string) => void;
+  onChange: (index: number, mode: string) => void;
 }) {
   const displayOptions = ["Tile", "Center", "Stretch", "Fill"];
 
@@ -41,7 +43,10 @@ export default function Background({
             {wallpapers.map((wp, index) => (
               <div
                 key={wp.name}
-                onClick={() => setSelectedWallpaper(index)}
+                onClick={() => {
+                  setSelectedWallpaper(index);
+                  onChange(index, displayMode);
+                }}
                 className={`px-1 py-[2px] flex items-center gap-1 cursor-pointer ${
                   selectedWallpaper === index
                     ? "bg-[#000080] text-white"
@@ -78,7 +83,11 @@ export default function Background({
               <label className="text-xs block mb-1">Display:</label>
               <select
                 value={displayMode}
-                onChange={(e) => setDisplayMode(e.target.value)}
+                onChange={(e) => {
+                  const mode = e.target.value;
+                  setDisplayMode(mode);
+                  onChange(selectedWallpaper, mode);
+                }}
                 className="w-full bg-white border-2 border-[#808080] border-t-[#404040] border-l-[#404040] text-xs px-1 py-[2px]"
               >
                 {displayOptions.map((opt) => (

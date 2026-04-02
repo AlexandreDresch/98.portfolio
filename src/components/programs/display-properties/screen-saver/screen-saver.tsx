@@ -23,7 +23,7 @@ export default function ScreenSaver() {
   const dispatch = useAppDispatch();
 
   const { type, waitMinutes, passwordProtected } = useAppSelector(
-    (s) => s.settings.screenSaver,
+    (s) => s.settings.draft.screenSaver,
   );
 
   const [previewing, setPreviewing] = useState(false);
@@ -45,7 +45,7 @@ export default function ScreenSaver() {
       <fieldset className="border border-[#808080] border-t-white border-l-white p-3 mb-3">
         <legend className="px-1 text-xs">Screen Saver</legend>
 
-        <div className="flex gap-2 items-start">
+        <div className="flex gap-1 items-start">
           <div className="flex-1">
             <select
               value={type}
@@ -62,7 +62,7 @@ export default function ScreenSaver() {
             </select>
           </div>
 
-          <Win98Button className="w-[70px]">Settings...</Win98Button>
+          <Win98Button className="w-[70px]">Settings</Win98Button>
 
           <Win98Button onClick={() => setPreviewing(true)}>Preview</Win98Button>
         </div>
