@@ -1,0 +1,212 @@
+import { Theme } from "@/store/settings-slice";
+
+export const themes: Record<string, Theme> = {
+  "Windows Standard": {
+    desktop: "#008080",
+    window: "#c0c0c0",
+    activeTitleStart: "#000080",
+    activeTitleEnd: "#1084d0",
+    inactiveTitle: "#808080",
+    text: "#000000",
+    buttonFace: "#c0c0c0",
+    buttonShadow: "#404040",
+  },
+
+  Brick: {
+    desktop: "#800000",
+    window: "#c0c0c0",
+    activeTitleStart: "#800000",
+    activeTitleEnd: "#ff0000",
+    inactiveTitle: "#804040",
+    text: "#000000",
+    buttonFace: "#c0c0c0",
+    buttonShadow: "#404040",
+  },
+
+  Desert: {
+    desktop: "#d2b48c",
+    window: "#f5deb3",
+    activeTitleStart: "#a0522d",
+    activeTitleEnd: "#cd853f",
+    inactiveTitle: "#a09070",
+    text: "#000000",
+    buttonFace: "#f5deb3",
+    buttonShadow: "#8b7355",
+  },
+
+  Eggplant: {
+    desktop: "#2e003e",
+    window: "#c0c0c0",
+    activeTitleStart: "#2e003e",
+    activeTitleEnd: "#800080",
+    inactiveTitle: "#5a2a6e",
+    text: "#000000",
+    buttonFace: "#c0c0c0",
+    buttonShadow: "#404040",
+  },
+
+  "High Contrast Black": {
+    desktop: "#000000",
+    window: "#000000",
+    activeTitleStart: "#000000",
+    activeTitleEnd: "#000000",
+    inactiveTitle: "#000000",
+    text: "#ffffff",
+    buttonFace: "#000000",
+    buttonShadow: "#ffffff",
+  },
+
+  "High Contrast White": {
+    desktop: "#ffffff",
+    window: "#ffffff",
+    activeTitleStart: "#ffffff",
+    activeTitleEnd: "#cccccc",
+    inactiveTitle: "#dddddd",
+    text: "#000000",
+    buttonFace: "#ffffff",
+    buttonShadow: "#000000",
+  },
+
+  Lilac: {
+    desktop: "#c8a2c8",
+    window: "#e6ccff",
+    activeTitleStart: "#800080",
+    activeTitleEnd: "#dda0dd",
+    inactiveTitle: "#b080b0",
+    text: "#000000",
+    buttonFace: "#e6ccff",
+    buttonShadow: "#704070",
+  },
+
+  Maple: {
+    desktop: "#8b4513",
+    window: "#deb887",
+    activeTitleStart: "#8b0000",
+    activeTitleEnd: "#ff4500",
+    inactiveTitle: "#a0522d",
+    text: "#000000",
+    buttonFace: "#deb887",
+    buttonShadow: "#5c3317",
+  },
+
+  Marine: {
+    desktop: "#003366",
+    window: "#c0c0c0",
+    activeTitleStart: "#003366",
+    activeTitleEnd: "#3399ff",
+    inactiveTitle: "#406080",
+    text: "#000000",
+    buttonFace: "#c0c0c0",
+    buttonShadow: "#404040",
+  },
+
+  Plum: {
+    desktop: "#660066",
+    window: "#dda0dd",
+    activeTitleStart: "#660066",
+    activeTitleEnd: "#cc66cc",
+    inactiveTitle: "#996699",
+    text: "#000000",
+    buttonFace: "#dda0dd",
+    buttonShadow: "#663366",
+  },
+
+  Pumpkin: {
+    desktop: "#ff8c00",
+    window: "#ffe4b5",
+    activeTitleStart: "#ff4500",
+    activeTitleEnd: "#ffa500",
+    inactiveTitle: "#cc8400",
+    text: "#000000",
+    buttonFace: "#ffe4b5",
+    buttonShadow: "#996600",
+  },
+
+  "Rainy Day": {
+    desktop: "#708090",
+    window: "#d3d3d3",
+    activeTitleStart: "#2f4f4f",
+    activeTitleEnd: "#708090",
+    inactiveTitle: "#909090",
+    text: "#000000",
+    buttonFace: "#d3d3d3",
+    buttonShadow: "#505050",
+  },
+
+  "Red, White, and Blue": {
+    desktop: "#000080",
+    window: "#ffffff",
+    activeTitleStart: "#ff0000",
+    activeTitleEnd: "#0000ff",
+    inactiveTitle: "#808080",
+    text: "#000000",
+    buttonFace: "#ffffff",
+    buttonShadow: "#404040",
+  },
+
+  Rose: {
+    desktop: "#ff66cc",
+    window: "#ffe6f2",
+    activeTitleStart: "#cc0066",
+    activeTitleEnd: "#ff66cc",
+    inactiveTitle: "#cc99aa",
+    text: "#000000",
+    buttonFace: "#ffe6f2",
+    buttonShadow: "#993366",
+  },
+
+  Slate: {
+    desktop: "#708090",
+    window: "#c0c0c0",
+    activeTitleStart: "#2f4f4f",
+    activeTitleEnd: "#778899",
+    inactiveTitle: "#909090",
+    text: "#000000",
+    buttonFace: "#c0c0c0",
+    buttonShadow: "#404040",
+  },
+
+  Spruce: {
+    desktop: "#0a3d2e",
+    window: "#c0c0c0",
+    activeTitleStart: "#0a3d2e",
+    activeTitleEnd: "#1f7a5c",
+    inactiveTitle: "#406050",
+    text: "#000000",
+    buttonFace: "#c0c0c0",
+    buttonShadow: "#404040",
+  },
+
+  Storm: {
+    desktop: "#4b4b4b",
+    window: "#c0c0c0",
+    activeTitleStart: "#2b2b2b",
+    activeTitleEnd: "#6b6b6b",
+    inactiveTitle: "#808080",
+    text: "#000000",
+    buttonFace: "#c0c0c0",
+    buttonShadow: "#404040",
+  },
+
+  Teal: {
+    desktop: "#008080",
+    window: "#c0c0c0",
+    activeTitleStart: "#004040",
+    activeTitleEnd: "#00a0a0",
+    inactiveTitle: "#406060",
+    text: "#000000",
+    buttonFace: "#c0c0c0",
+    buttonShadow: "#404040",
+  },
+
+  Wheat: {
+    desktop: "#f5deb3",
+    window: "#fff8dc",
+    activeTitleStart: "#deb887",
+    activeTitleEnd: "#f5deb3",
+    inactiveTitle: "#d2b48c",
+    text: "#000000",
+    buttonFace: "#fff8dc",
+    buttonShadow: "#8b7355",
+  },
+};

@@ -4,6 +4,7 @@ import "./globals.css";
 
 import ReduxProvider from "@/store/redux-provider";
 import SoundManager from "@/components/shared/sound-manager";
+import { ThemeProvider } from "@/themes/theme-provider";
 
 const titillium = Titillium_Web({
   subsets: ["latin"],
@@ -35,14 +36,16 @@ export default function RootLayout({
 }) {
   return (
     <ReduxProvider>
-      <html lang="en">
-        <body
-          className={`${inter.variable} ${jost.variable} ${titillium.className}`}
-        >
-          <SoundManager />
-          {children}
-        </body>
-      </html>
+      <ThemeProvider>
+        <html lang="en">
+          <body
+            className={`${inter.variable} ${jost.variable} ${titillium.className}`}
+          >
+            <SoundManager />
+            {children}
+          </body>
+        </html>
+      </ThemeProvider>
     </ReduxProvider>
   );
 }

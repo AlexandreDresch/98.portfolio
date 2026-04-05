@@ -1,3 +1,4 @@
+import { themes } from "@/themes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type WallpaperMode = "fill" | "tile" | "center" | "stretch";
@@ -10,10 +11,22 @@ export interface ScreenSaverSettings {
   passwordProtected: boolean;
 }
 
+export interface Theme {
+  desktop: string;
+  window: string;
+  activeTitleStart: string;
+  activeTitleEnd: string;
+  inactiveTitle: string;
+  text: string;
+  buttonFace: string;
+  buttonShadow: string;
+}
+
 export interface CoreSettings {
   wallpaper: string;
   wallpaperMode: WallpaperMode;
   screenSaver: ScreenSaverSettings;
+  theme: Theme;
 }
 
 export interface SettingsState {
@@ -33,6 +46,7 @@ const defaultCore: CoreSettings = {
     waitMinutes: 14,
     passwordProtected: false,
   },
+  theme: themes["Windows Standard"],
 };
 
 const initialState: SettingsState = {
@@ -115,6 +129,10 @@ const settingsSlice = createSlice({
     setOverrideDateTime(state, action: PayloadAction<string | null>) {
       state.overrideDateTime = action.payload;
     },
+
+    setTheme(state, action: PayloadAction<Theme>) {
+      state.draft.theme = action.payload;
+    },
   },
 });
 
@@ -129,6 +147,7 @@ export const {
   setLanguage,
   setTimeFormat,
   setOverrideDateTime,
+  setTheme,
 } = settingsSlice.actions;
 
 export const settingsReducer = settingsSlice.reducer;
