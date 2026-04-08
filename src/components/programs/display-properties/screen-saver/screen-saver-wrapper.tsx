@@ -12,7 +12,7 @@ export function ScreenSaverWrapper({
     <AnimatePresence>
       {active && (
         <motion.div
-          className="fixed inset-0 z-[9999] bg-black"
+          className="crt fixed inset-0 z-[9999] bg-black"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

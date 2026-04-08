@@ -15,6 +15,6 @@ export function ScreenSaverRenderer({ type }: { type: number }) {
       return <FlyingWindows />;
     case 0:
     default:
-      return <div className="fixed inset-0 bg-black" />;
+      return <div className="crt fixed inset-0 bg-black" />;
   }
 }
