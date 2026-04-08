@@ -418,13 +418,12 @@ export const programs = [
   },
   {
     id: 15,
-    name: "DOOM",
+    name: "98.DOOM",
     isOpen: false,
     isMaximized: false,
     isMinimized: false,
-    description:
-      "Remember the classic DOOM game with this clone built by Yüg (eugeniosegala on GitHub).",
-    image: "/doom.png",
+    description: "Fight the BSOD demons in this Doom inspired game.",
+    image: "/icons/98.doom.png",
   },
   {
     id: 16,
@@ -451,8 +450,7 @@ export const programs = [
     isMinimized: false,
     image: "/icons/keyboard.png",
     description: "Configure keyboard settings and preferences.",
-  }
-  ,
+  },
   {
     id: 21,
     name: "Mouse",
@@ -460,7 +458,8 @@ export const programs = [
     isMaximized: false,
     isMinimized: false,
     image: "/icons/mouse.png",
-    description: "Modify mouse settings including pointer speed and button configuration.",
+    description:
+      "Modify mouse settings including pointer speed and button configuration.",
   },
   {
     id: 22,
@@ -479,7 +478,7 @@ export const programs = [
     isMinimized: false,
     image: "/icons/system.png",
     description: "View and manage system information and hardware settings.",
-  }
+  },
 ];
 
 export const folderNavigationMenuItems = {

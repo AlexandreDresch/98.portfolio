@@ -14,6 +14,7 @@ import ControlPanel from "../programs/control-panel";
 import FolderContainer from "../folder/folder-container";
 import WelcomeMessage from "./welcome-message";
 import { DisplayProperties } from "../programs/display-properties/display-properties";
+import DoomGame from "../programs/DOOM/doom-game";
 
 export default function Desktop() {
   const { frontend, backend } = useAppSelector((state) => state.projects);
