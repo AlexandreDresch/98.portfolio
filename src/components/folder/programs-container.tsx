@@ -21,8 +21,8 @@ export default function ProgramsContainer({
   };
 
   return (
-    <div className="w-full h-[400px] flex justify-center">
-      <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-4 gap-y-0 p-4">
+    <div className="w-full h-[400px]">
+      <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-4 gap-y-0 p-4 justify-items-start content-start">
         {programs.map((program) => (
           <div
             key={program.id}
@@ -33,8 +33,8 @@ export default function ProgramsContainer({
             <Image
               src={program.image}
               alt={program.name}
-              width={40}
-              height={40}
+              width={80}
+              height={80}
               className={cn(
                 selectedProgram?.id === program.id && "brightness-75"
               )}
