@@ -427,11 +427,11 @@ export const programs = [
   },
   {
     id: 16,
-    name: "Command Prompt",
+    name: "MS-DOS Prompt",
     isOpen: false,
     isMaximized: false,
     isMinimized: false,
-    image: "/command-prompt.png",
+    image: "/icons/console-prompt.png",
   },
   {
     id: 19,

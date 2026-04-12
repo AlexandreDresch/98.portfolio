@@ -100,7 +100,11 @@ export default function Dock() {
                 About
                 <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleOpen(2)}>
+              <DropdownMenuItem onClick={() => handleOpen(16)}>
+                MS-DOS Prompt
+                <DropdownMenuShortcut>⌘T</DropdownMenuShortcut>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleOpen(18)}>
                 Settings
                 <DropdownMenuShortcut>⌘A</DropdownMenuShortcut>
               </DropdownMenuItem>
@@ -204,15 +208,15 @@ export default function Dock() {
                 projectsStatus === "initial" || projectsStatus === "pending"
                   ? "Please wait..."
                   : projectsStatus === "fulfilled"
-                  ? "Success!"
-                  : "Oops!"
+                    ? "Success!"
+                    : "Oops!"
               }
               message={
                 projectsStatus === "initial" || projectsStatus === "pending"
                   ? "Loading projects, it could take a while (Free Tier API)..."
                   : projectsStatus === "fulfilled"
-                  ? "Projects received successfully. You can check the folders now."
-                  : "Something went wrong! Please try again."
+                    ? "Projects received successfully. You can check the folders now."
+                    : "Something went wrong! Please try again."
               }
             />
           </DropdownMenuContent>
