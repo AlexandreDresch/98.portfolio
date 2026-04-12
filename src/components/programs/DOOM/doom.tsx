@@ -11,7 +11,7 @@ export default function Doom() {
       title="98.DOOM"
       icon="/icons/98.doom.png"
       className="w-[800px] h-[600px]"
-      controls={{ maximize: true, minimize: true, close: true }}
+      controls={{ maximize: false, minimize: true, close: true }}
     >
       <div className="flex flex-col flex-1 min-h-0 border border-[#808080] overflow-hidden">
         <DoomGame />

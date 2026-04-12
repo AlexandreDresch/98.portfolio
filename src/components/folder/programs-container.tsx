@@ -33,8 +33,8 @@ export default function ProgramsContainer({
             <Image
               src={program.image}
               alt={program.name}
-              width={80}
-              height={80}
+              width={40}
+              height={40}
               className={cn(
                 selectedProgram?.id === program.id && "brightness-75"
               )}

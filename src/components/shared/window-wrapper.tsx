@@ -112,7 +112,7 @@ export default function WindowWrapper({
             "border-2 border-t-white border-l-white border-r-gray-900 border-b-gray-900 bg-[#C0C0C0] shadow-lg",
             className,
             program?.isMaximized
-              ? "left-0 top-0 w-[100vw] h-[calc(100dvh-32px)]"
+              ? "left-0 top-0 !w-[100vw] h-[calc(100dvh-32px)]"
               : "left-[120px] top-[80px] w-[800px] h-[600px]",
           )}
         >

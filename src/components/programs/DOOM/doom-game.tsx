@@ -4,7 +4,7 @@ import { GameEngine } from "./game-engine";
 import { MAX_AMMO, BATTERY_MAX } from "./constants";
 import { GUN_SPRITE_DATA } from "./sprite-data";
 import type { HUDState, FlashType, GamePhase, GunAnimState } from "./types";
-import { closeWindow } from "@/store/window-manager-slice";
+import { closeWindow, maximizeWindow } from "@/store/window-manager-slice";
 import { useAppDispatch } from "@/store/store";
 
 const FRAME: Record<GunAnimState, { x: string; y: string }> = {
@@ -40,6 +40,7 @@ const GunSprite: React.FC<{
         style={{
           position: "absolute",
           inset: 0,
+          left: 150,
           backgroundImage: `url("${GUN_SPRITE_DATA}")`,
           backgroundSize: "300% 300%",
           backgroundPosition: `${x} ${y}`,
@@ -233,6 +234,8 @@ export default function DoomGame() {
     setTimeout(() => setFlash(null), ms);
   }, []);
 
+  const handleMaximize = () => dispatch(maximizeWindow(15));
+
   useEffect(() => {
     if (phase !== "playing") return;
     const el = mountRef.current;
@@ -374,6 +377,7 @@ export default function DoomGame() {
             <div style={{ display: "flex", justifyContent: "center", gap: 8 }}>
               <W98Btn
                 onClick={() => {
+                  handleMaximize();
                   setHud({
                     hp: 100,
                     ammo: MAX_AMMO,
@@ -475,6 +479,7 @@ export default function DoomGame() {
           </div>
           <div
             onClick={() => {
+              handleMaximize();
               setHud({
                 hp: 100,
                 ammo: MAX_AMMO,
@@ -596,7 +601,7 @@ export default function DoomGame() {
       <div
         style={{
           position: "absolute",
-          top: "50%",
+          top: "48%",
           left: "50%",
           transform: "translate(-50%,-50%)",
           pointerEvents: "none",
@@ -637,7 +642,7 @@ export default function DoomGame() {
         style={{
           position: "absolute",
           bottom: 38,
-          left: "50%",
+          left: "44.02%",
           transform: "translateX(-50%)",
           width: "70%",
           maxWidth: 640,

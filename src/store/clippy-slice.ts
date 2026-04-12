@@ -68,7 +68,7 @@ const initialMessages: ClippyMessage[] = [
   },
   {
     id: 11,
-    text: "You can play a game of DOOM by opening the Games folder and clicking on the DOOM icon.",
+    text: "You can play DOOM in this portfolio! Just open the Games folder and click the 98.DOOM icon.",
     category: "fun",
   },
   {
@@ -159,7 +159,7 @@ export const showContextualClippyMessage =
   (dispatch, getState) => {
     const state = getState();
     const filteredMessages = state.clippy.messages.filter(
-      (m) => m.category === category
+      (m) => m.category === category,
     );
 
     if (filteredMessages.length > 0) {
