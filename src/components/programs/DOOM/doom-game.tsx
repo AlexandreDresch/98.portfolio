@@ -6,6 +6,7 @@ import { GUN_SPRITE_DATA } from "./sprite-data";
 import type { HUDState, FlashType, GamePhase, GunAnimState } from "./types";
 import { closeWindow, maximizeWindow } from "@/store/window-manager-slice";
 import { useAppDispatch } from "@/store/store";
+import { Win98Button } from "@/components/shared/win-98-button";
 
 const FRAME: Record<GunAnimState, { x: string; y: string }> = {
   idle: { x: "0%", y: "-2%" },
@@ -25,10 +26,8 @@ const GunSprite: React.FC<{
 
   return (
     <div
+      className="w-full pb-[66.7%] relative"
       style={{
-        width: "100%",
-        paddingBottom: "66.7%",
-        position: "relative",
         transform: recoil
           ? "translateY(-18px) scale(1.05)"
           : "translateY(0px) scale(1)",
@@ -37,10 +36,8 @@ const GunSprite: React.FC<{
       }}
     >
       <div
+        className="absolute inset-0 left-[150px]"
         style={{
-          position: "absolute",
-          inset: 0,
-          left: 150,
           backgroundImage: `url("${GUN_SPRITE_DATA}")`,
           backgroundSize: "300% 300%",
           backgroundPosition: `${x} ${y}`,
@@ -51,73 +48,15 @@ const GunSprite: React.FC<{
   );
 };
 
-const W98Btn: React.FC<{ onClick: () => void; children: React.ReactNode }> = ({
-  onClick,
-  children,
-}) => (
-  <button
-    onClick={onClick}
-    style={{
-      padding: "5px 16px",
-      fontFamily: "'Courier New',monospace",
-      fontSize: 13,
-      background: "#c0c0c0",
-      color: "#000",
-      border: "none",
-      cursor: "pointer",
-      userSelect: "none",
-      boxShadow:
-        "inset -1px -1px #000,inset 1px 1px #fff,inset -2px -2px #808080,inset 2px 2px #dfdfdf",
-    }}
-    onMouseDown={(e) => {
-      (e.currentTarget as HTMLButtonElement).style.boxShadow =
-        "inset 1px 1px #000,inset -1px -1px #fff,inset 2px 2px #808080,inset -2px -2px #dfdfdf";
-    }}
-    onMouseUp={(e) => {
-      (e.currentTarget as HTMLButtonElement).style.boxShadow =
-        "inset -1px -1px #000,inset 1px 1px #fff,inset -2px -2px #808080,inset 2px 2px #dfdfdf";
-    }}
-  >
-    {children}
-  </button>
-);
-
 const BatteryBar: React.FC<{ pct: number; on: boolean }> = ({ pct, on }) => {
   const color = pct > 50 ? "#00cc00" : pct > 20 ? "#ffaa00" : "#ff2200";
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 2,
-        minWidth: 56,
-      }}
-    >
-      <div
-        style={{
-          fontSize: 9,
-          color: "#555",
-          fontFamily: "'Courier New',monospace",
-          letterSpacing: "0.08em",
-        }}
-      >
+    <div className="flex flex-col items-center gap-[2px] min-w-[56px]">
+      <div className="text-[9px] text-[#555] tracking-[0.08em]">
         {on ? "DRAINING" : "CHARGING"}
       </div>
-      <div style={{ display: "flex", alignItems: "center", gap: 1 }}>
-        <div
-          style={{
-            width: 30,
-            height: 13,
-            border: "2px solid #666",
-            background: "#222",
-            display: "flex",
-            gap: "1px",
-            padding: "1px",
-            overflow: "hidden",
-            boxShadow: "inset 1px 1px #888",
-          }}
-        >
+      <div className="flex items-center gap-[1px]">
+        <div className="w-[30px] h-[13px] border-2 border-[#666] bg-[#222] flex gap-[1px] p-[1px] overflow-hidden shadow-inner">
           {[20, 40, 60, 80, 100].map((thresh) => (
             <div
               key={thresh}
@@ -129,18 +68,9 @@ const BatteryBar: React.FC<{ pct: number; on: boolean }> = ({ pct, on }) => {
             />
           ))}
         </div>
-        <div style={{ width: 3, height: 6, background: "#666" }} />
+        <div className="w-[3px] h-[6px] bg-[#666]" />
       </div>
-      <div
-        style={{
-          fontSize: 9,
-          color,
-          fontFamily: "'Courier New',monospace",
-          fontWeight: "bold",
-        }}
-      >
-        {Math.round(pct)}%
-      </div>
+      <div className="text-[9px] font-bold">{Math.round(pct)}%</div>
     </div>
   );
 };
@@ -156,50 +86,18 @@ const ReloadBar: React.FC<{ gunState: GunAnimState }> = ({ gunState }) => {
   const prog = gunState === "reload0" ? 20 : gunState === "reload1" ? 55 : 88;
   return (
     <div
-      style={{
-        position: "absolute",
-        top: "60%",
-        left: "50%",
-        transform: "translate(-50%,-50%)",
-        fontFamily: "'Courier New',monospace",
-        textAlign: "center",
-        pointerEvents: "none",
-      }}
+      className="absolute top-[60%] left-[50%] text-center pointer-events-none"
+      style={{ transform: "translate(-50%, -50%)" }}
     >
-      <div
-        style={{
-          background: "rgba(0,0,80,0.85)",
-          border: "2px solid #0000cc",
-          padding: "8px 18px",
-          boxShadow: "inset 1px 1px #4466ff",
-        }}
-      >
-        <div
-          style={{
-            color: "#aaaaff",
-            fontSize: 11,
-            letterSpacing: "0.15em",
-            marginBottom: 6,
-          }}
-        >
+      <div className="bg-[rgba(0,0,80,0.85)] border-2 border-[#0000cc] p-[8px_18px] shadow-[inset_1px_1px_#4466ff]">
+        <div className="text-[#aaaaff] text-[11px] tracking-[0.15em] mb-[6px]">
           {label}
         </div>
-        <div
-          style={{
-            width: 180,
-            height: 10,
-            background: "#111",
-            border: "1px solid #333",
-            overflow: "hidden",
-          }}
-        >
+        <div className="w-[180px] h-[10px] bg-[#111] border border-[#333] overflow-hidden">
           <div
+            className="h-full bg-[#0000ff] transform transition-[width_0.25s] shadow-[0_0_6px_#4466ff]"
             style={{
               width: `${prog}%`,
-              height: "100%",
-              background: "#0000ff",
-              transition: "width 0.25s",
-              boxShadow: "0 0 6px #4466ff",
             }}
           />
         </div>
@@ -266,73 +164,20 @@ export default function DoomGame() {
 
   if (phase === "start")
     return (
-      <div
-        style={{
-          width: "100%",
-          height: "100vh",
-          background: "#008080",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          fontFamily: mono,
-          userSelect: "none",
-          overflow: "hidden",
-          position: "relative",
-        }}
-      >
-        <div style={{ ...w98win(), width: "100%", height: "100%" }}>
-          <div style={{ padding: "16px 20px" }}>
-            <div
-              style={{
-                background: "#000080",
-                padding: "10px 14px",
-                marginBottom: 12,
-                boxShadow: "inset 1px 1px #808080,inset -1px -1px #fff",
-              }}
-            >
-              <div
-                style={{
-                  color: "#fff",
-                  fontSize: "clamp(24px,5vw,38px)",
-                  fontWeight: "bold",
-                  letterSpacing: "0.1em",
-                  textShadow: "2px 2px #000,0 0 12px #4488ff",
-                }}
-              >
+      <div className="w-full h-screen flex flex-col items-center justify-center select-none relative overflow-hidden">
+        <div className="w-full h-full" style={{ ...w98win() }}>
+          <div className="px-4 py-5">
+            <div className="bg-[#000080] px-[10px] py-[14px] mb-3 shadow-[inset_1px_1px_#808080,inset_-1px_-1px_#fff]">
+              <div className="text-white text-[clamp(24px,5vw,38px)] font-bold tracking-[0.1em] leading-[1.1] text-shadow-[2px_2px_#000,0_0_12px_#4488ff]">
                 98.DOOM
               </div>
-              <div
-                style={{
-                  color: "#aaaaff",
-                  fontSize: 11,
-                  letterSpacing: "0.25em",
-                  marginTop: 2,
-                }}
-              >
+              <div className="text-[#aaaaff] text-[11px] tracking-[0.25em] mt-[2px]">
                 INFINITE EDITION — v1.0
               </div>
             </div>
 
-            <div
-              style={{
-                background: "#fff",
-                border: "1px solid #808080",
-                padding: "8px 10px",
-                marginBottom: 10,
-                fontSize: 11,
-                boxShadow: "inset 1px 1px #808080",
-              }}
-            >
-              <div
-                style={{
-                  fontWeight: "bold",
-                  color: "#000080",
-                  marginBottom: 5,
-                }}
-              >
-                CONTROLS
-              </div>
+            <div className="bg-white border border-gray-500 p-[8px_10px] mb-2 text-[11px] shadow-[inset_1px_1px_#808080]">
+              <div className="font-bold text-[#000080] mb-[5px]">CONTROLS</div>
               {[
                 ["WASD / Arrows", "Move"],
                 ["Mouse", "Look"],
@@ -343,39 +188,23 @@ export default function DoomGame() {
               ].map(([k, v]) => (
                 <div
                   key={k}
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    borderBottom: "1px dotted #ddd",
-                    lineHeight: 2,
-                  }}
+                  className="flex justify-between border-b-[#ddd] border-dotted last:border-0 py-[2px]"
                 >
-                  <span style={{ color: "#000080", fontWeight: "bold" }}>
-                    {k}
-                  </span>
-                  <span style={{ color: "#333" }}>{v}</span>
+                  <span className="text-[#000080] font-bold">{k}</span>
+                  <span className="text-[#333]">{v}</span>
                 </div>
               ))}
             </div>
 
-            <div
-              style={{
-                background: "#ffffc0",
-                border: "1px solid #aaaa00",
-                padding: "6px 8px",
-                marginBottom: 12,
-                fontSize: 10,
-                color: "#333",
-              }}
-            >
+            <div className="bg-[#ffffc0] border-[#aaaa00] px-[6px] py-[8px] mb-3 text-[#333]">
               ⚠ Flashlight battery drains while on (~28 s). Turn off to recharge
               (~17 s).
               <br />
               Difficulty increases every 40 sec — more enemies, faster, tougher.
             </div>
 
-            <div style={{ display: "flex", justifyContent: "center", gap: 8 }}>
-              <W98Btn
+            <div className="flex justify-center gap-2">
+              <Win98Button
                 onClick={() => {
                   handleMaximize();
                   setHud({
@@ -394,9 +223,11 @@ export default function DoomGame() {
                 }}
               >
                 ▶ Play
-              </W98Btn>
-              <W98Btn onClick={() => {}}>Help</W98Btn>
-              <W98Btn onClick={() => dispatch(closeWindow(15))}>Exit</W98Btn>
+              </Win98Button>
+              <Win98Button onClick={() => {}}>Help</Win98Button>
+              <Win98Button onClick={() => dispatch(closeWindow(15))}>
+                Exit
+              </Win98Button>
             </div>
           </div>
         </div>
@@ -409,44 +240,17 @@ export default function DoomGame() {
       .toUpperCase()
       .padStart(6, "0");
     return (
-      <div
-        style={{
-          width: "100%",
-          height: "100vh",
-          background: "#0000AA",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          fontFamily: mono,
-          color: "#fff",
-          padding: 40,
-          userSelect: "none",
-        }}
-      >
-        <div style={{ maxWidth: 620, width: "100%" }}>
-          <div
-            style={{
-              background: "#fff",
-              color: "#0000AA",
-              padding: "2px 8px",
-              display: "inline-block",
-              fontWeight: "bold",
-              fontSize: 14,
-              marginBottom: 22,
-            }}
-          >
+      <div className="w-full h-screen bg-[#0000AA] flex flex-col items-center justify-center text-white p-10 select-none">
+        <div className="max-w-[620px] w-full">
+          <div className="bg-white text-[#0000AA] px-0.5 py-2 block font-bold text-sm mb-6">
             98.DOOM
           </div>
-          <div style={{ fontSize: 14, lineHeight: 1.7, marginBottom: 20 }}>
+          <div className="text-sm mb-5">
             A fatal exception{" "}
+            <span className="bg-[#aaa] text-black px-0 py-1">0E</span> has
+            occurred at 0028:
             <span
-              style={{ background: "#aaa", color: "#000", padding: "0 4px" }}
-            >
-              0E
-            </span>{" "}
-            has occurred at 0028:
-            <span
+              className="bg-[#aaa] text-black px-0 py-1"
               style={{ background: "#aaa", color: "#000", padding: "0 4px" }}
             >
               {errAddr}
@@ -457,20 +261,13 @@ export default function DoomGame() {
             The current player will be terminated.
             <br />
             <br />
-            <span style={{ color: "#8888ff" }}>
+            <span className="text-[#8888ff]">
               SCORE: <b>{hud.score}</b>&nbsp;&nbsp;&nbsp;KILLS:{" "}
               <b>{hud.kills}</b>&nbsp;&nbsp;&nbsp;THREAT LVL:{" "}
               <b>{hud.difficulty}</b>
             </span>
           </div>
-          <div
-            style={{
-              fontSize: 12,
-              lineHeight: 2.2,
-              marginBottom: 28,
-              color: "#ccc",
-            }}
-          >
+          <div className="text-[12px] mb-5 text-[#ccc]">
             * Press any key to terminate the current game.
             <br />
             * Press CTRL+ALT+DEL to restart your computer. You
@@ -494,16 +291,7 @@ export default function DoomGame() {
               setGunState("idle");
               setPhase("start");
             }}
-            style={{
-              background: "#aaa",
-              color: "#0000AA",
-              padding: "4px 10px",
-              display: "inline-block",
-              cursor: "pointer",
-              fontSize: 13,
-              fontWeight: "bold",
-              animation: "blink 1s step-start infinite",
-            }}
+            className="bg-[#aaa] text-[#0000AA] px-1 py-[10px] block cursor-pointer text-sm font-bold animate-pulse"
           >
             Press any key to continue _
           </div>
@@ -520,44 +308,21 @@ export default function DoomGame() {
 
   return (
     <div
-      style={{
-        width: "100%",
-        height: "100vh",
-        position: "relative",
-        overflow: "hidden",
-        background: "#000",
-        cursor: active ? "none" : "default",
-      }}
+      className="w-full h-screen relative overflow-hidden bg-black"
+      style={{ cursor: active ? "none" : "default" }}
     >
-      <div ref={mountRef} style={{ width: "100%", height: "100%" }} />
+      <div ref={mountRef} className="size-full" />
 
       {flash === "damage" && (
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            pointerEvents: "none",
-            background: "rgba(180,0,0,0.28)",
-            borderTop: "4px solid red",
-          }}
-        />
+        <div className="absolute inset-0 pointer-events-none bg-[rgba(180,0,0,0.28)] border-t-[4px] border-solid border-red" />
       )}
       {flash === "muzzle" && (
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            pointerEvents: "none",
-            background: "rgba(255,255,180,0.07)",
-          }}
-        />
+        <div className="absolute inset-0 pointer-events-none bg-[rgba(255,255,180,0.07)]" />
       )}
       {hud.hp < 30 && (
         <div
+          className="absolute inset-0 pointer-events-none"
           style={{
-            position: "absolute",
-            inset: 0,
-            pointerEvents: "none",
             background:
               "radial-gradient(ellipse at center,transparent 40%,rgba(160,0,0,0.35) 100%)",
             animation: "blink 0.7s infinite",
@@ -567,10 +332,8 @@ export default function DoomGame() {
 
       {!hud.flashlightOn && (
         <div
+          className="absolute inset-0 pointer-events-none"
           style={{
-            position: "absolute",
-            inset: 0,
-            pointerEvents: "none",
             background:
               "radial-gradient(ellipse at center,rgba(0,0,0,0.5) 20%,rgba(0,0,0,0.92) 100%)",
           }}
@@ -578,10 +341,8 @@ export default function DoomGame() {
       )}
       {hud.flashlightOn && hud.battery < 15 && (
         <div
+          className="absolute inset-0 pointer-events-none"
           style={{
-            position: "absolute",
-            inset: 0,
-            pointerEvents: "none",
             background: "rgba(0,0,0,0.14)",
             animation: "blink 0.18s infinite",
           }}
@@ -589,23 +350,16 @@ export default function DoomGame() {
       )}
 
       <div
+        className="absolute inset-0 pointer-events-none"
         style={{
-          position: "absolute",
-          inset: 0,
-          pointerEvents: "none",
           background:
             "radial-gradient(ellipse at center,transparent 48%,rgba(0,0,0,0.65) 100%)",
         }}
       />
 
       <div
-        style={{
-          position: "absolute",
-          top: "48%",
-          left: "50%",
-          transform: "translate(-50%,-50%)",
-          pointerEvents: "none",
-        }}
+        className="absolute top-[48%] left-[50%] pointer-events-none"
+        style={{ transform: "translate(-50%, -50%)" }}
       >
         <svg width="22" height="22" viewBox="0 0 22 22">
           <line x1="11" y1="1" x2="11" y2="8" stroke="#fff" strokeWidth="1.5" />
@@ -638,62 +392,18 @@ export default function DoomGame() {
         </svg>
       </div>
 
-      <div
-        style={{
-          position: "absolute",
-          bottom: 38,
-          left: "44.02%",
-          transform: "translateX(-50%)",
-          width: "70%",
-          maxWidth: 640,
-          pointerEvents: "none",
-        }}
-      >
+      <div className="absolute bottom-[38px] left-[44.02%] transform translate-x-[-50%] w-[70%] max-w-[640px] pointer-events-none">
         <GunSprite state={gunState} recoil={gunState === "fire"} />
       </div>
 
       {isReloading && <ReloadBar gunState={gunState} />}
 
-      <div
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: 45,
-          background: "#c0c0c0",
-          boxShadow: "inset 0 1px #fff,inset 0 -1px #808080,0 -2px #000",
-          display: "flex",
-          alignItems: "center",
-          padding: "0 6px",
-          gap: 5,
-          fontFamily: mono,
-          fontSize: 12,
-          pointerEvents: "none",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 4,
-            padding: "2px 6px",
-            boxShadow: "inset 1px 1px #808080,inset -1px -1px #fff",
-            minWidth: 116,
-          }}
-        >
-          <span style={{ color: hpColor, fontWeight: "bold", fontSize: 15 }}>
+      <div className="absolute bg-[#c0c0c0] bottom-0 left-0 right-0 h-[45px] flex items-center gap-[5px] px-[6px] pointer-events-none text-[12px] shadow-[inset_0_1px_#fff,inset_0_-1px_#808080,0_-2px_#000]">
+        <div className="flex items-center gap-1 py-0.5 px-[6px] shadow-[inset_1px_1px_#808080,inset_-1px_-1px_#fff] min-w-[116px]">
+          <span className="font-bold text-sm" style={{ color: hpColor }}>
             ♥
           </span>
-          <div
-            style={{
-              flex: 1,
-              height: 10,
-              background: "#808080",
-              boxShadow: "inset 1px 1px #000",
-              overflow: "hidden",
-            }}
-          >
+          <div className="flex-1 h-[10px] bg-[#808080] shadow-[inset_1px_1px_#000] overflow-hidden">
             <div
               style={{
                 width: `${hud.hp}%`,
@@ -704,86 +414,51 @@ export default function DoomGame() {
             />
           </div>
           <span
+            className="font-bold text-right min-w-[22px]"
             style={{
               color: hpColor,
-              fontWeight: "bold",
-              minWidth: 22,
-              textAlign: "right",
             }}
           >
             {hud.hp}
           </span>
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            gap: 10,
-            padding: "2px 8px",
-            background: "#000080",
-            color: "#fff",
-            boxShadow: "inset 1px 1px #000088,inset -1px -1px #4488ff",
-            flex: 1,
-            justifyContent: "center",
-          }}
-        >
+        <div className="flex flex-1 text-white justify-center gap-[10px] py-0.5 px-2 shadow-[inset_1px_1px_#000088,inset_-1px_-1px_#4488ff]">
           <span>
             SCORE{" "}
-            <b style={{ color: "#ffff00" }}>
+            <b className="text-[#ffff00]">
               {hud.score.toString().padStart(6, "0")}
             </b>
           </span>
           <span>
-            KILLS <b style={{ color: "#ffff00" }}>{hud.kills}</b>
+            KILLS <b className="text-[#ffff00]">{hud.kills}</b>
           </span>
         </div>
 
-        <div
-          style={{
-            padding: "2px 6px",
-            boxShadow: "inset 1px 1px #808080,inset -1px -1px #fff",
-            textAlign: "center",
-            minWidth: 76,
-          }}
-        >
+        <div className="py-0.5 px-[6px] shadow-[inset_1px_1px_#808080,inset_-1px_-1px_#fff] text-center min-w-[76px]">
           <div style={{ fontSize: 9, color: "#555" }}>THREAT</div>
           <div style={{ fontWeight: "bold", color: threatColor, fontSize: 13 }}>
             {"▲".repeat(Math.min(hud.difficulty + 1, 5))}
           </div>
         </div>
 
-        <div
-          style={{
-            padding: "2px 6px",
-            boxShadow: "inset 1px 1px #808080,inset -1px -1px #fff",
-            display: "flex",
-            alignItems: "center",
-            gap: 4,
-          }}
-        >
+        <div className="py-0.5 px-[6px] shadow-[inset_1px_1px_#808080,inset_-1px_-1px_#fff] flex items-center gap-1">
           <div
+            className="text-[10px] font-bold"
             style={{
-              fontSize: 10,
               color: hud.flashlightOn ? "#006600" : "#888",
-              fontWeight: "bold",
             }}
           >
             {hud.flashlightOn ? "🔦 ON" : "🔦 OFF"}
           </div>
           <BatteryBar pct={hud.battery} on={hud.flashlightOn} />
-          <div style={{ fontSize: 8, color: "#444" }}>[F]</div>
+          <div className="text-[8px] text-[#444]">[F]</div>
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 3,
-            padding: "2px 6px",
-            boxShadow: "inset 1px 1px #808080,inset -1px -1px #fff",
-          }}
-        >
-          <div style={{ display: "flex", gap: 2, flexWrap: "wrap", width: 62 }}>
+        <div className="flex items-center gap-[3px] py-0.5 px-[6px] shadow-[inset_1px_1px_#808080,inset_-1px_-1px_#fff]">
+          <div
+            className="flex gap-0.5 flex-wrap w-[62px]"
+          >
             {Array.from({ length: MAX_AMMO }).map((_, i) => (
               <div
                 key={i}
@@ -857,9 +532,11 @@ export default function DoomGame() {
               <br />
               WASD move · R reload · F flashlight · ESC release
             </div>
-            <W98Btn onClick={() => engineRef.current?.setMouseActive(true)}>
+            <Win98Button
+              onClick={() => engineRef.current?.setMouseActive(true)}
+            >
               ▶ OK
-            </W98Btn>
+            </Win98Button>
           </div>
         </div>
       )}
