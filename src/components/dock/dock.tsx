@@ -108,19 +108,20 @@ export default function Dock() {
                 Settings
                 <DropdownMenuShortcut>⌘A</DropdownMenuShortcut>
               </DropdownMenuItem>
+
               <DropdownMenuSub>
                 <DropdownMenuSubTrigger className="data-[state=open]:text-white">
-                  My Resume
+                  Programs
                 </DropdownMenuSubTrigger>
                 <DropdownMenuPortal>
                   <DropdownMenuSubContent className="crt flex px-0 flex-col bg-[#C0C0C0] border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none">
-                    <DropdownMenuItem onClick={() => handleOpen(6)}>
-                      English
-                      <DropdownMenuShortcut>⌘E</DropdownMenuShortcut>
+                    <DropdownMenuItem onClick={() => handleOpen(24)}>
+                      Winamp
+                      <DropdownMenuShortcut>⌘W</DropdownMenuShortcut>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem>
-                      Portuguese
+                      Paint
                       <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
                     </DropdownMenuItem>
                   </DropdownMenuSubContent>
@@ -129,6 +130,25 @@ export default function Dock() {
             </DropdownMenuGroup>
 
             <DropdownMenuSeparator />
+
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger className="data-[state=open]:text-white">
+                My Resume
+              </DropdownMenuSubTrigger>
+              <DropdownMenuPortal>
+                <DropdownMenuSubContent className="crt flex px-0 flex-col bg-[#C0C0C0] border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none">
+                  <DropdownMenuItem onClick={() => handleOpen(6)}>
+                    English
+                    <DropdownMenuShortcut>⌘E</DropdownMenuShortcut>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    Portuguese
+                    <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
+                  </DropdownMenuItem>
+                </DropdownMenuSubContent>
+              </DropdownMenuPortal>
+            </DropdownMenuSub>
 
             <DropdownMenuItem>
               <Link href="https://github.com/AlexandreDresch" target="_blank">

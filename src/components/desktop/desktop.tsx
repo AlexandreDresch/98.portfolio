@@ -15,6 +15,7 @@ import FolderContainer from "../folder/folder-container";
 import WelcomeMessage from "./welcome-message";
 import { DisplayProperties } from "../programs/display-properties/display-properties";
 import Terminal from "../programs/terminal/terminal";
+import Winamp from "../programs/winamp/winamp";
 
 export default function Desktop() {
   const { frontend, backend } = useAppSelector((state) => state.projects);
@@ -66,6 +67,8 @@ export default function Desktop() {
         <DisplayProperties />
 
         <Terminal />
+
+        <Winamp />
       </div>
     </DesktopContextMenu>
   );

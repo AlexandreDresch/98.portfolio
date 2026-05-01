@@ -479,6 +479,16 @@ export const programs = [
     image: "/icons/system.png",
     description: "View and manage system information and hardware settings.",
   },
+  {
+    id: 24,
+    name: "Winamp",
+    isOpen: false,
+    isMaximized: false,
+    isMinimized: false,
+    image: "/icons/winamp.png",
+    description:
+      "A classic media player for playing your favorite music (using Youtube).",
+  },
 ];
 
 export const folderNavigationMenuItems = {
