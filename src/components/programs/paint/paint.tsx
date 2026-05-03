@@ -11,7 +11,6 @@ import {
   CANVAS_W,
   ICONS,
   LINE_TOOLS,
-  PALETTE,
   PREVIEW_TOOLS,
   SHAPE_TOOLS,
   TOOL_LABELS,
@@ -28,7 +27,11 @@ import {
   Tool,
   ZoomLevel,
 } from "./types";
+import { AboutDialog } from "./about-dialog";
+import { ColorPalette } from "./color-palette";
+import { MenuBar } from "./menu-bar";
 
+// Utility functions remain the same
 declare global {
   interface CanvasRenderingContext2D {
     roundRect?: (x: number, y: number, w: number, h: number, r: number) => void;
@@ -744,52 +747,12 @@ export default function Paint() {
           className="flex-1 min-h-0 flex flex-col relative border-[2px] border-t-white border-r-[#808080] border-b-[#808080] border-l-white"
           onClick={() => setActiveMenu(null)}
         >
-          <div className="flex border-b border-[#808080] relative z-50">
-            {(Object.keys(MENUS) as MenuName[]).map((name) => (
-              <div key={name} className="relative">
-                <div
-                  onMouseDown={(e) => {
-                    e.stopPropagation();
-                    setActiveMenu((p) => (p === name ? null : name));
-                  }}
-                  className={`px-2 py-0.5 cursor-default ${
-                    activeMenu === name
-                      ? "bg-[#000080] text-white"
-                      : "bg-transparent text-black"
-                  }`}
-                >
-                  {name}
-                </div>
-                {activeMenu === name && (
-                  <div
-                    onClick={(e) => e.stopPropagation()}
-                    className="absolute top-full left-0 bg-[#c0c0c0] border border-[#808080] shadow-[2px_2px_0_#000] min-w-[185px] z-999"
-                  >
-                    {MENUS[name].map((item, idx) => (
-                      <div
-                        key={idx}
-                        onClick={() => {
-                          if (!item.d && !item.dis && item.a) item.a();
-                        }}
-                        className={`py-0.5 px-4 pl-5 flex justify-between gap-3 whitespace-nowrap ${
-                          item.d || item.dis
-                            ? "cursor-default text-[#808080]"
-                            : "cursor-pointer text-black hover:bg-[#000080] hover:text-white"
-                        }`}
-                      >
-                        <span>{item.l}</span>
-                        {item.s && (
-                          <span className="opacity-70 text-[11px]">
-                            {item.s}
-                          </span>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+          <MenuBar
+            menus={MENUS}
+            activeMenu={activeMenu}
+            onMenuClick={setActiveMenu}
+            onMenuItemClick={() => setActiveMenu(null)}
+          />
 
           <div className="flex flex-1 min-h-0 overflow-hidden">
             <div className="w-[54px] flex-shrink-0 p-1 border-r border-[#808080] bg-[#c0c0c0]">
@@ -1028,46 +991,14 @@ export default function Paint() {
             </div>
           </div>
 
-          <div className="border-t border-[#808080] p-1 pl-1.5 flex items-center gap-1 bg-[#c0c0c0] flex-wrap">
-            <div className="relative w-8 h-[26px] flex-shrink-0 mr-1.5">
-              <div
-                title={`Background: ${bgColor}`}
-                onClick={() => setFgColor(bgColor)}
-                className="absolute bottom-0 right-0 w-[19px] h-[17px] border-2 border-[#808080] border-r-white border-b-white cursor-pointer"
-                style={{ background: bgColor }}
-              />
-              <div
-                title={`Foreground: ${fgColor}`}
-                className="absolute top-0 left-0 w-[19px] h-[17px] border-2 border-[#808080] border-r-white border-b-white z-10"
-                style={{ background: fgColor }}
-              />
-            </div>
-            <div className="flex flex-wrap gap-px flex-1">
-              {PALETTE.map((c) => (
-                <div
-                  key={c}
-                  title={c}
-                  onClick={() => setFgColor(c)}
-                  onContextMenu={(e) => {
-                    e.preventDefault();
-                    setBgColor(c);
-                  }}
-                  className="w-3.5 h-3.5 border border-[#808080] border-r-white border-b-white cursor-default flex-shrink-0"
-                  style={{ background: c }}
-                />
-              ))}
-            </div>
-            <input
-              type="color"
-              value={customColor}
-              title="Custom color (left=FG)"
-              onChange={(e) => {
-                setCustomColor(e.target.value);
-                setFgColor(e.target.value);
-              }}
-              className="w-3.5 h-3.5 p-0 border border-[#808080] cursor-pointer flex-shrink-0"
-            />
-          </div>
+          <ColorPalette
+            fgColor={fgColor}
+            bgColor={bgColor}
+            customColor={customColor}
+            onFgColorChange={setFgColor}
+            onBgColorChange={setBgColor}
+            onCustomColorChange={setCustomColor}
+          />
 
           <div className="border-t border-[#808080] py-px px-1 flex justify-between text-[11px] bg-[#c0c0c0]">
             <div className="border border-[#808080] border-r-white border-b-white px-1 min-w-[110px] flex-shrink-0">
@@ -1092,75 +1023,11 @@ export default function Paint() {
           </div>
         </div>
 
-        {showAbout && (
-          <div
-            onClick={() => setShowAbout(false)}
-            className="fixed inset-0 bg-black/40 flex items-center justify-center z-9999"
-          >
-            <div
-              onClick={(e) => e.stopPropagation()}
-              className="bg-[#c0c0c0] border-2 border-white border-r-[#808080] border-b-[#808080] w-[300px]"
-            >
-              <div className="bg-gradient-to-r from-[#000080] to-[#1084d0] h-[22px] flex items-center justify-between px-1">
-                <span className="text-white text-xs font-bold flex items-center gap-1">
-                  <svg width="13" height="13" viewBox="0 0 14 14">
-                    <rect width="14" height="14" fill="#fff" />
-                    <rect width="7" height="7" fill="#f00" />
-                    <rect x="7" width="7" height="7" fill="#0f0" />
-                    <rect y="7" width="7" height="7" fill="#00f" />
-                    <rect x="7" y="7" width="7" height="7" fill="#ff0" />
-                  </svg>
-                  About Paint
-                </span>
-                <button
-                  onClick={() => setShowAbout(false)}
-                  className="w-[15px] h-[13px] bg-[#c0c0c0] border border-white border-r-[#808080] border-b-[#808080] text-[9px] p-0 cursor-pointer"
-                >
-                  ×
-                </button>
-              </div>
-              <div className="p-5 text-center">
-                <svg
-                  width="52"
-                  height="52"
-                  viewBox="0 0 14 14"
-                  className="mb-3"
-                >
-                  <rect width="14" height="14" fill="#fff" />
-                  <rect width="7" height="7" fill="#f00" />
-                  <rect x="7" width="7" height="7" fill="#0f0" />
-                  <rect y="7" width="7" height="7" fill="#00f" />
-                  <rect x="7" y="7" width="7" height="7" fill="#ff0" />
-                </svg>
-                <div className="font-bold text-sm mb-1.5">Paint</div>
-                <div className="text-[#444] text-[11px] leading-relaxed">
-                  Version 4.10.1998
-                  <br />
-                  For Microsoft Windows 98
-                  <br />
-                  © 1981–1998 Microsoft Corp.
-                  <br />
-                  <br />
-                  <span className="text-[10px] text-[#666]">
-                    Tools: {TOOL_ROWS.flat().length} | Palette: {PALETTE.length}{" "}
-                    colors
-                    <br />
-                    Canvas: {CANVAS_W}×{CANVAS_H} px | Undo: {undoStack.length}{" "}
-                    steps
-                  </span>
-                </div>
-                <div className="mt-4 flex justify-center gap-2">
-                  <button
-                    onClick={() => setShowAbout(false)}
-                    className="py-0.5 px-6 bg-[#c0c0c0] border-2 border-white border-r-[#808080] border-b-[#808080] cursor-pointer text-xs"
-                  >
-                    OK
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+        <AboutDialog
+          isOpen={showAbout}
+          onClose={() => setShowAbout(false)}
+          undoStackLength={undoStack.length}
+        />
       </div>
     </WindowWrapper>
   );
