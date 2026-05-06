@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { TOOL_ROWS, PALETTE, CANVAS_W, CANVAS_H } from "./constants";
 
 interface AboutDialogProps {
@@ -16,21 +17,20 @@ export function AboutDialog({
   return (
     <div
       onClick={onClose}
-      className="fixed inset-0 bg-black/40 flex items-center justify-center z-9999"
+      className="fixed inset-0 flex items-center justify-center z-50"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-[#c0c0c0] border-2 border-white border-r-[#808080] border-b-[#808080] w-[300px]"
+        className="bg-[#c0c0c0] crt border-2 border-white border-r-[#808080] border-b-[#808080] w-[300px]"
       >
         <div className="bg-gradient-to-r from-[#000080] to-[#1084d0] h-[22px] flex items-center justify-between px-1">
           <span className="text-white text-xs font-bold flex items-center gap-1">
-            <svg width="13" height="13" viewBox="0 0 14 14">
-              <rect width="14" height="14" fill="#fff" />
-              <rect width="7" height="7" fill="#f00" />
-              <rect x="7" width="7" height="7" fill="#0f0" />
-              <rect y="7" width="7" height="7" fill="#00f" />
-              <rect x="7" y="7" width="7" height="7" fill="#ff0" />
-            </svg>
+            <Image
+              src="/icons/paint.png"
+              alt="Paint Icon"
+              width={20}
+              height={20}
+            />
             About Paint
           </span>
           <button
@@ -41,36 +41,47 @@ export function AboutDialog({
           </button>
         </div>
         <div className="p-5 text-center">
-          <svg width="52" height="52" viewBox="0 0 14 14" className="mb-3">
-            <rect width="14" height="14" fill="#fff" />
-            <rect width="7" height="7" fill="#f00" />
-            <rect x="7" width="7" height="7" fill="#0f0" />
-            <rect y="7" width="7" height="7" fill="#00f" />
-            <rect x="7" y="7" width="7" height="7" fill="#ff0" />
-          </svg>
+          <div className="flex justify-center w-full">
+            <Image
+              src="/icons/paint.png"
+              alt="Paint Icon"
+              width={52}
+              height={52}
+            />
+          </div>
           <div className="font-bold text-sm mb-1.5">Paint</div>
           <div className="text-[#444] text-[11px] leading-relaxed">
-            Version 4.10.1998
+            Version 4.10.XXXX
             <br />
-            For Microsoft Windows 98
+            For 98.portfolio
             <br />
-            © 1981–1998 Microsoft Corp.
+            © 1997–(today) Alexandre Dresch Corp.
             <br />
             <br />
-            <span className="text-[10px] text-[#666]">
-              Tools: {TOOL_ROWS.flat().length} | Palette: {PALETTE.length}{" "}
-              colors
+            <div className="font-bold text-sm mb-1.5">Paint</div>
+            <div className="text-[#444] text-[11px] leading-relaxed">
+              Version 4.10.XXXX
               <br />
-              Canvas: {CANVAS_W}×{CANVAS_H} px | Undo: {undoStackLength} steps
-            </span>
-          </div>
-          <div className="mt-4 flex justify-center gap-2">
-            <button
-              onClick={onClose}
-              className="py-0.5 px-6 bg-[#c0c0c0] border-2 border-white border-r-[#808080] border-b-[#808080] cursor-pointer text-xs"
-            >
-              OK
-            </button>
+              For 98.portfolio
+              <br />
+              © 1997–(today) Alexandre Dresch Corp.
+              <br />
+              <br />
+              <span className="text-[10px] text-[#666]">
+                Tools: {TOOL_ROWS.flat().length} | Palette: {PALETTE.length}{" "}
+                colors
+                <br />
+                Canvas: {CANVAS_W}×{CANVAS_H} px | Undo: {undoStackLength} steps
+              </span>
+            </div>
+            <div className="mt-4 flex justify-center gap-2">
+              <button
+                onClick={onClose}
+                className="py-0.5 px-6 bg-[#c0c0c0] border-2 border-white border-r-[#808080] border-b-[#808080] cursor-pointer text-xs"
+              >
+                OK
+              </button>
+            </div>
           </div>
         </div>
       </div>

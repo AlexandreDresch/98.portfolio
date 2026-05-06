@@ -11,6 +11,7 @@ import {
   CANVAS_W,
   ICONS,
   LINE_TOOLS,
+  menuMessages,
   PREVIEW_TOOLS,
   SHAPE_TOOLS,
   TOOL_LABELS,
@@ -30,8 +31,9 @@ import {
 import { AboutDialog } from "./about-dialog";
 import { ColorPalette } from "./color-palette";
 import { MenuBar } from "./menu-bar";
+import { useAppDispatch, useAppSelector } from "@/store/store";
+import { closeWindow } from "@/store/window-manager-slice";
 
-// Utility functions remain the same
 declare global {
   interface CanvasRenderingContext2D {
     roundRect?: (x: number, y: number, w: number, h: number, r: number) => void;
@@ -149,12 +151,11 @@ export default function Paint() {
   const [textState, setTextState] = useState<TextState | null>(null);
   const [undoStack, setUndoStack] = useState<ImageData[]>([]);
   const [redoStack, setRedoStack] = useState<ImageData[]>([]);
-  const [tooltip, setTooltip] = useState<string>("Pencil");
-  const [activeMenu, setActiveMenu] = useState<MenuName | null>(null);
   const [selRect, setSelRect] = useState<Rect | null>(null);
   const [showAbout, setShowAbout] = useState<boolean>(false);
   const [customColor, setCustomColor] = useState<string>("#000000");
   const [showGrid, setShowGrid] = useState<boolean>(false);
+  const [activeMenu, setActiveMenu] = useState<MenuName | null>(null);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const overlayRef = useRef<SVGSVGElement>(null);
@@ -164,6 +165,9 @@ export default function Paint() {
   const savedImgRef = useRef<ImageData | null>(null);
   const drawBtnRef = useRef<number>(0);
   const airTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const dispatch = useAppDispatch();
+  const footerMessage = useAppSelector((state) => state.footerMessage.message);
 
   useEffect(() => {
     const ctx = canvasRef.current?.getContext("2d");
@@ -477,7 +481,6 @@ export default function Paint() {
       ctx.fillStyle = "#ffffff";
       ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
       setSelRect(null);
-      setActiveMenu(null);
     }
   }, [saveUndo]);
 
@@ -486,7 +489,6 @@ export default function Paint() {
     link.download = "untitled.png";
     link.href = canvasRef.current?.toDataURL() || "";
     link.click();
-    setActiveMenu(null);
   };
 
   const invertColors = (): void => {
@@ -500,7 +502,6 @@ export default function Paint() {
         img.data[i + 2] = 255 - img.data[i + 2];
       }
       ctx.putImageData(img, 0, 0);
-      setActiveMenu(null);
     }
   };
 
@@ -518,7 +519,6 @@ export default function Paint() {
         img.data[i] = img.data[i + 1] = img.data[i + 2] = g;
       }
       ctx.putImageData(img, 0, 0);
-      setActiveMenu(null);
     }
   };
 
@@ -543,7 +543,6 @@ export default function Paint() {
         saveUndo();
         ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
         ctx.drawImage(tmp, 0, 0);
-        setActiveMenu(null);
       }
     }
   };
@@ -563,7 +562,6 @@ export default function Paint() {
         ctx.fillStyle = "#fff";
         ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
         ctx.drawImage(tmp, 0, 0, CANVAS_W, CANVAS_H);
-        setActiveMenu(null);
       }
     }
   };
@@ -574,7 +572,6 @@ export default function Paint() {
       saveUndo();
       ctx.fillStyle = color;
       ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
-      setActiveMenu(null);
     }
   };
 
@@ -582,7 +579,6 @@ export default function Paint() {
     const handleKeyDown = (e: KeyboardEvent): void => {
       if (e.key === "Escape") {
         setTextState(null);
-        setActiveMenu(null);
         setSelRect(null);
       }
       if ((e.ctrlKey || e.metaKey) && !e.shiftKey) {
@@ -621,12 +617,37 @@ export default function Paint() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [undo, redo, newCanvas]);
 
+  const getCursor = (): string => {
+    const cursorMap: Record<Tool, string> = {
+      pencil: "crosshair",
+      brush: "crosshair",
+      eraser: "cell",
+      fill: "crosshair",
+      eyedropper: "crosshair",
+      magnifier: "zoom-in",
+      text: "text",
+      select: "crosshair",
+      freeselect: "crosshair",
+      line: "crosshair",
+      rect: "crosshair",
+      ellipse: "crosshair",
+      roundrect: "crosshair",
+      curve: "crosshair",
+      airbrush: "crosshair",
+      polygon: "crosshair",
+    };
+    return cursorMap[tool] || "crosshair";
+  };
+
+  const SZ = LINE_TOOLS.includes(tool);
+  const FM = SHAPE_TOOLS.includes(tool);
+
   const MENUS: MenuItems = {
     File: [
       { l: "New", a: newCanvas, s: "Ctrl+N" },
       { l: "Save", a: downloadCanvas, s: "Ctrl+S" },
       { l: "─", d: true },
-      { l: "Exit", a: () => setShowAbout(true) },
+      { l: "Exit", a: () => dispatch(closeWindow(14)) },
     ],
     Edit: [
       { l: "Undo", a: undo, s: "Ctrl+Z", dis: undoStack.length < 2 },
@@ -710,31 +731,6 @@ export default function Paint() {
     ],
   };
 
-  const getCursor = (): string => {
-    const cursorMap: Record<Tool, string> = {
-      pencil: "crosshair",
-      brush: "crosshair",
-      eraser: "cell",
-      fill: "crosshair",
-      eyedropper: "crosshair",
-      magnifier: "zoom-in",
-      text: "text",
-      select: "crosshair",
-      freeselect: "crosshair",
-      line: "crosshair",
-      rect: "crosshair",
-      ellipse: "crosshair",
-      roundrect: "crosshair",
-      curve: "crosshair",
-      airbrush: "crosshair",
-      polygon: "crosshair",
-    };
-    return cursorMap[tool] || "crosshair";
-  };
-
-  const SZ = LINE_TOOLS.includes(tool);
-  const FM = SHAPE_TOOLS.includes(tool);
-
   return (
     <WindowWrapper
       title="untitled - Paint"
@@ -743,15 +739,13 @@ export default function Paint() {
       id={14}
     >
       <div className="size-full flex flex-col min-h-0 text-[12px] select-none font-[Arial,sans-serif]">
-        <div
-          className="flex-1 min-h-0 flex flex-col relative border-[2px] border-t-white border-r-[#808080] border-b-[#808080] border-l-white"
-          onClick={() => setActiveMenu(null)}
-        >
+        <div className="flex-1 min-h-0 flex flex-col relative border-[2px] border-t-white border-r-[#808080] border-b-[#808080] border-l-white">
           <MenuBar
             menus={MENUS}
             activeMenu={activeMenu}
             onMenuClick={setActiveMenu}
             onMenuItemClick={() => setActiveMenu(null)}
+            messages={menuMessages}
           />
 
           <div className="flex flex-1 min-h-0 overflow-hidden">
@@ -767,7 +761,6 @@ export default function Paint() {
                         title={TOOL_LABELS[t]}
                         onClick={() => {
                           setTool(t);
-                          setTooltip(TOOL_LABELS[t]);
                         }}
                         className={`w-[22px] h-[22px] flex items-center justify-center cursor-default p-px ${
                           active
@@ -1002,7 +995,7 @@ export default function Paint() {
 
           <div className="border-t border-[#808080] py-px px-1 flex justify-between text-[11px] bg-[#c0c0c0]">
             <div className="border border-[#808080] border-r-white border-b-white px-1 min-w-[110px] flex-shrink-0">
-              {tooltip}
+              {footerMessage}
             </div>
             <div className="flex gap-0.5 flex-wrap">
               {selRect && (

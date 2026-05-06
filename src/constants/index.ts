@@ -382,7 +382,7 @@ export const programs = [
     isOpen: false,
     isMaximized: false,
     isMinimized: false,
-    image: "/internet-explorer.png",
+    image: "/icons/internet-explorer.png",
   },
   {
     id: 11,
@@ -414,7 +414,7 @@ export const programs = [
     isOpen: false,
     isMaximized: false,
     isMinimized: false,
-    image: "/paint.png",
+    image: "/icons/paint.png",
   },
   {
     id: 15,
