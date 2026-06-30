@@ -117,12 +117,16 @@ export default function Dock() {
                   <DropdownMenuSubContent className="crt flex px-0 flex-col bg-[#C0C0C0] border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none">
                     <DropdownMenuItem onClick={() => handleOpen(24)}>
                       Winamp
-                      <DropdownMenuShortcut>⌘W</DropdownMenuShortcut>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>
+
+                    <DropdownMenuItem onClick={() => handleOpen(10)}>
+                      Internet Explorer
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+
+                    <DropdownMenuItem onClick={() => handleOpen(14)}>
                       Paint
-                      <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
                     </DropdownMenuItem>
                   </DropdownMenuSubContent>
                 </DropdownMenuPortal>

@@ -16,6 +16,8 @@ import WelcomeMessage from "./welcome-message";
 import { DisplayProperties } from "../programs/display-properties/display-properties";
 import Terminal from "../programs/terminal/terminal";
 import Winamp from "../programs/winamp/winamp";
+import InternetExplorer from "../programs/IE/internet-explorer";
+import Paint from "../programs/paint/paint";
 
 export default function Desktop() {
   const { frontend, backend } = useAppSelector((state) => state.projects);
@@ -69,6 +71,10 @@ export default function Desktop() {
         <Terminal />
 
         <Winamp />
+
+        <Paint />
+
+        <InternetExplorer />
       </div>
     </DesktopContextMenu>
   );
