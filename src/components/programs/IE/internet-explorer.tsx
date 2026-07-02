@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import IENavigationMenu from "./ie-navigation-menu";
 import IEInternalNavigation from "./ie-internal-navigation";
-import { ToolbarButton } from "./toolbar-button";
 
 interface HistoryEntry {
   url: string;
@@ -16,6 +15,19 @@ interface Favorite {
   label: string;
   url: string;
 }
+interface Tab {
+  id: number;
+  url: string;
+  title: string;
+  addressInput: string;
+  isHome: boolean;
+  loading: boolean;
+  iframeError: boolean;
+  history: HistoryEntry[];
+  historyIdx: number;
+}
+
+let TAB_ID_COUNTER = 1;
 
 const DEFAULT_FAVORITES: Favorite[] = [
   {
@@ -31,16 +43,12 @@ const DEFAULT_FAVORITES: Favorite[] = [
     url: "https://web.archive.org/web/19981212034415/http://www9.yahoo.com/",
   },
   {
-    label: "AltaVista Search",
+    label: "AltaVista",
     url: "https://web.archive.org/web/19990125093146/http://www.altavista.com/",
   },
   {
     label: "Wikipedia",
     url: "https://web.archive.org/web/20010808121638/http://www.wikipedia.org/",
-  },
-  {
-    label: "The Verge",
-    url: "https://web.archive.org/web/20000520024911/http://www.theverge.com/",
   },
   {
     label: "Hacker News",
@@ -59,6 +67,21 @@ const sunken =
 const inset1 =
   "border border-t-[#808080] border-l-[#808080] border-b-white border-r-white";
 
+function makeTab(overrides: Partial<Tab> = {}): Tab {
+  return {
+    id: TAB_ID_COUNTER++,
+    url: "",
+    title: "New Tab",
+    addressInput: "",
+    isHome: true,
+    loading: false,
+    iframeError: false,
+    history: [],
+    historyIdx: -1,
+    ...overrides,
+  };
+}
+
 const ErrorPage = ({
   url,
   onOpenTab,
@@ -74,22 +97,16 @@ const ErrorPage = ({
           The page cannot be displayed
         </h2>
         <p className="text-sm text-gray-800 mb-3">
-          The page you are looking for is currently unavailable. The website
-          might be experiencing technical difficulties, or you may need to
-          adjust your browser settings.
+          The page you are looking for is currently unavailable.
         </p>
         <hr className="border-gray-400 mb-3" />
-        <p className="text-sm font-bold mb-1">Please try the following:</p>
         <ul className="text-sm list-disc ml-5 space-y-1 text-gray-700">
           <li>
-            Click the <strong>Refresh</strong> button, or try again later.
+            Click <strong>Refresh</strong> or try again later.
           </li>
+          <li>Check the address for spelling errors.</li>
           <li>
-            If you typed the page address in the Address bar, make sure that it
-            is spelled correctly.
-          </li>
-          <li>
-            This site may be blocking embedded display.{" "}
+            This site may block embedded display.{" "}
             <button
               onClick={onOpenTab}
               className="text-[#0000EE] underline cursor-pointer hover:text-[#551A8B]"
@@ -121,7 +138,7 @@ const Homepage = ({ onNavigate }: { onNavigate: (url: string) => void }) => (
       <div className="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#0066CC]">
         <Image
           src="/icons/internet-explorer.png"
-          alt="Internet Explorer Logo"
+          alt="IE"
           width={48}
           height={48}
         />
@@ -135,7 +152,6 @@ const Homepage = ({ onNavigate }: { onNavigate: (url: string) => void }) => (
           <div className="text-sm text-gray-600">Version 5.0 — Start Page</div>
         </div>
       </div>
-
       <div className="bg-[#fffbe6] border-2 border-[#ccaa00] p-4 mb-4 rounded">
         <div className="text-sm font-bold text-[#000080] mb-2">
           🔍 Search the Web
@@ -157,12 +173,12 @@ const Homepage = ({ onNavigate }: { onNavigate: (url: string) => void }) => (
           <button
             className={cn(
               raised,
-              "bg-[#c0c0c0] px-3 py-1 text-sm cursor-default active:border-t-[#808080] active:border-l-[#808080] active:border-b-white active:border-r-white",
+              "bg-[#c0c0c0] px-3 py-1 text-sm cursor-default",
             )}
             onClick={(e) => {
-              const inp = e.currentTarget
-                .previousElementSibling as HTMLInputElement;
-              const q = inp?.value?.trim();
+              const q = (
+                e.currentTarget.previousElementSibling as HTMLInputElement
+              )?.value?.trim();
               if (q)
                 onNavigate(
                   `https://www2.bing.com/search?q=${encodeURIComponent(q)}`,
@@ -173,7 +189,6 @@ const Homepage = ({ onNavigate }: { onNavigate: (url: string) => void }) => (
           </button>
         </div>
       </div>
-
       <div className="bg-white border-2 border-[#808080] p-4 mb-4">
         <div className="text-sm font-bold text-[#000080] mb-3">
           ⭐ Favorites
@@ -187,7 +202,7 @@ const Homepage = ({ onNavigate }: { onNavigate: (url: string) => void }) => (
             >
               <Image
                 src="/icons/internet-explorer.png"
-                alt="Internet Explorer Logo"
+                alt=""
                 width={14}
                 height={14}
               />
@@ -196,51 +211,102 @@ const Homepage = ({ onNavigate }: { onNavigate: (url: string) => void }) => (
           ))}
         </div>
       </div>
-
       <div className="bg-[#f0f0f0] border border-[#808080] p-3">
         <div className="text-xs font-bold text-[#000080] mb-1">
           💡 Did You Know?
         </div>
         <p className="text-xs text-gray-700">
-          Some modern websites cannot be displayed inside Internet Explorer due
-          to security restrictions. Use the{" "}
-          <strong>`&quot;`Open in new tab`&quot;`</strong> button on the error
-          page, or type any URL in the address bar above.
+          Some modern websites block embedded display. Use{" "}
+          <strong>&quot;Open in new tab&quot;</strong> on the error page, or
+          press <kbd className="bg-gray-200 px-1">Ctrl+T</kbd> to open a new
+          tab.
         </p>
       </div>
     </div>
   </div>
 );
 
+function TabBar({
+  tabs,
+  activeId,
+  onSelect,
+  onClose,
+  onNew,
+}: {
+  tabs: Tab[];
+  activeId: number;
+  onSelect: (id: number) => void;
+  onClose: (id: number) => void;
+  onNew: () => void;
+}) {
+  return (
+    <div className="flex items-end bg-[#c0c0c0] border-b border-[#808080] overflow-x-auto flex-shrink-0 pt-1 gap-0.5">
+      {tabs.map((tab) => {
+        const isActive = tab.id === activeId;
+        return (
+          <div
+            key={tab.id}
+            onClick={() => onSelect(tab.id)}
+            className={cn(
+              "flex items-center gap-1 px-2 py-1 cursor-default text-xs max-w-[160px] min-w-[80px] flex-shrink-0 select-none",
+              isActive
+                ? "bg-[#c0c0c0] border-2 border-t-white border-l-white border-b-[#c0c0c0] border-r-[#808080] -mb-px z-10 relative crt"
+                : "bg-[#a8a8a8] border-2 border-t-[#d0d0d0] border-l-[#d0d0d0] border-b-[#808080] border-r-[#808080] hover:bg-[#b8b8b8]",
+            )}
+          >
+            <Image
+              src="/icons/internet-explorer.png"
+              alt=""
+              width={12}
+              height={12}
+              className="flex-shrink-0"
+            />
+            <span className="truncate flex-1">{tab.title}</span>
+            {tabs.length > 1 && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onClose(tab.id);
+                }}
+                className={cn(
+                  "flex-shrink-0 w-3.5 h-3.5 flex items-center justify-center text-[9px] leading-none hover:bg-[#cc0000] hover:text-white rounded-none ml-0.5",
+                  isActive ? "text-[#444]" : "text-[#666]",
+                )}
+              >
+                ✕
+              </button>
+            )}
+          </div>
+        );
+      })}
+      <button
+        onClick={onNew}
+        title="New Tab (Ctrl+T)"
+        className="flex-shrink-0 px-2 py-1 text-xs border-2 border-transparent hover:border-t-white hover:border-l-white hover:border-b-[#808080] hover:border-r-[#808080] hover:bg-[#b8b8b8] cursor-default"
+      >
+        +
+      </button>
+    </div>
+  );
+}
+
 export default function InternetExplorer() {
-  const [addressInput, setAddressInput] = useState("");
-  const [currentUrl, setCurrentUrl] = useState("");
-  const [pageTitle, setPageTitle] = useState("Internet Explorer");
-  const [status, setStatus] = useState("Done");
-  const [loading, setLoading] = useState(false);
-  const [iframeError, setIframeError] = useState(false);
-  const [history, setHistory] = useState<HistoryEntry[]>([]);
-  const [historyIdx, setHistoryIdx] = useState(-1);
-  const [showFavorites, setShowFavorites] = useState(false);
+  const [tabs, setTabs] = useState<Tab[]>([makeTab()]);
+  const [activeTabId, setActiveTabId] = useState<number>(1);
   const [favorites, setFavorites] = useState<Favorite[]>(DEFAULT_FAVORITES);
   const [showFavDialog, setShowFavDialog] = useState(false);
   const [favLabel, setFavLabel] = useState("");
-  const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [loadProgress, setLoadProgress] = useState(0);
-  const [isHome, setIsHome] = useState(true);
+  const [status, setStatus] = useState("Done");
 
-  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const iframeRefs = useRef<Map<number, HTMLIFrameElement | null>>(new Map());
   const progressRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const normalizeUrl = (raw: string): string => {
-    const trimmed = raw.trim();
-    if (!trimmed) return "";
-    if (!trimmed.includes(".") && !trimmed.startsWith("http")) {
-      return `https://www2.bing.com/search?q=${encodeURIComponent(trimmed)}`;
-    }
-    if (!/^https?:\/\//i.test(trimmed)) return `https://${trimmed}`;
-    return trimmed;
-  };
+  const activeTab = tabs.find((t) => t.id === activeTabId) ?? tabs[0];
+
+  const updateTab = useCallback((id: number, patch: Partial<Tab>) => {
+    setTabs((prev) => prev.map((t) => (t.id === id ? { ...t, ...patch } : t)));
+  }, []);
 
   const startProgress = () => {
     setLoadProgress(0);
@@ -255,128 +321,10 @@ export default function InternetExplorer() {
       });
     }, 180);
   };
-
   const finishProgress = () => {
     if (progressRef.current) clearInterval(progressRef.current);
     setLoadProgress(100);
     setTimeout(() => setLoadProgress(0), 400);
-  };
-
-  const navigate = useCallback(
-    (raw: string) => {
-      const url = normalizeUrl(raw);
-      if (!url) return;
-
-      setCurrentUrl(url);
-      setAddressInput(url);
-      setIframeError(false);
-      setLoading(true);
-      setIsHome(false);
-      setStatus(`Connecting to ${new URL(url).hostname}...`);
-      setActiveMenu(null);
-      startProgress();
-
-      setHistory((prev) => {
-        const cut = prev.slice(0, historyIdx + 1);
-        const next = [...cut, { url, title: url }];
-        setHistoryIdx(next.length - 1);
-        return next;
-      });
-    },
-    [historyIdx],
-  );
-
-  const goHome = () => {
-    setIsHome(true);
-    setCurrentUrl("");
-    setAddressInput("");
-    setPageTitle("Internet Explorer");
-    setStatus("Done");
-    setIframeError(false);
-    setLoading(false);
-    finishProgress();
-  };
-
-  const goBack = () => {
-    if (historyIdx <= 0) return;
-    const newIdx = historyIdx - 1;
-    setHistoryIdx(newIdx);
-    const entry = history[newIdx];
-    setCurrentUrl(entry.url);
-    setAddressInput(entry.url);
-    setIframeError(false);
-    setLoading(true);
-    setIsHome(false);
-    startProgress();
-  };
-
-  const goForward = () => {
-    if (historyIdx >= history.length - 1) return;
-    const newIdx = historyIdx + 1;
-    setHistoryIdx(newIdx);
-    const entry = history[newIdx];
-    setCurrentUrl(entry.url);
-    setAddressInput(entry.url);
-    setIframeError(false);
-    setLoading(true);
-    setIsHome(false);
-    startProgress();
-  };
-
-  const refresh = () => {
-    if (isHome) return;
-    setIframeError(false);
-    setLoading(true);
-    setStatus("Refreshing...");
-    startProgress();
-    if (iframeRef.current) {
-      iframeRef.current.src = currentUrl;
-    }
-  };
-
-  const stop = () => {
-    setLoading(false);
-    setStatus("Done");
-    finishProgress();
-    if (iframeRef.current) iframeRef.current.src = "about:blank";
-    setIframeError(true);
-  };
-
-  const handleIframeLoad = () => {
-    setLoading(false);
-    setStatus("Done");
-    finishProgress();
-    try {
-      const t = iframeRef.current?.contentDocument?.title;
-      if (t) {
-        setPageTitle(`${t} - Internet Explorer`);
-        setHistory((prev) =>
-          prev.map((e, i) => (i === historyIdx ? { ...e, title: t } : e)),
-        );
-      }
-    } catch {}
-  };
-
-  const handleIframeError = () => {
-    setLoading(false);
-    setIframeError(true);
-    setStatus("Done");
-    finishProgress();
-  };
-
-  const handleAddressKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") navigate(addressInput);
-  };
-
-  const addFavorite = () => {
-    setFavLabel(pageTitle.replace(" - Internet Explorer", "") || currentUrl);
-    setShowFavDialog(true);
-    setActiveMenu(null);
-  };
-  const confirmFavorite = () => {
-    if (currentUrl)
-      setFavorites((f) => [...f, { label: favLabel, url: currentUrl }]);
-    setShowFavDialog(false);
   };
 
   useEffect(
@@ -386,26 +334,235 @@ export default function InternetExplorer() {
     [],
   );
 
-  const canBack = historyIdx > 0;
-  const canForward = historyIdx < history.length - 1;
+  const normalizeUrl = (raw: string): string => {
+    const t = raw.trim();
+    if (!t) return "";
+    if (!t.includes(".") && !t.startsWith("http"))
+      return `https://www2.bing.com/search?q=${encodeURIComponent(t)}`;
+    if (!/^https?:\/\//i.test(t)) return `https://${t}`;
+    return t;
+  };
+
+  const navigateTab = useCallback((tabId: number, raw: string) => {
+    const url = normalizeUrl(raw);
+    if (!url) return;
+    setTabs((prev) =>
+      prev.map((t) => {
+        if (t.id !== tabId) return t;
+        const cut = t.history.slice(0, t.historyIdx + 1);
+        const newHistory = [...cut, { url, title: url }];
+        return {
+          ...t,
+          url,
+          addressInput: url,
+          isHome: false,
+          loading: true,
+          iframeError: false,
+          history: newHistory,
+          historyIdx: newHistory.length - 1,
+        };
+      }),
+    );
+    setStatus(`Connecting to ${new URL(url).hostname}...`);
+    startProgress();
+  }, []);
+
+  const navigate = useCallback(
+    (url: string) => navigateTab(activeTabId, url),
+    [activeTabId, navigateTab],
+  );
+
+  const openNewTab = useCallback((url?: string) => {
+    const tab = makeTab(
+      url ? { url, addressInput: url, isHome: false, loading: true } : {},
+    );
+    setTabs((prev) => [...prev, tab]);
+    setActiveTabId(tab.id);
+    if (url) {
+      setStatus(`Connecting to ${new URL(url).hostname}...`);
+      startProgress();
+    }
+  }, []);
+
+  const closeTab = useCallback(
+    (id: number) => {
+      setTabs((prev) => {
+        if (prev.length === 1) return prev;
+        const idx = prev.findIndex((t) => t.id === id);
+        const next = prev.filter((t) => t.id !== id);
+        if (id === activeTabId) {
+          const newActive = next[Math.max(0, idx - 1)];
+          setActiveTabId(newActive.id);
+        }
+        return next;
+      });
+    },
+    [activeTabId],
+  );
+
+  const goBack = () => {
+    const t = activeTab;
+    if (t.historyIdx <= 0) return;
+    const newIdx = t.historyIdx - 1;
+    const entry = t.history[newIdx];
+    updateTab(t.id, {
+      url: entry.url,
+      addressInput: entry.url,
+      historyIdx: newIdx,
+      isHome: false,
+      loading: true,
+      iframeError: false,
+    });
+    startProgress();
+  };
+
+  const goForward = () => {
+    const t = activeTab;
+    if (t.historyIdx >= t.history.length - 1) return;
+    const newIdx = t.historyIdx + 1;
+    const entry = t.history[newIdx];
+    updateTab(t.id, {
+      url: entry.url,
+      addressInput: entry.url,
+      historyIdx: newIdx,
+      isHome: false,
+      loading: true,
+      iframeError: false,
+    });
+    startProgress();
+  };
+
+  const refresh = () => {
+    if (activeTab.isHome) return;
+    updateTab(activeTab.id, { iframeError: false, loading: true });
+    setStatus("Refreshing...");
+    startProgress();
+    const iframe = iframeRefs.current.get(activeTab.id);
+    if (iframe) iframe.src = activeTab.url;
+  };
+
+  const stop = () => {
+    updateTab(activeTab.id, { loading: false, iframeError: true });
+    setStatus("Done");
+    finishProgress();
+    const iframe = iframeRefs.current.get(activeTab.id);
+    if (iframe) iframe.src = "about:blank";
+  };
+
+  const goHome = () => {
+    updateTab(activeTab.id, {
+      isHome: true,
+      url: "",
+      addressInput: "",
+      loading: false,
+      iframeError: false,
+      title: "New Tab",
+    });
+    setStatus("Done");
+    finishProgress();
+  };
+
+  const handleIframeLoad = (tabId: number) => {
+    const iframe = iframeRefs.current.get(tabId);
+    let title = "";
+    try {
+      title = iframe?.contentDocument?.title ?? "";
+    } catch {}
+    updateTab(tabId, {
+      loading: false,
+      iframeError: false,
+      ...(title ? { title: title.slice(0, 30) } : {}),
+    });
+    if (tabId === activeTabId) {
+      setStatus("Done");
+      finishProgress();
+    }
+  };
+
+  const handleIframeError = (tabId: number) => {
+    updateTab(tabId, { loading: false, iframeError: true });
+    if (tabId === activeTabId) {
+      setStatus("Done");
+      finishProgress();
+    }
+  };
+
+  const setAddressInput = (v: string) =>
+    updateTab(activeTab.id, { addressInput: v });
+
+  const addFavorite = () => {
+    setFavLabel(
+      activeTab.title !== "New Tab" ? activeTab.title : activeTab.url,
+    );
+    setShowFavDialog(true);
+  };
+  const confirmFavorite = () => {
+    if (activeTab.url)
+      setFavorites((f) => [...f, { label: favLabel, url: activeTab.url }]);
+    setShowFavDialog(false);
+  };
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      const ctrl = e.ctrlKey || e.metaKey;
+      if (ctrl && e.key === "t") {
+        e.preventDefault();
+        openNewTab();
+      }
+      if (ctrl && e.key === "w") {
+        e.preventDefault();
+        closeTab(activeTabId);
+      }
+      if (ctrl && e.key.match(/^[1-9]$/)) {
+        e.preventDefault();
+        const idx = parseInt(e.key) - 1;
+        if (tabs[idx]) setActiveTabId(tabs[idx].id);
+      }
+      if (e.altKey && e.key === "ArrowLeft") {
+        e.preventDefault();
+        goBack();
+      }
+      if (e.altKey && e.key === "ArrowRight") {
+        e.preventDefault();
+        goForward();
+      }
+      if (e.altKey && e.key === "Home") {
+        e.preventDefault();
+        goHome();
+      }
+      if (e.key === "F5") {
+        e.preventDefault();
+        refresh();
+      }
+      if (e.key === "Escape") stop();
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTabId, tabs, activeTab]);
+
+  const canBack = activeTab.historyIdx > 0;
+  const canForward = activeTab.historyIdx < activeTab.history.length - 1;
 
   return (
     <WindowWrapper
       id={10}
-      title={pageTitle}
+      title={
+        activeTab.title !== "New Tab"
+          ? `${activeTab.title} - Internet Explorer`
+          : "Internet Explorer"
+      }
       icon="/icons/internet-explorer.png"
       controls={{ close: true, minimize: true, maximize: true }}
-      className="!w-[900px] "
+      className="!w-[900px]"
     >
       <div
         className="flex flex-col w-full h-full bg-[#c0c0c0] select-none overflow-hidden"
         style={{ fontFamily: "Arial, sans-serif", fontSize: 12 }}
-        onClick={() => setActiveMenu(null)}
       >
-        {/* ── Menu bar ──────────────────────────────────────────────────── */}
         <div className="border-b border-[#808080] bg-[#c0c0c0] flex-shrink-0 px-1 py-0.5">
           <IENavigationMenu
-            currentUrl={currentUrl}
+            currentUrl={activeTab.url}
             canBack={canBack}
             canForward={canForward}
             favorites={favorites}
@@ -416,13 +573,13 @@ export default function InternetExplorer() {
             onHome={goHome}
             onNavigate={navigate}
             onAddFavorite={addFavorite}
-            onOrganizeFavorites={() => setShowFavorites((v) => !v)}
+            onOrganizeFavorites={() => {}}
             onViewSource={() =>
-              currentUrl && window.open(`view-source:${currentUrl}`)
+              activeTab.url && window.open(`view-source:${activeTab.url}`)
             }
             onPrint={() => window.print()}
-            onProperties={() => alert(`URL: ${currentUrl || "about:blank"}`)}
-            onClose={() => window.close()}
+            onProperties={() => alert(`URL: ${activeTab.url || "about:blank"}`)}
+            onClose={() => closeTab(activeTabId)}
             onAbout={() =>
               alert("Internet Explorer\nVersion 5.00.2614.3500\n\n© 1995-1999")
             }
@@ -433,83 +590,23 @@ export default function InternetExplorer() {
           <IEInternalNavigation
             canBack={canBack}
             canForward={canForward}
-            loading={loading}
+            loading={activeTab.loading}
+            favorites={favorites}
+            history={activeTab.history}
             onBack={goBack}
             onForward={goForward}
             onStop={stop}
             onRefresh={refresh}
             onHome={goHome}
-          />
-
-          <div className="w-px h-8 bg-[#808080] mx-1" />
-
-          <ToolbarButton
-            onClick={() =>
-              navigate(
-                `https://www2.bing.com/search?q=${encodeURIComponent(pageTitle.replace(" - Internet Explorer", ""))}`,
-              )
+            onNavigate={navigate}
+            onRemoveFavorite={(i) =>
+              setFavorites((f) => f.filter((_, idx) => idx !== i))
             }
-            title="Search"
-          >
-            <svg width="20" height="16" viewBox="0 0 20 16">
-              <circle
-                cx="8"
-                cy="7"
-                r="5"
-                fill="none"
-                stroke="#000080"
-                strokeWidth="1.5"
-              />
-              <line
-                x1="12"
-                y1="11"
-                x2="18"
-                y2="15"
-                stroke="#000080"
-                strokeWidth="2"
-              />
-            </svg>
-            <span>Search</span>
-          </ToolbarButton>
-
-          <ToolbarButton
-            onClick={() => setShowFavorites((v) => !v)}
-            title="Favorites"
-            wide
-          >
-            <svg width="20" height="16" viewBox="0 0 20 16">
-              <path
-                d="M10 2l2 5h5l-4 3 1.5 5L10 12l-4.5 3L7 10 3 7h5z"
-                fill="#c8a000"
-              />
-            </svg>
-            <span>Favorites</span>
-          </ToolbarButton>
-
-          <ToolbarButton title="History" wide>
-            <svg width="20" height="16" viewBox="0 0 20 16">
-              <circle
-                cx="10"
-                cy="8"
-                r="6"
-                fill="none"
-                stroke="#800080"
-                strokeWidth="1.5"
-              />
-              <polyline
-                points="10,4 10,8 13,10"
-                stroke="#800080"
-                strokeWidth="1.5"
-                fill="none"
-              />
-            </svg>
-            <span>History</span>
-          </ToolbarButton>
-
+          />
           <div className="ml-auto mr-1 flex-shrink-0">
             <Image
               src="/icons/internet-explorer.png"
-              alt="Internet Explorer Logo"
+              alt="IE"
               width={28}
               height={28}
             />
@@ -524,95 +621,84 @@ export default function InternetExplorer() {
               "flex-1 flex items-center bg-white px-1 gap-1",
             )}
           >
-            {currentUrl && !isHome && (
+            {activeTab.url && !activeTab.isHome && (
               <Image
                 src="/icons/internet-explorer.png"
-                alt="Internet Explorer Logo"
+                alt=""
                 width={14}
                 height={14}
               />
             )}
             <input
               className="flex-1 outline-none text-xs py-0.5 bg-white font-mono"
-              value={addressInput}
+              value={activeTab.addressInput}
               onChange={(e) => setAddressInput(e.target.value)}
-              onKeyDown={handleAddressKey}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") navigate(activeTab.addressInput);
+              }}
               onFocus={(e) => e.target.select()}
               placeholder="Type a web address or search term and press Enter"
               spellCheck={false}
             />
           </div>
           <button
-            onClick={() => navigate(addressInput)}
+            onClick={() => navigate(activeTab.addressInput)}
             className={cn(
               raised,
-              "bg-[#c0c0c0] px-3 py-0.5 text-xs cursor-default active:border-t-[#808080] active:border-l-[#808080] active:border-b-white active:border-r-white",
+              "bg-[#c0c0c0] px-3 py-0.5 text-xs cursor-default",
             )}
           >
             Go
           </button>
         </div>
 
-        <div className="flex flex-1 min-h-0 overflow-hidden">
-          {showFavorites && (
-            <div className="w-48 flex-shrink-0 border-r-2 border-[#808080] bg-[#c0c0c0] flex flex-col overflow-hidden">
-              <div className="flex items-center justify-between px-2 py-1 bg-[#000080] text-white text-xs font-bold flex-shrink-0">
-                <span>Favorites</span>
-                <button
-                  onClick={() => setShowFavorites(false)}
-                  className="hover:bg-[#0000cc] px-1"
-                >
-                  ✕
-                </button>
-              </div>
-              <div className="flex-1 overflow-y-auto bg-white">
-                {favorites.map((f, i) => (
-                  <div
-                    key={i}
-                    onClick={() => navigate(f.url)}
-                    className="flex items-center gap-1.5 px-2 py-1 text-xs cursor-default hover:bg-[#000080] hover:text-white border-b border-gray-100"
-                  >
-                    <Image
-                      src="/icons/internet-explorer.png"
-                      alt="Internet Explorer Logo"
-                      width={12}
-                      height={12}
-                    />
-                    <span className="truncate">{f.label}</span>
+        <TabBar
+          tabs={tabs}
+          activeId={activeTabId}
+          onSelect={setActiveTabId}
+          onClose={closeTab}
+          onNew={() => openNewTab()}
+        />
+
+        <div className="flex-1 relative overflow-hidden bg-white">
+          {tabs.map((tab) => (
+            <div
+              key={tab.id}
+              className={cn(
+                "absolute inset-0",
+                tab.id === activeTabId ? "block" : "hidden",
+              )}
+            >
+              {tab.isHome ? (
+                <Homepage onNavigate={navigate} />
+              ) : tab.iframeError ? (
+                <ErrorPage
+                  url={tab.url}
+                  onOpenTab={() => window.open(tab.url, "_blank")}
+                />
+              ) : (
+                <iframe
+                  ref={(el) => {
+                    iframeRefs.current.set(tab.id, el);
+                  }}
+                  src={tab.url}
+                  className="w-full h-full border-none"
+                  onLoad={() => handleIframeLoad(tab.id)}
+                  onError={() => handleIframeError(tab.id)}
+                  title={`tab-${tab.id}`}
+                  sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
+                />
+              )}
+
+              {tab.loading && !tab.iframeError && !tab.isHome && (
+                <div className="absolute inset-0 bg-white bg-opacity-60 flex items-center justify-center pointer-events-none">
+                  <div className="text-[#000080] text-sm font-bold animate-pulse">
+                    Loading...
                   </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          <div className="flex-1 relative overflow-hidden bg-white">
-            {isHome ? (
-              <Homepage onNavigate={navigate} />
-            ) : iframeError ? (
-              <ErrorPage
-                url={currentUrl}
-                onOpenTab={() => window.open(currentUrl, "_blank")}
-              />
-            ) : (
-              <iframe
-                ref={iframeRef}
-                src={currentUrl}
-                className="w-full h-full border-none"
-                onLoad={handleIframeLoad}
-                onError={handleIframeError}
-                title="browser-content"
-                sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
-              />
-            )}
-
-            {loading && !iframeError && !isHome && (
-              <div className="absolute inset-0 bg-white bg-opacity-60 flex items-center justify-center pointer-events-none">
-                <div className="text-[#000080] text-sm font-bold animate-pulse">
-                  Loading...
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          ))}
         </div>
 
         <div className="flex-shrink-0 border-t border-[#808080]">
@@ -624,7 +710,6 @@ export default function InternetExplorer() {
               />
             </div>
           )}
-
           <div className="flex items-center px-1 gap-1 bg-[#c0c0c0] h-5">
             <div className={cn(inset1, "flex-1 px-1 text-[10px] truncate")}>
               {status}
@@ -635,7 +720,15 @@ export default function InternetExplorer() {
                 "w-32 px-1 text-[10px] truncate text-center",
               )}
             >
-              {currentUrl ? new URL(currentUrl).hostname : ""}
+              {activeTab.url
+                ? (() => {
+                    try {
+                      return new URL(activeTab.url).hostname;
+                    } catch {
+                      return "";
+                    }
+                  })()
+                : ""}
             </div>
             <div
               className={cn(
@@ -650,6 +743,9 @@ export default function InternetExplorer() {
                 />
               </svg>
               Internet
+            </div>
+            <div className={cn(inset1, "px-2 text-[10px] text-gray-500")}>
+              {tabs.length} tab{tabs.length !== 1 ? "s" : ""}
             </div>
           </div>
         </div>
@@ -674,7 +770,7 @@ export default function InternetExplorer() {
                 <span className="text-white text-xs font-bold flex items-center gap-1">
                   <Image
                     src="/icons/internet-explorer.png"
-                    alt="Internet Explorer Logo"
+                    alt=""
                     width={12}
                     height={12}
                   />{" "}
