@@ -17,7 +17,12 @@ import { DisplayProperties } from "../programs/display-properties/display-proper
 import Terminal from "../programs/terminal/terminal";
 import Winamp from "../programs/winamp/winamp";
 import InternetExplorer from "../programs/IE/internet-explorer";
-import Paint from "../programs/paint/paint";
+import dynamic from "next/dynamic";
+
+const Paint = dynamic(() => import("../programs/paint/paint"), {
+  ssr: false,
+  loading: () => null,
+});
 
 export default function Desktop() {
   const { frontend, backend } = useAppSelector((state) => state.projects);
