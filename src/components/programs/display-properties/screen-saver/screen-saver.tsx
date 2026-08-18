@@ -1,5 +1,5 @@
 import { Win98Button } from "@/components/shared/win-98-button";
-import Win98Checkbox from "@/components/shared/win-98-checkbox";
+import { Win98Checkbox } from "@/components/shared/win-98-checkbox";
 import { useState } from "react";
 import MonitorPreview from "../monitor-preview";
 import { ScreenSaverWrapper } from "./screen-saver-wrapper";
@@ -70,7 +70,7 @@ export default function ScreenSaver() {
         <div className="mt-3 flex items-center gap-2">
           <Win98Checkbox
             checked={passwordProtected}
-            onChange={(v) => dispatch(setScreenSaverPassword(v))}
+            onChange={(v: boolean) => dispatch(setScreenSaverPassword(v))}
             label="Password protected"
           />
           <Win98Button className="ml-auto">Change...</Win98Button>
