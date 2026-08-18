@@ -28,11 +28,14 @@ import MessageContainer from "./message-container";
 import Link from "next/link";
 import DockList from "./dock-list";
 import { openWindow } from "@/store/window-manager-slice";
+import { useMonitor } from "@/hooks/use-monitor";
 
 export default function Dock() {
   const dispatch = useAppDispatch();
 
   const projectsStatus = useAppSelector((state) => state.projects.status);
+
+  const { isMonitor2 } = useMonitor();
 
   const handleOpen = (id: number) => {
     dispatch(openWindow(id));
@@ -46,139 +49,146 @@ export default function Dock() {
 
   return (
     <Card className="crt w-full h-8 flex items-center bg-[#C0C0C0] fixed bottom-0 left-0 rounded-none shrink-0 border-white border-0 border-t-[1px] z-[100]">
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            size="icon"
-            variant="w98"
-            className="flex items-center w-[70px] h-6"
-          >
-            <Image
-              width={0}
-              height={0}
-              alt="Windows logo"
-              src={"/windows.png"}
-              className="w-auto"
-            />
-            <span className="font-semibold">Start</span>
-          </Button>
-        </DropdownMenuTrigger>
-
-        <DropdownMenuContent
-          className="crt w-[300px] p-0 flex gap-2 shadow-none h-96 bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-2 border-solid border-black border-t-white border-l-white border-b-transparent rounded-none"
-          align="start"
-        >
-          <div className="w-5 h-full bg-gradient-to-b mt-0 from-[#1084d0] to-[#010f80] flex items-end">
-            <h1 className="-rotate-90 text-white w-full font-semibold">
-              98.portfolio
-            </h1>
-          </div>
-          <div className="w-full pr-2">
-            <DropdownMenuLabel>Alexandre Dresch</DropdownMenuLabel>
-
-            <DropdownMenuSeparator />
-
-            <DropdownMenuGroup>
-              <DropdownMenuItem onClick={() => handleOpen(3)}>
-                BackEnd
-                <DropdownMenuShortcut>⇧⌘B</DropdownMenuShortcut>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleOpen(4)}>
-                FrontEnd
-                <DropdownMenuShortcut>⌘F</DropdownMenuShortcut>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleOpen(5)}>
-                Mobile
-                <DropdownMenuShortcut>⌘M</DropdownMenuShortcut>
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-
-            <DropdownMenuSeparator />
-
-            <DropdownMenuGroup>
-              <DropdownMenuItem onClick={() => handleOpen(7)}>
-                About
-                <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleOpen(16)}>
-                MS-DOS Prompt
-                <DropdownMenuShortcut>⌘T</DropdownMenuShortcut>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleOpen(18)}>
-                Settings
-                <DropdownMenuShortcut>⌘A</DropdownMenuShortcut>
-              </DropdownMenuItem>
-
-              <DropdownMenuSub>
-                <DropdownMenuSubTrigger className="data-[state=open]:text-white">
-                  Programs
-                </DropdownMenuSubTrigger>
-                <DropdownMenuPortal>
-                  <DropdownMenuSubContent className="crt flex px-0 flex-col bg-[#C0C0C0] border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none">
-                    <DropdownMenuItem onClick={() => handleOpen(24)}>
-                      Winamp
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-
-                    <DropdownMenuItem onClick={() => handleOpen(10)}>
-                      Internet Explorer
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-
-                    <DropdownMenuItem onClick={() => handleOpen(14)}>
-                      Paint
-                    </DropdownMenuItem>
-                  </DropdownMenuSubContent>
-                </DropdownMenuPortal>
-              </DropdownMenuSub>
-            </DropdownMenuGroup>
-
-            <DropdownMenuSeparator />
-
-            <DropdownMenuSub>
-              <DropdownMenuSubTrigger className="data-[state=open]:text-white">
-                My Resume
-              </DropdownMenuSubTrigger>
-              <DropdownMenuPortal>
-                <DropdownMenuSubContent className="crt flex px-0 flex-col bg-[#C0C0C0] border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none">
-                  <DropdownMenuItem onClick={() => handleOpen(6)}>
-                    English
-                    <DropdownMenuShortcut>⌘E</DropdownMenuShortcut>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>
-                    Portuguese
-                    <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
-                  </DropdownMenuItem>
-                </DropdownMenuSubContent>
-              </DropdownMenuPortal>
-            </DropdownMenuSub>
-
-            <DropdownMenuItem>
-              <Link href="https://github.com/AlexandreDresch" target="_blank">
-                GitHub
-              </Link>
-
-              <DropdownMenuShortcut>⌘G</DropdownMenuShortcut>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Link
-                href="https://www.linkedin.com/in/alexandre-dresch/"
-                target="_blank"
+      {!isMonitor2 && (
+        <>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                size="icon"
+                variant="w98"
+                className="flex items-center w-[70px] h-6"
               >
-                LinkedIn
-              </Link>
+                <Image
+                  width={0}
+                  height={0}
+                  alt="Windows logo"
+                  src={"/windows.png"}
+                  className="w-auto"
+                />
+                <span className="font-semibold">Start</span>
+              </Button>
+            </DropdownMenuTrigger>
 
-              <DropdownMenuShortcut>⌘L</DropdownMenuShortcut>
-            </DropdownMenuItem>
-          </div>
-        </DropdownMenuContent>
-      </DropdownMenu>
+            <DropdownMenuContent
+              className="crt w-[300px] p-0 flex gap-2 shadow-none h-96 bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-2 border-solid border-black border-t-white border-l-white border-b-transparent rounded-none"
+              align="start"
+            >
+              <div className="w-5 h-full bg-gradient-to-b mt-0 from-[#1084d0] to-[#010f80] flex items-end">
+                <h1 className="-rotate-90 text-white w-full font-semibold">
+                  98.portfolio
+                </h1>
+              </div>
+              <div className="w-full pr-2">
+                <DropdownMenuLabel>Alexandre Dresch</DropdownMenuLabel>
 
-      <Separator
-        orientation="vertical"
-        className="mx-1 bg-[#808080] w-[2px] border-white border-r-[1px] h-6"
-      />
+                <DropdownMenuSeparator />
+
+                <DropdownMenuGroup>
+                  <DropdownMenuItem onClick={() => handleOpen(3)}>
+                    BackEnd
+                    <DropdownMenuShortcut>⇧⌘B</DropdownMenuShortcut>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleOpen(4)}>
+                    FrontEnd
+                    <DropdownMenuShortcut>⌘F</DropdownMenuShortcut>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleOpen(5)}>
+                    Mobile
+                    <DropdownMenuShortcut>⌘M</DropdownMenuShortcut>
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+
+                <DropdownMenuSeparator />
+
+                <DropdownMenuGroup>
+                  <DropdownMenuItem onClick={() => handleOpen(7)}>
+                    About
+                    <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleOpen(16)}>
+                    MS-DOS Prompt
+                    <DropdownMenuShortcut>⌘T</DropdownMenuShortcut>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleOpen(18)}>
+                    Settings
+                    <DropdownMenuShortcut>⌘A</DropdownMenuShortcut>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuSub>
+                    <DropdownMenuSubTrigger className="data-[state=open]:text-white">
+                      Programs
+                    </DropdownMenuSubTrigger>
+                    <DropdownMenuPortal>
+                      <DropdownMenuSubContent className="crt flex px-0 flex-col bg-[#C0C0C0] border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none">
+                        <DropdownMenuItem onClick={() => handleOpen(24)}>
+                          Winamp
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+
+                        <DropdownMenuItem onClick={() => handleOpen(10)}>
+                          Internet Explorer
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+
+                        <DropdownMenuItem onClick={() => handleOpen(14)}>
+                          Paint
+                        </DropdownMenuItem>
+                      </DropdownMenuSubContent>
+                    </DropdownMenuPortal>
+                  </DropdownMenuSub>
+                </DropdownMenuGroup>
+
+                <DropdownMenuSeparator />
+
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger className="data-[state=open]:text-white">
+                    My Resume
+                  </DropdownMenuSubTrigger>
+                  <DropdownMenuPortal>
+                    <DropdownMenuSubContent className="crt flex px-0 flex-col bg-[#C0C0C0] border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none">
+                      <DropdownMenuItem onClick={() => handleOpen(6)}>
+                        English
+                        <DropdownMenuShortcut>⌘E</DropdownMenuShortcut>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem>
+                        Portuguese
+                        <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
+                      </DropdownMenuItem>
+                    </DropdownMenuSubContent>
+                  </DropdownMenuPortal>
+                </DropdownMenuSub>
+
+                <DropdownMenuItem>
+                  <Link
+                    href="https://github.com/AlexandreDresch"
+                    target="_blank"
+                  >
+                    GitHub
+                  </Link>
+
+                  <DropdownMenuShortcut>⌘G</DropdownMenuShortcut>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link
+                    href="https://www.linkedin.com/in/alexandre-dresch/"
+                    target="_blank"
+                  >
+                    LinkedIn
+                  </Link>
+
+                  <DropdownMenuShortcut>⌘L</DropdownMenuShortcut>
+                </DropdownMenuItem>
+              </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <Separator
+            orientation="vertical"
+            className="mx-1 bg-[#808080] w-[2px] border-white border-r-[1px] h-6 monitor1-only"
+          />
+        </>
+      )}
 
       <div className="w-full">
         <DockList />

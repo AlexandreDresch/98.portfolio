@@ -15,6 +15,8 @@ import { WallpaperMode } from "@/types";
 import { closeWindow } from "@/store/window-manager-slice";
 import ScreenSaver from "./screen-saver/screen-saver";
 import Appearance from "./appearance";
+import Effects from "./effects";
+import { useMonitor } from "@/hooks/use-monitor";
 
 const wallpapers = [
   { name: "(None)", color: "#008080" },
@@ -44,6 +46,9 @@ export function DisplayProperties() {
   const dispatch = useAppDispatch();
 
   const { draft, applied } = useAppSelector((state) => state.settings);
+
+  const { sendToMonitor2 } = useMonitor();
+  sendToMonitor2({ windowId: 19, title: "Display Properties" });
 
   useEffect(() => {
     const index = wallpapers.findIndex(
@@ -113,9 +118,12 @@ export function DisplayProperties() {
 
         {activeTab === "Appearance" && <Appearance />}
 
+        {activeTab === "Effects" && <Effects />}
+
         {activeTab !== "Background" &&
           activeTab !== "Screen Saver" &&
-          activeTab !== "Appearance" && <p>Not implemented</p>}
+          activeTab !== "Appearance" &&
+          activeTab !== "Effects" && <p>Not implemented</p>}
 
         <div className="py-2 flex justify-end gap-1">
           <Win98Button

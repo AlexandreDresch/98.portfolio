@@ -14,6 +14,10 @@ import { cn } from "@/lib/utils";
 import WindowHeader from "@/components/shared/window-header";
 import { WindowWrapperProps } from "@/types";
 
+const MONITOR_CHANNEL = "win98-dual-monitor";
+const EDGE_THRESHOLD = 40;
+const NEAR_THRESHOLD = 120;
+
 export default function WindowWrapper({
   id,
   title,
@@ -33,6 +37,8 @@ export default function WindowWrapper({
   );
 
   const windowRef = useRef<HTMLDivElement>(null);
+  const channelRef = useRef<BroadcastChannel | null>(null);
+  const transferredRef = useRef(false);
 
   const handleMinimize = () => dispatch(minimizeWindow(id));
   const handleMaximize = () => dispatch(maximizeWindow(id));
@@ -43,18 +49,41 @@ export default function WindowWrapper({
   const zIndex = activeWindowId === id ? 999 : 60;
 
   useEffect(() => {
+    try {
+      channelRef.current = new BroadcastChannel(MONITOR_CHANNEL);
+    } catch {}
+    return () => channelRef.current?.close();
+  }, []);
+
+  useEffect(() => {
     if (!windowRef.current) return;
 
     const el = windowRef.current;
     const dragger = el.querySelector(".dragger") as HTMLElement;
     if (!dragger) return;
 
+    const spawnKey = `win98-window-${id}-spawn`;
+    const spawnRaw = sessionStorage.getItem(spawnKey);
+    if (spawnRaw) {
+      try {
+        const { x, y } = JSON.parse(spawnRaw) as { x: number; y: number };
+        el.style.left = `${x}px`;
+        el.style.top = `${y}px`;
+      } catch {}
+      sessionStorage.removeItem(spawnKey);
+    }
+    // ──────────────────────────────────────────────────────────────
+
     let offsetX = 0;
     let offsetY = 0;
     let dragging = false;
 
+    const isMonitor2 =
+      new URLSearchParams(window.location.search).get("monitor") === "2";
+
     const onMouseDown = (e: MouseEvent) => {
       dragging = true;
+      transferredRef.current = false;
       offsetX = e.clientX - el.offsetLeft;
       offsetY = e.clientY - el.offsetTop;
       handleActivate();
@@ -68,9 +97,66 @@ export default function WindowWrapper({
 
       el.style.left = `${x}px`;
       el.style.top = `${y}px`;
+
+      if (!transferredRef.current && channelRef.current) {
+        const w = el.offsetWidth;
+        const h = el.offsetHeight;
+        const edgeW = window.innerWidth;
+        const centrumX = x + w / 2;
+
+        const nearEdge =
+          (!isMonitor2 && centrumX > edgeW - NEAR_THRESHOLD) ||
+          (isMonitor2 && x < NEAR_THRESHOLD);
+
+        el.style.outline = nearEdge ? "2px solid rgba(0,128,255,0.55)" : "";
+        el.style.outlineOffset = nearEdge ? "-2px" : "";
+
+        if (!isMonitor2 && centrumX > edgeW - EDGE_THRESHOLD) {
+          transferredRef.current = true;
+          el.style.outline = "";
+
+          channelRef.current.postMessage({
+            type: "window-transfer",
+            direction: "to-monitor2",
+            payload: {
+              windowId: id,
+              x: Math.max(0, x - edgeW + EDGE_THRESHOLD),
+              y,
+              width: w,
+              height: h,
+            },
+          });
+
+          dispatch(closeWindow(id));
+          return;
+        }
+
+        if (isMonitor2 && x < EDGE_THRESHOLD) {
+          transferredRef.current = true;
+          el.style.outline = "";
+
+          channelRef.current.postMessage({
+            type: "window-transfer",
+            direction: "to-monitor1",
+            payload: {
+              windowId: id,
+              x: Math.max(0, window.innerWidth - w - EDGE_THRESHOLD + x),
+              y,
+              width: w,
+              height: h,
+            },
+          });
+
+          dispatch(closeWindow(id));
+          return;
+        }
+      }
     };
 
-    const onMouseUp = () => (dragging = false);
+    const onMouseUp = () => {
+      dragging = false;
+      el.style.outline = "";
+    };
 
     dragger.addEventListener("mousedown", onMouseDown);
     window.addEventListener("mousemove", onMouseMove);
@@ -81,12 +167,14 @@ export default function WindowWrapper({
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mouseup", onMouseUp);
     };
-  }, [handleActivate]);
+  }, [handleActivate, id, dispatch]);
 
   const handleUnminimize = () => {
     if (program?.isMinimized) dispatch(openWindow(id));
   };
+
   if (program?.isMinimized && !program.isOpen) return null;
+
   return (
     <AnimatePresence>
       {program?.isOpen && (

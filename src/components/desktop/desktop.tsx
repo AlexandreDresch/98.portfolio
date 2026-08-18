@@ -2,7 +2,7 @@
 
 import Clippy from "../clippy/clippy";
 import Shortcut from "../dock/shortcut";
-import { useAppSelector } from "@/store/store";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import ProjectContainer from "../folder/project-container";
 import NotAvailable from "../shared/not-available";
 import { Folder } from "@/types";
@@ -18,6 +18,8 @@ import Terminal from "../programs/terminal/terminal";
 import Winamp from "../programs/winamp/winamp";
 import InternetExplorer from "../programs/IE/internet-explorer";
 import dynamic from "next/dynamic";
+import { useMonitor } from "@/hooks/use-monitor";
+import MonitorReceiver from "@/components/shared/monitor-receiver";
 
 const Paint = dynamic(() => import("../programs/paint/paint"), {
   ssr: false,
@@ -29,58 +31,65 @@ export default function Desktop() {
   const { windows } = useAppSelector((state) => state.windows);
   const folders = windows.filter((window) => window.type === "folder");
 
+  const { isMonitor2 } = useMonitor();
+
   return (
     <DesktopContextMenu>
-      <div className="pt-4 grid grid-flow-col auto-cols-[96px] grid-rows-[repeat(auto-fit,96px)] gap-x-6 gap-y-8 size-full relative overflow-hidden">
-        {folders.map((folder) => (
-          <Shortcut folder={folder as Folder} key={folder.id}>
-            {folder.name === "Backend" && (
-              <ProjectContainer projects={backend} />
-            )}
-            {folder.name === "Frontend" && (
-              <ProjectContainer projects={frontend} />
-            )}
-            {folder.name === "Games" && (
-              <ProgramsContainer
-                programs={[programs.find((p) => p.id === 15)!]}
-              />
-            )}
-            {folder.name === "Recycle Bin" && (
-              <NotAvailable message="Not available yet." />
-            )}
-            {folder.name === "My Computer" && (
-              <NotAvailable message="Not available yet." />
-            )}
-            {folder.name === "Mobile" && (
-              <NotAvailable message="Not available yet." />
-            )}
-            {folder.name === "Contact me" && (
-              <NotAvailable message="Not available yet." />
-            )}
-            {folder.name === "Control Panel" && (
-              <FolderContainer>
-                <ControlPanel />
-              </FolderContainer>
-            )}
-          </Shortcut>
-        ))}
+      <>
+        {!isMonitor2 && (
+          <div className="pt-4 grid grid-flow-col auto-cols-[96px] grid-rows-[repeat(auto-fit,96px)] gap-x-6 gap-y-8 size-full relative overflow-hidden">
+            {folders.map((folder) => (
+              <Shortcut folder={folder as Folder} key={folder.id}>
+                {folder.name === "Backend" && (
+                  <ProjectContainer projects={backend} />
+                )}
+                {folder.name === "Frontend" && (
+                  <ProjectContainer projects={frontend} />
+                )}
+                {folder.name === "Games" && (
+                  <ProgramsContainer
+                    programs={[programs.find((p) => p.id === 15)!]}
+                  />
+                )}
+                {folder.name === "Recycle Bin" && (
+                  <NotAvailable message="Not available yet." />
+                )}
+                {folder.name === "My Computer" && (
+                  <NotAvailable message="Not available yet." />
+                )}
+                {folder.name === "Mobile" && (
+                  <NotAvailable message="Not available yet." />
+                )}
+                {folder.name === "Contact me" && (
+                  <NotAvailable message="Not available yet." />
+                )}
+                {folder.name === "Control Panel" && (
+                  <FolderContainer>
+                    <ControlPanel />
+                  </FolderContainer>
+                )}
+              </Shortcut>
+            ))}
 
-        <Doom />
+            <Doom />
 
-        <Clippy />
+            <Clippy />
 
-        <WelcomeMessage />
+            <WelcomeMessage />
 
-        <DisplayProperties />
+            <DisplayProperties />
 
-        <Terminal />
+            <Terminal />
 
-        <Winamp />
+            <Winamp />
 
-        <Paint />
+            <Paint />
 
-        <InternetExplorer />
-      </div>
+            <InternetExplorer />
+          </div>
+        )}
+        <MonitorReceiver />
+      </>
     </DesktopContextMenu>
   );
 }

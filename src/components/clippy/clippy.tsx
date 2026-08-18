@@ -10,6 +10,7 @@ import {
   showRandomClippyMessage,
   showContextualClippyMessage,
 } from "@/store/clippy-slice";
+import { useMonitor } from "@/hooks/use-monitor";
 
 function TypingText({ text }: { text: string }) {
   const [displayed, setDisplayed] = useState("");
@@ -155,7 +156,8 @@ export default function Clippy() {
     dispatch(showRandomClippyMessage());
   };
 
-  if (!isVisible) return null;
+  const { isMonitor2 } = useMonitor();
+  if (!isVisible || isMonitor2) return null;
 
   return (
     <div
