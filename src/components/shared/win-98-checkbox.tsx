@@ -5,14 +5,14 @@ export function Win98Checkbox({
   disabled,
 }: {
   checked: boolean;
-  onChange: () => void;
+  onChange: (value: boolean) => void;
   label: string;
   disabled?: boolean;
 }) {
   return (
     <label
       className={`flex items-start gap-2 cursor-default select-none group ${disabled ? "opacity-50" : ""}`}
-      onClick={disabled ? undefined : onChange}
+      onClick={disabled ? undefined : () => onChange(!checked)}
     >
       <div
         className="flex-shrink-0 mt-[1px]"
