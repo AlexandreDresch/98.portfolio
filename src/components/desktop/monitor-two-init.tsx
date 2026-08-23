@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const CHANNEL_NAME = "win98-dual-monitor";
+const MONITOR2_ACTIVE_KEY = "win98-monitor2-active";
 
 export default function Monitor2Init() {
   const [isMonitor2, setIsMonitor2] = useState(false);
@@ -14,19 +14,22 @@ export default function Monitor2Init() {
 
     setIsMonitor2(true);
 
-    let channel: BroadcastChannel | null = null;
-    try {
-      channel = new BroadcastChannel(CHANNEL_NAME);
-      channel.postMessage({ type: "monitor2-ready" });
+    localStorage.setItem(
+      MONITOR2_ACTIVE_KEY,
+      JSON.stringify({ active: true, ts: Date.now() }),
+    );
 
-      const onUnload = () => channel?.postMessage({ type: "monitor2-closed" });
-      window.addEventListener("beforeunload", onUnload);
+    const onUnload = () => localStorage.removeItem(MONITOR2_ACTIVE_KEY);
+    window.addEventListener("beforeunload", onUnload);
 
-      return () => {
-        window.removeEventListener("beforeunload", onUnload);
-        channel?.close();
-      };
-    } catch {}
+    const onPageHide = () => localStorage.removeItem(MONITOR2_ACTIVE_KEY);
+    window.addEventListener("pagehide", onPageHide);
+
+    return () => {
+      window.removeEventListener("beforeunload", onUnload);
+      window.removeEventListener("pagehide", onPageHide);
+      localStorage.removeItem(MONITOR2_ACTIVE_KEY);
+    };
   }, []);
 
   if (!isMonitor2) return null;

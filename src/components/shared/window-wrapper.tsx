@@ -13,8 +13,9 @@ import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import WindowHeader from "@/components/shared/window-header";
 import { WindowWrapperProps } from "@/types";
+import { spawnRegistry } from "@/lib/spawn-registry";
 
-const MONITOR_CHANNEL = "win98-dual-monitor";
+const TRANSFER_KEY = "win98-window-transfer";
 const EDGE_THRESHOLD = 40;
 const NEAR_THRESHOLD = 120;
 
@@ -37,7 +38,6 @@ export default function WindowWrapper({
   );
 
   const windowRef = useRef<HTMLDivElement>(null);
-  const channelRef = useRef<BroadcastChannel | null>(null);
   const transferredRef = useRef(false);
 
   const handleMinimize = () => dispatch(minimizeWindow(id));
@@ -49,30 +49,11 @@ export default function WindowWrapper({
   const zIndex = activeWindowId === id ? 999 : 60;
 
   useEffect(() => {
-    try {
-      channelRef.current = new BroadcastChannel(MONITOR_CHANNEL);
-    } catch {}
-    return () => channelRef.current?.close();
-  }, []);
-
-  useEffect(() => {
     if (!windowRef.current) return;
 
     const el = windowRef.current;
     const dragger = el.querySelector(".dragger") as HTMLElement;
     if (!dragger) return;
-
-    const spawnKey = `win98-window-${id}-spawn`;
-    const spawnRaw = sessionStorage.getItem(spawnKey);
-    if (spawnRaw) {
-      try {
-        const { x, y } = JSON.parse(spawnRaw) as { x: number; y: number };
-        el.style.left = `${x}px`;
-        el.style.top = `${y}px`;
-      } catch {}
-      sessionStorage.removeItem(spawnKey);
-    }
-    // ──────────────────────────────────────────────────────────────
 
     let offsetX = 0;
     let offsetY = 0;
@@ -98,7 +79,7 @@ export default function WindowWrapper({
       el.style.left = `${x}px`;
       el.style.top = `${y}px`;
 
-      if (!transferredRef.current && channelRef.current) {
+      if (!transferredRef.current) {
         const w = el.offsetWidth;
         const h = el.offsetHeight;
         const edgeW = window.innerWidth;
@@ -115,17 +96,24 @@ export default function WindowWrapper({
           transferredRef.current = true;
           el.style.outline = "";
 
-          channelRef.current.postMessage({
-            type: "window-transfer",
-            direction: "to-monitor2",
-            payload: {
-              windowId: id,
-              x: Math.max(0, x - edgeW + EDGE_THRESHOLD),
-              y,
-              width: w,
-              height: h,
-            },
-          });
+          const safeX = Math.max(
+            EDGE_THRESHOLD + 20,
+            x - edgeW + EDGE_THRESHOLD,
+          );
+
+          localStorage.setItem(
+            TRANSFER_KEY,
+            JSON.stringify({
+              direction: "to-monitor2",
+              payload: {
+                windowId: id,
+                x: safeX,
+                y,
+                width: w,
+                height: h,
+              },
+            }),
+          );
 
           dispatch(closeWindow(id));
           return;
@@ -135,17 +123,24 @@ export default function WindowWrapper({
           transferredRef.current = true;
           el.style.outline = "";
 
-          channelRef.current.postMessage({
-            type: "window-transfer",
-            direction: "to-monitor1",
-            payload: {
-              windowId: id,
-              x: Math.max(0, window.innerWidth - w - EDGE_THRESHOLD + x),
-              y,
-              width: w,
-              height: h,
-            },
-          });
+          const safeX = Math.max(
+            EDGE_THRESHOLD + 20,
+            window.innerWidth - w - EDGE_THRESHOLD + x,
+          );
+
+          localStorage.setItem(
+            TRANSFER_KEY,
+            JSON.stringify({
+              direction: "to-monitor1",
+              payload: {
+                windowId: id,
+                x: safeX,
+                y,
+                width: w,
+                height: h,
+              },
+            }),
+          );
 
           dispatch(closeWindow(id));
           return;
@@ -169,6 +164,18 @@ export default function WindowWrapper({
     };
   }, [handleActivate, id, dispatch]);
 
+  useEffect(() => {
+    if (!program?.isOpen) return;
+    if (!windowRef.current) return;
+
+    const spawn = spawnRegistry.get(id);
+    if (!spawn) return;
+
+    windowRef.current.style.left = `${spawn.x}px`;
+    windowRef.current.style.top = `${spawn.y}px`;
+    spawnRegistry.delete(id);
+  }, [id, program?.isOpen]);
+
   const handleUnminimize = () => {
     if (program?.isMinimized) dispatch(openWindow(id));
   };
@@ -179,6 +186,7 @@ export default function WindowWrapper({
     <AnimatePresence>
       {program?.isOpen && (
         <motion.div
+          key={id}
           ref={windowRef}
           onMouseDown={handleActivate}
           onDoubleClick={handleUnminimize}

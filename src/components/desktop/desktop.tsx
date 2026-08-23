@@ -2,7 +2,7 @@
 
 import Clippy from "../clippy/clippy";
 import Shortcut from "../dock/shortcut";
-import { useAppDispatch, useAppSelector } from "@/store/store";
+import { useAppSelector } from "@/store/store";
 import ProjectContainer from "../folder/project-container";
 import NotAvailable from "../shared/not-available";
 import { Folder } from "@/types";
@@ -71,23 +71,23 @@ export default function Desktop() {
               </Shortcut>
             ))}
 
-            <Doom />
-
             <Clippy />
 
             <WelcomeMessage />
-
-            <DisplayProperties />
-
-            <Terminal />
-
-            <Winamp />
-
-            <Paint />
-
-            <InternetExplorer />
           </div>
         )}
+
+        <Doom />
+
+        <DisplayProperties />
+
+        <Terminal />
+
+        <Winamp />
+
+        <Paint />
+
+        <InternetExplorer />
         <MonitorReceiver />
       </>
     </DesktopContextMenu>
