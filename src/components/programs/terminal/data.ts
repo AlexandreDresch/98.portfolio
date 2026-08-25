@@ -89,8 +89,12 @@ Available commands:
   time          Display current time
   echo [text]   Print text to screen
   color [code]  Change text color (e.g. color 0a)
-  prompt        Change command prompt style
-  exit          Close terminal (not really)
+  sysinfo       System information
+  mem           Memory usage
+  set           Environment variables
+  path          Display PATH variable
+  prompt        Change command prompt
+  exit          Exit terminal (spoiler: you can't)
   shutdown      Shutdown computer
   restart       Restart computer
 
@@ -99,58 +103,52 @@ Available commands:
   dir / ls      List directory contents
   cd [dir]      Change directory
   md [dir]      Make directory
-  rd [dir]      Remove directory
   type [file]   Display file contents
   del [file]    Delete a file
   copy          Copy a file
-  move          Move a file
-  rename        Rename a file
-  format c:     Format drive C: (!!!)
-  deltree       Delete directory tree (!!!)
+  format c:     Format drive C:
+  deltree       Delete directory tree
 
   NETWORK
   ───────
   ping [host]   Ping a network host
-  ipconfig      Display network config
-  netstat       Display network connections
+  ipconfig      Display network configuration
+  netstat       Display active connections
   tracert       Trace route to host
   nslookup      DNS lookup
+  telnet        Connect to a remote host
 
   FUN COMMANDS
   ────────────
   matrix        Enter the Matrix
   miku          Display Hatsune Miku
   hack          Initiate hacking sequence
-  coffee        Display ASCII coffee
-  cat           Display ASCII cat
+  coffee        ASCII coffee
+  cat           ASCII cat
+  love          ASCII heart
   doom          It runs Doom
-  skills        Developer skills list
-  snake         Classic snake game hint
-  love          Show some love
-  joke          Tell a joke
-  rickroll      Never gonna give you up...
-  sudo          Try Linux in Windows
-  cowsay [text] Make a cow say something
-  ascii [text]  Display text in ASCII art
-  screensaver   Activate screensaver mode
-  credits       Show terminal credits
+  skills        Developer skill chart
+  snake         Snake (sort of)
+  joke          Random programmer joke
+  rickroll      Classic
+  cowsay [text] A cow says things
+  screensaver   Activate screensaver
+  credits       Credits
 
-  DARK HUMOR COMMANDS (new!)
-  ─────────────────────────
-  bsod          Trigger the infamous Blue Screen of Death
-  clippy        Your annoying paperclip friend from hell
-  virus         Install a friendly nostalgic malware
-  y2k           Relive the end of the world (again)
-  defrag        Defragment your shattered dreams
-  scandisk      Check for errors in your existence
-  taskkill      End processes (and your motivation)
-  regedit       Registry roulette
-  ie            Internet Exploder 5.0
-  minesweeper   Click mines, lose all hope
+  HISTORICAL DOCUMENTS
+  ────────────────────
+  google        Search the web (1998 edition)
+  chatgpt       AI assistant (early access)
+  bitcoin       Cryptocurrency investment terminal
+  napster       Music acquisition software
+  geocities     Visit a website
+  limewire      File sharing client
+  netscape      The other browser
+  millennium    Y2K threat assessment
 
-  SECRET COMMANDS (find them yourself...)
+  SECRET COMMANDS — you'll know them when you find them.
 
-Type [command] /? for more information about a command.
+Press Tab to autocomplete commands.
 `;
 
 export const IPCONFIG = `
@@ -161,7 +159,6 @@ Windows 98 IP Configuration
 
 Ethernet adapter Local Area Connection:
 
-  Connection-specific DNS Suffix  :
   IP Address. . . . . . . . . . . : 192.168.1.42
   Subnet Mask . . . . . . . . . . : 255.255.255.0
   Default Gateway . . . . . . . . : 192.168.1.1
@@ -218,10 +215,8 @@ export const CAT_ASCII = `
 ( (  )   (  ) )
 (__(__)___(__)__)
 
-  C:\\> cat.exe
-  Meow! I am a cat running on Windows 98.
-  Current mood: Knocking things off the desk.
-  Hairballs generated today: 3
+  Meow. I run on Windows 98.
+  Current status: ignoring you.
 `;
 
 export const LOVE_ASCII = `
@@ -237,7 +232,6 @@ export const LOVE_ASCII = `
        ♥♥♥
         ♥
 
-  Made with love in Windows 98.
   "To error is human, to crash divine."
 `;
 
@@ -249,59 +243,39 @@ export const DOOM_ASCII = `
  |____/|____/|____/|_|  |_|
 
   It runs Doom. Everything runs Doom.
-  
-  Yes, even this Windows 98 terminal.
-  
+
   E1M1: Hangar loading...
   ████████████████ 100%
-  
+
   DEMONS AHEAD. RIPPING AND TEARING REQUIRED.
-  
+
   UAC MARS BASE - SECTOR 1
   ┌────────────────────────────────┐
-  │  ▓▓▓▓▓▓▓▓▒▒▒▒░░░░░░░░░░        │
-  │  AMMO: 50  HP: 100  ARMOR: 0   │
+  │  ▓▓▓▓▓▓▓▓▒▒▒▒░░░░░░░░░░       │
+  │  AMMO: 50  HP: 100  ARMOR: 0  │
   └────────────────────────────────┘
 `;
 
 export const CREDITS = `
   ╔══════════════════════════════════════╗
-  ║     98.portfolio   v1.0 CREDITS      ║
+  ║     98.portfolio  v1.0  CREDITS      ║
   ╠══════════════════════════════════════╣
   ║                                      ║
   ║  Built with:  React + TypeScript     ║
-  ║  Styled with: TailwindCSS + CSS      ║
+  ║  Styled with: TailwindCSS            ║
   ║  Author:      Alexandre Dresch       ║
   ║                                      ║
   ║  Inspired by:                        ║
   ║  - Windows 98 (obviously)            ║
   ║  - MS-DOS 6.22                       ║
-  ║  - Actual terminal emulators         ║
+  ║  - Hatsune Miku                      ║
   ║                                      ║
   ║  Easter Eggs: ??? found / 8 total    ║
-  ║                                      ║
-  ║  "Windows 98 was not that bad."      ║
-  ║              - Someone, probably     ║
   ╚══════════════════════════════════════╝
 `;
 
-export const JOKES = [
-  "Why do programmers prefer dark mode?\nBecause light attracts bugs!\n",
-  "Why did Windows 98 crash?\nBecause it wanted to show Bill Gates was human too!\n",
-  "What's a computer's favorite snack?\nMicrochips!\n",
-  "Why did the programmer quit?\nBecause they didn't get arrays!\n",
-  "How many programmers does it take to change a lightbulb?\nNone. That's a hardware problem.\n",
-  "Knock knock.\nWho's there?\nSegmentation fault.\n",
-  "There are 10 types of people in this world.\nThose who understand binary, and those who don't.\n",
-  "Why doesn't Windows 98 ever get depressed?\nBecause it crashes before it can feel anything.\n",
-  "I asked my Windows 98 PC for advice on life.\nIt responded with a BSOD.\nDeep.\n",
-  "Windows 98: Proof that sometimes the bug IS the feature.\n",
-  "How is Windows 98 like a bad relationship?\nIt crashes constantly and you keep coming back anyway.\n",
-  "Bill Gates walks into a bar. Bartender says 'Why the long face?' Bill replies '640K ought to be enough...'\n",
-];
-
 export const SKILLS = `
-  Developer Skills Detected:
+  Developer Skills:
   ════════════════════════════════════════
   
   Frontend:
@@ -322,10 +296,22 @@ export const SKILLS = `
     ████████████████████ Docker        95%
     ████████████████████ ASCII Art    100%
     ████████████████████ Miku Respect  ∞%
-  
-  Status: Ready to deploy to production
-          (but will it blend in prod?)
 `;
+
+export const JOKES: string[] = [
+  "Why do programmers prefer dark mode?\nBecause light attracts bugs.\n",
+  "A user asks the sysadmin: 'What's the difference between Windows 95 and Windows 98?'\nThe sysadmin says: 'Three years of the same problems.'\n",
+  "There are 10 types of people in this world.\nThose who understand binary, and those who don't have enough RAM to care.\n",
+  "A programmer's partner says: 'Go to the store. Get a loaf of bread. If they have eggs, get a dozen.'\nThe programmer comes home with 12 loaves of bread.\n",
+  "How do you generate a random string?\nPut a Windows 98 user in front of Word and ask them to save.\n",
+  "The programmer sat staring at the screen for hours.\nFinally they looked up and said: 'It compiles.'\nThat was enough for one day.\n",
+  "A QA engineer walks into a bar.\nOrders 0 beers. Orders 99999 beers. Orders -1 beers. Orders a lizard.\nOrders NULL beers. Orders asdfjkl; beers.\nFirst real customer walks in and asks where the bathroom is. Bar bursts into flames.\n",
+  "Why did the developer quit their job?\nBecause they didn't get arrays.\n",
+  "Knock knock.\nWho's there?\nA recursion joke.\nA recursion joke who?\nKnock knock.\n",
+  "'It works on my machine' was eventually accepted as a valid deployment strategy.\n",
+  "The first rule of optimization: don't.\nThe second rule: don't, yet.\nThe third rule: profile before you optimize.\nThe fourth rule: Windows 98 will crash before you get to step three.\n",
+  "Two strings walk into a bar.\nThe first string says: 'I'll have a beer please.'\nThe second string says: 'I'll have a beer tooo!!! SIGTERM.'\nThe bartender says: 'Sorry, we don't serve NULL-terminated strings here.'\n",
+];
 
 export const COLORS: Record<string, string> = {
   "0": "#000000",
@@ -348,19 +334,21 @@ export const COLORS: Record<string, string> = {
 
 export const HIDDEN_COMMANDS: Record<string, string> = {
   xyzzy: "Nothing happens.\n(Or does it?)\n",
-  iddqd: "Degreelessness mode ON\nYou are now invincible!\n(This is a lie.)\n",
+  iddqd: "Degreelessness mode ON.\nYou are now invincible.\n(This is a lie.)\n",
   idkfa:
-    "All weapons and ammo granted!\nKeys obtained. Ripping and tearing in progress.\n",
-  konami: "↑ ↑ ↓ ↓ ← → ← → B A\n+30 lives granted!\n",
-  "42": "The answer to life, the universe, and everything.\n(You already knew this.)\n",
-  pleasecrash: "Nice try. Windows 98 doesn't need your help to crash.\n",
+    "All weapons granted. Keys obtained.\nRipping and tearing commences.\n",
+  konami: "↑ ↑ ↓ ↓ ← → ← → B A\n30 lives granted.\n",
+  "42": "The answer to life, the universe, and everything.\nYou already knew this.\n",
+  pleasecrash: "Nice try. Windows 98 doesn't need your help with that.\n",
   "hello world":
-    'Hello, World!\n"The classic. The original. The one that started it all."\n',
-  "open the pod bay doors": "I\'m sorry, Dave. I\'m afraid I can\'t do that.\n",
-  y2k: "WARNING: Y2K BUG DETECTED\nJK, it's fine. The world survived.\n1999 → 2000: Successfully navigated.\n",
-  "windows me": "Do not speak of such things in this house.\n",
+    "Hello, World.\nThe original. The only one that ever mattered.\n",
+  "open the pod bay doors": "I'm sorry, Dave. I'm afraid I can't do that.\n",
+  "windows me": "We don't talk about Windows Me.\n",
   "bill gates":
     'Bill Gates has entered the chat.\n> "640K ought to be enough for anybody."\nBill Gates has left the chat.\n',
   "turn it off and on again":
-    "Have you tried turning it off and on again?\n> Restarting...\n> Restarting...\n> Restarting...\nIT: Did you try turning it off and on again?\n",
+    "Have you tried turning it off and on again?\n...\nIT has arrived. The problem is gone. No one knows why.\n",
+  "the cake is a lie": "There is no cake.\nThere was never any cake.\n",
+  leet: "1337 5p34k 4ct1v4t3d.\n[Easter Egg #5 found]\n",
+  sudo: "bash: sudo: command not found.\nThis is Windows 98. The concept of privilege separation is theoretical here.\n",
 };
