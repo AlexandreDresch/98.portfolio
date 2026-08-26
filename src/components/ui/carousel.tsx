@@ -5,7 +5,6 @@ import useEmblaCarousel, {
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { Separator } from "./separator";
 
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
@@ -58,14 +57,14 @@ const Carousel = React.forwardRef<
       count,
       ...props
     },
-    ref
+    ref,
   ) => {
     const [carouselRef, api] = useEmblaCarousel(
       {
         ...opts,
         axis: orientation === "horizontal" ? "x" : "y",
       },
-      plugins
+      plugins,
     );
     const [canScrollPrev, setCanScrollPrev] = React.useState(false);
     const [canScrollNext, setCanScrollNext] = React.useState(false);
@@ -125,7 +124,7 @@ const Carousel = React.forwardRef<
           scrollNext();
         }
       },
-      [scrollPrev, scrollNext]
+      [scrollPrev, scrollNext],
     );
 
     React.useEffect(() => {
@@ -180,92 +179,11 @@ const Carousel = React.forwardRef<
           aria-roledescription="carousel"
           {...props}
         >
-          <div className="flex items-center gap-2 bg-[#C0C0C0] h-14 p-[2px]">
-            <Separator
-              orientation="vertical"
-              className="bg-[#C0C0C0] h-full w-1 border-l-[1px] border-l-white border-r-[1px] border-r-[#808080]"
-            />
-            <Button
-              variant="ghost"
-              className="size-12 flex flex-col p-1 rounded-none border-[1px] border-transparent hover:border-black hover:border-t-white hover:border-l-white"
-              onClick={scrollPrev}
-            >
-              <Image
-                width={0}
-                height={0}
-                alt="Go back"
-                src="/arrow-left.svg"
-                className="w-6 h-auto"
-              />
-            </Button>
-
-            <Button
-              variant="ghost"
-              className="size-12 flex flex-col p-1 rounded-none border-[1px] border-transparent hover:border-black hover:border-t-white hover:border-l-white"
-              onClick={scrollNext}
-            >
-              <Image
-                width={0}
-                height={0}
-                alt="Go forward"
-                src="/arrow-right.svg"
-                className="w-6 h-auto"
-              />
-            </Button>
-
-            <Separator
-              orientation="vertical"
-              className="bg-[#C0C0C0] h-full w-1 border-l-[1px] border-l-white border-r-[1px] border-r-[#808080]"
-            />
-
-            <Button
-              variant="ghost"
-              className="size-12 flex flex-col p-1 rounded-none border-[1px] border-transparent hover:border-black hover:border-t-white hover:border-l-white"
-              onClick={toggleAutoPlay}
-            >
-              <Image
-                width={30}
-                height={24}
-                alt="Go forward"
-                src="/icons/multimedia.png"
-                className="w-7 h-auto"
-              />
-            </Button>
-
-            <Button
-              variant="ghost"
-              className="size-12 flex flex-col p-1 rounded-none border-[1px] border-transparent hover:border-black hover:border-t-white hover:border-l-white"
-            >
-              <Image
-                width={30}
-                height={24}
-                alt="Go forward"
-                src="/icons/magnifying-glass.png"
-                className="w-7 h-auto"
-              />
-            </Button>
-
-            <Separator
-              orientation="vertical"
-              className="bg-[#C0C0C0] h-full w-1 border-l-[1px] border-l-white border-r-[1px] border-r-[#808080]"
-            />
-
-            <div className="ml-auto bg-white p-2">
-              <p>
-                Image {current} of {count}
-              </p>
-            </div>
-
-            <Separator
-              orientation="vertical"
-              className="bg-[#C0C0C0] h-full w-1 border-l-[1px] border-l-white border-r-[1px] border-r-[#808080]"
-            />
-          </div>
           {children}
         </div>
       </CarouselContext.Provider>
     );
-  }
+  },
 );
 Carousel.displayName = "Carousel";
 
@@ -282,7 +200,7 @@ const CarouselContent = React.forwardRef<
         className={cn(
           "flex",
           orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col",
-          className
+          className,
         )}
         {...props}
       />
@@ -305,7 +223,7 @@ const CarouselItem = React.forwardRef<
       className={cn(
         "min-w-0 shrink-0 grow-0 basis-full",
         orientation === "horizontal" ? "pl-4" : "pt-4",
-        className
+        className,
       )}
       {...props}
     />
@@ -329,7 +247,7 @@ const CarouselPrevious = React.forwardRef<
         orientation === "horizontal"
           ? "-left-12 top-1/2 -translate-y-1/2"
           : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
-        className
+        className,
       )}
       disabled={!canScrollPrev}
       onClick={scrollPrev}
@@ -364,7 +282,7 @@ const CarouselNext = React.forwardRef<
         orientation === "horizontal"
           ? "-right-12 top-1/2 -translate-y-1/2"
           : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
-        className
+        className,
       )}
       disabled={!canScrollNext}
       onClick={scrollNext}

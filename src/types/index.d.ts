@@ -83,6 +83,7 @@ export interface DocumentViewerProps {
 
 export interface ImageSliderProps {
   images: string[];
+  initialIndex?: number;
 }
 
 export interface ImageMagnifierProps {
@@ -177,6 +178,7 @@ export type WindowWrapperProps = {
     minimize?: boolean;
     maximize?: boolean;
   };
+  crtEffect?: boolean;
 };
 
 export interface ScreenSaverSettings {

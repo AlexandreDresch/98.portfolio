@@ -390,7 +390,7 @@ export const programs = [
     isOpen: false,
     isMaximized: false,
     isMinimized: false,
-    image: "/image-viewer.png",
+    image: "/icons/kodak-image.png",
   },
   {
     id: 12,

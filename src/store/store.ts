@@ -11,6 +11,7 @@ import { foldersReducer } from "./folders-slice";
 import { windowManagerReducer } from "./window-manager-slice";
 import { clippyReducer } from "./clippy-slice";
 import { loadSettings, settingsReducer } from "./settings-slice";
+import { imageViewerReducer } from "./image-viewer-slice";
 
 const loadedSettings = loadSettings();
 
@@ -26,6 +27,7 @@ export const store = configureStore({
     windows: windowManagerReducer,
     clippy: clippyReducer,
     settings: settingsReducer,
+    imageViewer: imageViewerReducer,
   },
   preloadedState,
   middleware: (getDefaultMiddleware) =>

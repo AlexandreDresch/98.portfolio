@@ -6,8 +6,8 @@ import { useAppDispatch, useAppSelector } from "@/store/store";
 import type { Project, ProjectContainerProps } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
-import ImageViewer from "../image-viewer/image-viewer";
 import VSCode from "../vscode/vscode";
+import ImageShortcut from "../programs/image-viewer/image-shortcut";
 
 export default function ProjectContainer({ projects }: ProjectContainerProps) {
   const dispatch = useAppDispatch();
@@ -78,7 +78,12 @@ export default function ProjectContainer({ projects }: ProjectContainerProps) {
 
           {selectedFile.images &&
             selectedFile.images.map((image, index) => (
-              <ImageViewer key={image} name={`Image ${index + 1}`} />
+              <ImageShortcut
+                key={`${image}-${index}`}
+                name={`Image ${index + 1}`}
+                imageUrl={image}
+                images={selectedFile.images}
+              />
             ))}
         </div>
       ) : (
@@ -95,21 +100,21 @@ export default function ProjectContainer({ projects }: ProjectContainerProps) {
                   project.type === "FRONTEND"
                     ? "/icons/frontend-icon.png"
                     : project.type === "BACKEND"
-                    ? "/icons/backend-icon.png"
-                    : "/icons/mobile-icon.png"
+                      ? "/icons/backend-icon.png"
+                      : "/icons/mobile-icon.png"
                 }
                 alt={project.name}
                 width={40}
                 height={40}
                 className={cn(
-                  selectedFile?.id === project.id && "brightness-75"
+                  selectedFile?.id === project.id && "brightness-75",
                 )}
               />
 
               <p
                 className={cn(
                   "text-sm",
-                  selectedFile?.id === project.id && "text-white bg-[#010f80]"
+                  selectedFile?.id === project.id && "text-white bg-[#010f80]",
                 )}
               >
                 {project.name}

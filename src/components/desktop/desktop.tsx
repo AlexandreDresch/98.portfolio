@@ -20,6 +20,7 @@ import InternetExplorer from "../programs/IE/internet-explorer";
 import dynamic from "next/dynamic";
 import { useMonitor } from "@/hooks/use-monitor";
 import MonitorReceiver from "@/components/shared/monitor-receiver";
+import ImageViewer from "../programs/image-viewer/image-viewer";
 
 const Paint = dynamic(() => import("../programs/paint/paint"), {
   ssr: false,
@@ -88,7 +89,10 @@ export default function Desktop() {
         <Paint />
 
         <InternetExplorer />
+
         <MonitorReceiver />
+
+        <ImageViewer />
       </>
     </DesktopContextMenu>
   );
