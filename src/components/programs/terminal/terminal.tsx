@@ -570,6 +570,7 @@ export default function Terminal() {
       icon="/icons/console-prompt.png"
       controls={{ close: true, minimize: true, maximize: true }}
       className="!w-[700px] !h-[500px]"
+      crtEffect={false}
     >
       <div
         onClick={() => inputRef.current?.focus()}

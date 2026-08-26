@@ -26,6 +26,7 @@ export default function WindowWrapper({
   children,
   className,
   controls,
+  crtEffect = true,
 }: WindowWrapperProps) {
   const dispatch = useAppDispatch();
 
@@ -204,7 +205,8 @@ export default function WindowWrapper({
           }}
           exit={{ opacity: 0, scale: 0.9 }}
           className={cn(
-            "crt absolute left-[160px] top-[120px]",
+            "absolute left-[160px] top-[120px]",
+            crtEffect && "crt",
             "border-2 border-t-white border-l-white border-r-gray-900 border-b-gray-900 bg-[#C0C0C0] shadow-lg",
             className,
             program?.isMaximized
