@@ -11,6 +11,9 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Separator } from "../../ui/separator";
+import { useAppSelector } from "@/store/store";
+import { cn } from "@/lib/utils";
+import { Win98Button } from "@/components/shared/win-98-button";
 
 export default function ImageSlider({
   images,
@@ -20,7 +23,15 @@ export default function ImageSlider({
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
   const [zoom, setZoom] = useState(1);
-  const [loaded, setLoaded] = useState(false);
+
+  const [loadedImages, setLoadedImages] = useState<Set<string>>(
+    () => new Set(),
+  );
+  const { windows } = useAppSelector((state) => state.windows);
+
+  const imageViewer = windows.find((window) => window.id === 11);
+
+  const isMaximized = imageViewer?.isMaximized ?? false;
 
   useEffect(() => {
     if (!api) return;
@@ -28,7 +39,8 @@ export default function ImageSlider({
     const update = () => {
       setCount(api.scrollSnapList().length);
       setCurrent(api.selectedScrollSnap());
-      setLoaded(false);
+
+      setLoadedImages((prev) => new Set(prev));
       setZoom(1);
     };
 
@@ -113,9 +125,25 @@ export default function ImageSlider({
     [current],
   );
 
+  const getImageClassName = () => {
+    if (zoom > 1) {
+      return "h-auto w-auto object-contain";
+    }
+    return "h-auto w-auto object-contain max-h-full max-w-full";
+  };
+
   return (
-    <div className="flex h-full w-full flex-col select-none">
-      <div className="relative min-h-0 flex-1 overflow-hidden bg-[#101010]">
+    <div className="flex h-full min-h-0 w-full min-w-0 flex-col select-none">
+      <div
+        className={`
+          relative
+          min-h-0
+          flex-1
+          overflow-hidden
+          bg-[#101010]
+          ${isMaximized ? "p-2" : "p-4"}
+        `}
+      >
         <div className="pointer-events-none absolute inset-0 z-30 opacity-30">
           <div
             className="absolute inset-0"
@@ -135,6 +163,7 @@ export default function ImageSlider({
         </div>
 
         <div className="pointer-events-none absolute left-0 top-0 z-20 h-10 w-10 border-l border-t border-white/20" />
+
         <div className="pointer-events-none absolute bottom-0 right-0 z-20 h-10 w-10 border-b border-r border-white/10" />
 
         <Carousel
@@ -150,17 +179,20 @@ export default function ImageSlider({
         >
           <CarouselContent className="ml-0 h-full">
             {images.map((image, index) => (
-              <CarouselItem key={`${image}-${index}`} className="h-full pl-0">
-                <div className="relative flex h-full w-full items-center justify-center overflow-hidden">
+              <CarouselItem
+                key={`${image}-${index}`}
+                className="h-full min-h-0 pl-0"
+              >
+                <div className="relative flex h-full min-h-0 w-full min-w-0 items-center justify-center overflow-hidden">
                   <motion.div
-                    className="absolute inset-0 scale-110 opacity-20 blur-3xl"
+                    className="pointer-events-none absolute inset-0 scale-110 opacity-20 blur-3xl"
                     style={{
                       backgroundImage: `url(${image})`,
                       backgroundPosition: "center",
                       backgroundSize: "cover",
                     }}
                     animate={{
-                      scale: loaded ? 1.08 : 1.14,
+                      scale: loadedImages.has(image) ? 1.08 : 1.14,
                     }}
                     transition={{
                       duration: 1.2,
@@ -169,7 +201,10 @@ export default function ImageSlider({
                   />
 
                   <motion.div
-                    className="relative z-10 max-h-[94%] max-w-[94%]"
+                    className={cn(
+                      "relative z-10 flex h-full min-h-0 w-full min-w-0 items-center justify-center",
+                      zoom > 1 ? "overflow-auto" : "overflow-hidden",
+                    )}
                     animate={{
                       scale: current === index ? zoom : 0.96,
                       opacity: current === index ? 1 : 0.5,
@@ -179,26 +214,30 @@ export default function ImageSlider({
                       ease: [0.22, 1, 0.36, 1],
                     }}
                   >
-                    {!loaded && current === index && (
+                    {!loadedImages.has(image) && current === index && (
                       <div className="absolute inset-0 z-20 flex items-center justify-center">
                         <div className="flex flex-col items-center gap-3">
-                          <div className="h-7 w-7 animate-spin rounded-full border-2 border-white/20 border-t-white" />
-                          <span className="font-mono text-[11px] uppercase tracking-widest text-white/70">
-                            Loading image...
-                          </span>
+                          <Image
+                            src="/hourglass-loading.gif"
+                            alt="Loading"
+                            width={100}
+                            height={100}
+                          />
                         </div>
                       </div>
                     )}
 
-                    <div className="relative overflow-hidden border border-white/20 bg-black shadow-[0_20px_80px_rgba(0,0,0,0.65)]">
+                    <div className="relative flex h-full min-h-0 w-full min-w-0 items-center justify-center">
                       <Image
                         src={image}
                         alt={`Project image ${index + 1}`}
-                        width={1400}
+                        width={1600}
                         height={900}
-                        priority={index === 0}
-                        className="block max-h-[560px] w-auto max-w-[900px] object-contain"
-                        onLoad={() => setLoaded(true)}
+                        priority={index === initialIndex}
+                        onLoad={() =>
+                          setLoadedImages((prev) => new Set(prev).add(image))
+                        }
+                        className={getImageClassName()}
                       />
 
                       <motion.div
@@ -238,51 +277,46 @@ export default function ImageSlider({
 
       <Separator
         orientation="horizontal"
-        className="bg-[#C0C0C0] h-px w-full border-t-[1px] border-b-white border-r-[1px] border-r-[#808080]"
+        className="h-px w-full border-t-[1px] border-r-[1px] border-b-white border-r-[#808080] bg-[#C0C0C0]"
       />
 
-      <div className="border-t-2 border-white border-b-2 bg-[#C0C0C0] px-2 py-2">
+      <div className="border-t-2 border-b-2 border-white bg-[#C0C0C0] px-2 py-2">
         <div className="flex items-center gap-2">
-          <button
+          <Win98Button
             onClick={prev}
-            className="win98-tool-button"
             aria-label="Previous image"
           >
             <Image src="/arrow-left.svg" alt="" width={18} height={18} />
-          </button>
+          </Win98Button>
 
-          <button
+          <Win98Button
             onClick={next}
-            className="win98-tool-button"
             aria-label="Next image"
           >
             <Image src="/arrow-right.svg" alt="" width={18} height={18} />
-          </button>
+          </Win98Button>
 
           <div className="mx-1 h-8 w-px bg-[#808080]" />
 
-          <button
+          <Win98Button
             onClick={zoomOut}
-            className="win98-tool-button font-bold"
             aria-label="Zoom out"
           >
             −
-          </button>
+          </Win98Button>
 
-          <button
+          <Win98Button
             onClick={resetZoom}
-            className="win98-tool-button min-w-[44px] font-mono text-[10px]"
-          >
+            aria-label="Reset zoom">
             {Math.round(zoom * 100)}%
-          </button>
+          </Win98Button>
 
-          <button
+          <Win98Button
             onClick={zoomIn}
-            className="win98-tool-button font-bold"
             aria-label="Zoom in"
           >
             +
-          </button>
+          </Win98Button>
 
           <div className="mx-1 h-8 w-px bg-[#808080]" />
 
@@ -315,7 +349,7 @@ export default function ImageSlider({
                   src={image}
                   alt={`Thumbnail ${index + 1}`}
                   fill
-                  sizes="88px"
+                  sizes="100vw"
                   className="object-cover"
                 />
 
@@ -334,38 +368,6 @@ export default function ImageSlider({
           })}
         </div>
       </div>
-
-      <style jsx>{`
-        .win98-tool-button {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          min-width: 36px;
-          height: 32px;
-          padding: 0 8px;
-          background: #c0c0c0;
-          border: 2px solid;
-          border-top-color: #ffffff;
-          border-left-color: #ffffff;
-          border-right-color: #404040;
-          border-bottom-color: #404040;
-          font-family: "MS Sans Serif", Arial, sans-serif;
-          font-size: 12px;
-          color: #000;
-        }
-
-        .win98-tool-button:hover {
-          background: #d8d8d8;
-        }
-
-        .win98-tool-button:active {
-          border-top-color: #404040;
-          border-left-color: #404040;
-          border-right-color: #ffffff;
-          border-bottom-color: #ffffff;
-          transform: translate(1px, 1px);
-        }
-      `}</style>
     </div>
   );
 }
