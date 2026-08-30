@@ -21,6 +21,8 @@ import dynamic from "next/dynamic";
 import { useMonitor } from "@/hooks/use-monitor";
 import MonitorReceiver from "@/components/shared/monitor-receiver";
 import ImageViewer from "../programs/image-viewer/image-viewer";
+import DocumentViewer from "../programs/document-viewer/document-viewer";
+import DocumentViewerShortcut from "../programs/document-viewer/document-viewer-shortcut";
 
 const Paint = dynamic(() => import("../programs/paint/paint"), {
   ssr: false,
@@ -33,6 +35,8 @@ export default function Desktop() {
   const folders = windows.filter((window) => window.type === "folder");
 
   const { isMonitor2 } = useMonitor();
+
+  function handleOpenDocument() {}
 
   return (
     <DesktopContextMenu>
@@ -72,6 +76,14 @@ export default function Desktop() {
               </Shortcut>
             ))}
 
+            <DocumentViewerShortcut
+              title="My Resume"
+              documentPath="./englishCV.pdf"
+              documentType="pdf"
+              folderName="My Resume"
+              icon="/icons/file.png"
+            />
+
             <Clippy />
 
             <WelcomeMessage />
@@ -93,6 +105,8 @@ export default function Desktop() {
         <MonitorReceiver />
 
         <ImageViewer />
+
+        <DocumentViewer />
       </>
     </DesktopContextMenu>
   );

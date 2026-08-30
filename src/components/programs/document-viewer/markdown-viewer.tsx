@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import HourglassLoading from "../shared/hourglass-loading";
-import { ScrollArea } from "../ui/scroll-area";
+import HourglassLoading from "../../shared/hourglass-loading";
+import { ScrollArea } from "../../ui/scroll-area";
 import { fetchReadme } from "@/lib/services/README-api";
 import "github-markdown-css/github-markdown-light.css";
 

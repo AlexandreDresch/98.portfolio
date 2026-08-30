@@ -146,7 +146,7 @@ export default function Dock() {
                   </DropdownMenuSubTrigger>
                   <DropdownMenuPortal>
                     <DropdownMenuSubContent className="crt flex px-0 flex-col bg-[#C0C0C0] border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none">
-                      <DropdownMenuItem onClick={() => handleOpen(6)}>
+                      <DropdownMenuItem onClick={() => handleOpen(25)}>
                         English
                         <DropdownMenuShortcut>⌘E</DropdownMenuShortcut>
                       </DropdownMenuItem>

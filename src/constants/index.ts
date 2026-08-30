@@ -311,17 +311,6 @@ export const folders: Folder[] = [
     documentPath: null,
   },
   {
-    id: 6,
-    name: "My Resume",
-    isOpen: false,
-    isMaximized: false,
-    isMinimized: false,
-    image: "/file.png",
-    isDocument: true,
-    documentType: "pdf",
-    documentPath: "./englishCV.pdf",
-  },
-  {
     id: 7,
     name: "98.portfolio",
     isOpen: false,
@@ -489,6 +478,15 @@ export const programs = [
     description:
       "A classic media player for playing your favorite music (using Youtube).",
   },
+  {
+    id: 25,
+    name: "Document Viewer",
+    isOpen: false,
+    isMaximized: false,
+    isMinimized: false,
+    image: "/icons/file.png",
+    description: "View and read documents in various formats.",
+  }
 ];
 
 export const folderNavigationMenuItems = {
