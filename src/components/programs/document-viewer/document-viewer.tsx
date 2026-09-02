@@ -21,7 +21,7 @@ export default function DocumentViewer() {
       title={title}
       icon="/icons/file.png"
       controls={{ close: true, minimize: true, maximize: true }}
-      className="!w-[860px] !h-[680px]"
+      className="!w-[860px]"
     >
       <div className="flex h-full min-h-0 w-full flex-col bg-[#C0C0C0]">
         <div className="flex h-7 flex-shrink-0 items-center gap-1 border-b border-[#808080] border-t-white px-0.5">

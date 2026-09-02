@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { clearSelectedFile } from "@/store/folders-slice";
 
 interface DocumentViewerShortcutProps {
+  id?: number;
   documentPath: string;
   documentType: "pdf" | "markdown";
   title: string;
@@ -16,6 +17,7 @@ interface DocumentViewerShortcutProps {
 }
 
 export default function DocumentViewerShortcut({
+  id,
   documentPath,
   documentType,
   title,

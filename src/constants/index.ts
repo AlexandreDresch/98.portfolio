@@ -311,17 +311,6 @@ export const folders: Folder[] = [
     documentPath: null,
   },
   {
-    id: 7,
-    name: "98.portfolio",
-    isOpen: false,
-    isMaximized: false,
-    isMinimized: false,
-    image: "/help-book.png",
-    isDocument: true,
-    documentType: "markdown",
-    documentPath: "/AlexandreDresch/98.portfolio",
-  },
-  {
     id: 8,
     name: "Contact me",
     isOpen: false,

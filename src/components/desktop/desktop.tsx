@@ -36,8 +36,6 @@ export default function Desktop() {
 
   const { isMonitor2 } = useMonitor();
 
-  function handleOpenDocument() {}
-
   return (
     <DesktopContextMenu>
       <>
@@ -77,6 +75,16 @@ export default function Desktop() {
             ))}
 
             <DocumentViewerShortcut
+              id={25}
+              title="98.portfolio"
+              documentPath="/AlexandreDresch/98.portfolio"
+              documentType="markdown"
+              folderName="98.portfolio"
+              icon="/icons/help-book.png"
+            />
+
+            <DocumentViewerShortcut
+              id={25}
               title="My Resume"
               documentPath="./englishCV.pdf"
               documentType="pdf"
