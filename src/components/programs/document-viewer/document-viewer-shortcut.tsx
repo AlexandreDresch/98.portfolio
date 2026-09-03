@@ -2,8 +2,12 @@
 
 import Image from "next/image";
 import { useAppDispatch, useAppSelector } from "@/store/store";
-import { activateWindow, openWindow, selectProgram } from "@/store/window-manager-slice";
-import { openDocument } from "@/store/document-viewer-slice";
+import {
+  activateWindow,
+  openWindow,
+  selectProgram,
+} from "@/store/window-manager-slice";
+import { openDocument, selectShortcut } from "@/store/document-viewer-slice";
 import { cn } from "@/lib/utils";
 import { clearSelectedFile } from "@/store/folders-slice";
 
@@ -26,12 +30,8 @@ export default function DocumentViewerShortcut({
 }: DocumentViewerShortcutProps) {
   const dispatch = useAppDispatch();
 
-  const activeWindowId = useAppSelector(
-    (state) => state.windows.activeWindowId,
-  );
-
-  const windowItem = useAppSelector((state) =>
-    state.windows.windows.find((w) => w.id === 25),
+  const selectedShortcutPath = useAppSelector(
+    (state) => state.documentViewer.selectedShortcutPath,
   );
 
   const handleOpen = () => {
@@ -49,13 +49,13 @@ export default function DocumentViewerShortcut({
   };
 
   const handleSelection = () => {
-      dispatch(clearSelectedFile());
-      dispatch(selectProgram(25));
-      dispatch(activateWindow(25));
-    };
+    dispatch(clearSelectedFile());
+    dispatch(selectProgram(25));
+    dispatch(activateWindow(25));
+    dispatch(selectShortcut(documentPath));
+  };
 
-  const isOpen = windowItem?.isOpen || false;
-  const isActive = activeWindowId === 25;
+  const isActive = selectedShortcutPath === documentPath;
 
   return (
     <button

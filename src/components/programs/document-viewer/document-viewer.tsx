@@ -19,7 +19,7 @@ export default function DocumentViewer() {
     <WindowWrapper
       id={25}
       title={title}
-      icon="/icons/file.png"
+      icon={icon}
       controls={{ close: true, minimize: true, maximize: true }}
       className="!w-[860px]"
     >
