@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { Button } from "../ui/button"
+import { Button } from "../../ui/button"
 import { useAppDispatch, useAppSelector } from "@/store/store"
 import { openWindow } from "@/store/window-manager-slice"
 

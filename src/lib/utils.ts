@@ -1,8 +1,8 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 export const bootMessages = [
@@ -20,7 +20,7 @@ export const bootMessages = [
   "Initializing graphical interface...",
   "Loading 98.portfolio...",
   "Welcome to 98.portfolio!",
-]
+];
 
 export const errorMessages = [
   "ERROR: Failed to load C:\\WINDOWS\\SYSTEM\\MMSYSTEM.DLL... Retrying",
@@ -33,24 +33,40 @@ export const errorMessages = [
   "WARNING: Insufficient disk space",
   "ERROR: Failed to initialize printer driver",
   "WARNING: Page file limited",
-]
+];
 
 export function generateBootSequence() {
-  const result = [...bootMessages]
+  const result = [...bootMessages];
 
-  const numErrors = Math.floor(Math.random() * 3) + 2
+  const numErrors = Math.floor(Math.random() * 3) + 2;
 
   for (let i = 0; i < numErrors; i++) {
-    const errorMessage = errorMessages[Math.floor(Math.random() * errorMessages.length)]
+    const errorMessage =
+      errorMessages[Math.floor(Math.random() * errorMessages.length)];
 
-    const position = Math.floor(Math.random() * (result.length - 5)) + 3
+    const position = Math.floor(Math.random() * (result.length - 5)) + 3;
 
-    result.splice(position, 0, errorMessage)
+    result.splice(position, 0, errorMessage);
 
     if (Math.random() > 0.5) {
-      result.splice(position + 1, 0, "Retrying... OK")
+      result.splice(position + 1, 0, "Retrying... OK");
     }
   }
 
-  return result
+  return result;
+}
+
+export function toGithub1sUrl(
+  githubUrl: string,
+  { branch = "main", path = "src" }: { branch?: string; path?: string } = {},
+): string {
+  const base = githubUrl
+    .replace(/^https?:\/\/github\.com/i, "https://github1s.com")
+    .replace(/\/+$/, "");
+
+  const cleanPath = path.replace(/^\/+|\/+$/g, "");
+
+  return cleanPath
+    ? `${base}/tree/${branch}/${cleanPath}`
+    : `${base}/tree/${branch}`;
 }

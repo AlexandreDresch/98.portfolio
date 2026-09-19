@@ -161,7 +161,7 @@ export default function Clippy() {
 
   return (
     <div
-      className="fixed z-[9999]"
+      className="fixed z-50"
       style={{
         bottom: 56 - pos.y,
         right: 112 - pos.x,

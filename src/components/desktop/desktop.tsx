@@ -51,7 +51,7 @@ export default function Desktop() {
                 )}
                 {folder.name === "Games" && (
                   <ProgramsContainer
-                    programs={[programs.find((p) => p.id === 15)!]}
+                    programs={[programs.find((p) => p.id === 15)!, programs.find((p) => p.id === 26)!]}
                   />
                 )}
                 {folder.name === "Recycle Bin" && (

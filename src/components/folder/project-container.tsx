@@ -1,12 +1,12 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn, toGithub1sUrl } from "@/lib/utils";
 import { openFile, selectFile } from "@/store/folders-slice";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import type { Project, ProjectContainerProps } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
-import VSCode from "../vscode/vscode";
+import VSCode from "../programs/vscode/vscode";
 import ImageShortcut from "../programs/image-viewer/image-shortcut";
 
 export default function ProjectContainer({ projects }: ProjectContainerProps) {
@@ -74,7 +74,10 @@ export default function ProjectContainer({ projects }: ProjectContainerProps) {
             </Link>
           )}
 
-          <VSCode renderTrigger={true} />
+          <VSCode
+            renderTrigger={true}
+            projectLink={toGithub1sUrl(selectedFile.github_url)}
+          />
 
           {selectedFile.images &&
             selectedFile.images.map((image, index) => (

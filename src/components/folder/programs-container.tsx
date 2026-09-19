@@ -36,7 +36,7 @@ export default function ProgramsContainer({
               width={40}
               height={40}
               className={cn(
-                selectedProgram?.id === program.id && "brightness-75"
+                selectedProgram?.id === program.id && "brightness-75", "size-full"
               )}
             />
 

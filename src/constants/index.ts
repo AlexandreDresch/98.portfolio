@@ -475,7 +475,7 @@ export const programs = [
     isMinimized: false,
     image: "/icons/file.png",
     description: "View and read documents in various formats.",
-  }
+  },
 ];
 
 export const folderNavigationMenuItems = {
