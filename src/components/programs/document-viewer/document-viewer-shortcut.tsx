@@ -11,7 +11,7 @@ import { openDocument, selectShortcut } from "@/store/document-viewer-slice";
 import { cn } from "@/lib/utils";
 import { clearSelectedFile } from "@/store/folders-slice";
 
-interface DocumentViewerShortcutProps {
+export interface DocumentViewerShortcutProps {
   id?: number;
   documentPath: string;
   documentType: "pdf" | "markdown";

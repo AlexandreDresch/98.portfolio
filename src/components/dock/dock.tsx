@@ -29,6 +29,8 @@ import Link from "next/link";
 import DockList from "./dock-list";
 import { openWindow } from "@/store/window-manager-slice";
 import { useMonitor } from "@/hooks/use-monitor";
+import { openDocument } from "@/store/document-viewer-slice";
+import { DocumentViewerShortcutProps } from "../programs/document-viewer/document-viewer-shortcut";
 
 export default function Dock() {
   const dispatch = useAppDispatch();
@@ -46,6 +48,26 @@ export default function Dock() {
       dispatch(getProjectsData());
     }
   }, [projectsStatus, dispatch]);
+
+  const handleOpenDocument = ({
+    documentPath,
+    documentType,
+    title,
+    folderName,
+    icon,
+  }: DocumentViewerShortcutProps) => {
+    dispatch(
+      openDocument({
+        documentPath,
+        documentType,
+        title,
+        folderName,
+        icon,
+      }),
+    );
+
+    dispatch(openWindow(25));
+  };
 
   return (
     <Card className="crt w-full h-8 flex items-center bg-[#C0C0C0] fixed bottom-0 left-0 rounded-none shrink-0 border-white border-0 border-t-[1px] z-[100]">
@@ -101,7 +123,17 @@ export default function Dock() {
                 <DropdownMenuSeparator />
 
                 <DropdownMenuGroup>
-                  <DropdownMenuItem onClick={() => handleOpen(7)}>
+                  <DropdownMenuItem
+                    onClick={() =>
+                      handleOpenDocument({
+                        title: "98.portfolio",
+                        documentPath: "/AlexandreDresch/98.portfolio",
+                        documentType: "markdown",
+                        folderName: "98.portfolio",
+                        icon: "/icons/help-book.png",
+                      })
+                    }
+                  >
                     About
                     <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
                   </DropdownMenuItem>
@@ -146,12 +178,22 @@ export default function Dock() {
                   </DropdownMenuSubTrigger>
                   <DropdownMenuPortal>
                     <DropdownMenuSubContent className="crt flex px-0 flex-col bg-[#C0C0C0] border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none">
-                      <DropdownMenuItem onClick={() => handleOpen(25)}>
+                      <DropdownMenuItem
+                        onClick={() =>
+                          handleOpenDocument({
+                            title: "My Resume",
+                            documentPath: "./englishCV.pdf",
+                            documentType: "pdf",
+                            folderName: "My Resume",
+                            icon: "/icons/file.png",
+                          })
+                        }
+                      >
                         English
                         <DropdownMenuShortcut>⌘E</DropdownMenuShortcut>
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleOpen(25)}>
                         Portuguese
                         <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
                       </DropdownMenuItem>
