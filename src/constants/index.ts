@@ -267,17 +267,6 @@ export const folders: Folder[] = [
     documentPath: null,
   },
   {
-    id: 2,
-    name: "My Computer",
-    isOpen: false,
-    isMaximized: false,
-    isMinimized: false,
-    image: "/computer-explorer.png",
-    isDocument: false,
-    documentType: null,
-    documentPath: null,
-  },
-  {
     id: 3,
     name: "Backend",
     isOpen: false,
@@ -475,6 +464,15 @@ export const programs = [
     isMinimized: false,
     image: "/icons/file.png",
     description: "View and read documents in various formats.",
+  },
+    {
+    id: 2,
+    name: "My Computer",
+    isOpen: false,
+    isMaximized: false,
+    isMinimized: false,
+    image: "/computer-explorer.png",
+    description: "Access and manage your computer's files, drives, and system settings.",
   },
 ];
 

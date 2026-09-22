@@ -23,6 +23,7 @@ import MonitorReceiver from "@/components/shared/monitor-receiver";
 import ImageViewer from "../programs/image-viewer/image-viewer";
 import DocumentViewer from "../programs/document-viewer/document-viewer";
 import DocumentViewerShortcut from "../programs/document-viewer/document-viewer-shortcut";
+import MyComputer from "../programs/my-computer/my-computer";
 
 const Paint = dynamic(() => import("../programs/paint/paint"), {
   ssr: false,
@@ -51,13 +52,13 @@ export default function Desktop() {
                 )}
                 {folder.name === "Games" && (
                   <ProgramsContainer
-                    programs={[programs.find((p) => p.id === 15)!, programs.find((p) => p.id === 26)!]}
+                    programs={[
+                      programs.find((p) => p.id === 15)!,
+                      programs.find((p) => p.id === 26)!,
+                    ]}
                   />
                 )}
                 {folder.name === "Recycle Bin" && (
-                  <NotAvailable message="Not available yet." />
-                )}
-                {folder.name === "My Computer" && (
                   <NotAvailable message="Not available yet." />
                 )}
                 {folder.name === "Mobile" && (
@@ -91,6 +92,8 @@ export default function Desktop() {
               folderName="My Resume"
               icon="/icons/file.png"
             />
+
+            <MyComputer renderTrigger={true} windowId={2}/>
 
             <Clippy />
 
