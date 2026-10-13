@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector } from "@/store/store";
 import { openWindow, selectProgram } from "@/store/window-manager-slice";
 import WindowWrapper from "@/components/shared/window-wrapper";
 import { cn } from "@/lib/utils";
+import { DiskChart } from "./disk-chart";
+import { Button } from "@/components/ui/button";
 
 interface MyComputerProps {
   renderTrigger: boolean;
@@ -99,7 +101,7 @@ const menuItems = {
     "Properties",
   ],
   Edit: ["Undo", "Cut", "Copy", "Paste", "Select All"],
-  View: ["Large Icons", "Small Icons", "List", "Details"],
+  View: ["Large Icons", "List", "Details"],
   Go: ["Back", "Forward", "Up One Level", "Home"],
   Favorites: ["Add to Favorites", "Organize Favorites"],
   Help: ["Help Topics", "About My Computer"],
@@ -254,9 +256,7 @@ export default function MyComputer({
         break;
 
       case "About My Computer":
-        window.alert(
-          "My Computer\n\nWindows 98 Portfolio Edition\n\n© 1998 Microsoft Corporation",
-        );
+        window.alert("My Computer\n\nWindows 98 Portfolio Edition\n\n.");
         break;
 
       default:
@@ -306,15 +306,14 @@ export default function MyComputer({
       <WindowWrapper
         id={windowId}
         title="My Computer"
-        icon="/icons/my-computer.png"
-        crtEffect={false}
+        icon="/computer-explorer.png"
+        crtEffect={true}
         className="overflow-hidden"
       >
         <div
           className="flex min-h-0 flex-1 flex-col bg-[#c0c0c0] text-[12px] text-black select-none"
           onClick={() => setOpenMenu(null)}
         >
-          {/* MENU BAR */}
           <div
             className="relative flex h-[23px] shrink-0 items-center border-b border-[#808080] bg-[#c0c0c0]"
             onClick={(event) => event.stopPropagation()}
@@ -362,20 +361,19 @@ export default function MyComputer({
             ))}
           </div>
 
-          {/* TOOLBAR */}
           <div className="shrink-0 border-b border-[#808080] bg-[#c0c0c0]">
             <div className="flex h-[39px] items-center gap-[2px] px-[5px]">
               <ToolbarButton
                 label="Back"
                 disabled={!canGoBack}
-                icon={<BackIcon />}
+                icon="/arrow-left.svg"
                 onClick={goBack}
               />
 
               <ToolbarButton
                 label="Forward"
                 disabled={!canGoForward}
-                icon={<ForwardIcon />}
+                icon="/arrow-right.svg"
                 onClick={goForward}
               />
 
@@ -384,7 +382,7 @@ export default function MyComputer({
               <ToolbarButton
                 label="Up"
                 disabled={currentPath === "My Computer"}
-                icon={<UpIcon />}
+                icon="/icons/arrow-up.svg"
                 onClick={goUp}
               />
 
@@ -392,19 +390,19 @@ export default function MyComputer({
 
               <ToolbarButton
                 label="Cut"
-                icon={<ScissorsIcon />}
+                icon="/icons/scissor.png"
                 onClick={() => handleMenuAction("Cut")}
               />
 
               <ToolbarButton
                 label="Copy"
-                icon={<CopyIcon />}
+                icon="/icons/copy.png"
                 onClick={() => handleMenuAction("Copy")}
               />
 
               <ToolbarButton
                 label="Paste"
-                icon={<PasteIcon />}
+                icon="/icons/paste.png"
                 onClick={() => handleMenuAction("Paste")}
               />
 
@@ -412,13 +410,13 @@ export default function MyComputer({
 
               <ToolbarButton
                 label="Undo"
-                icon={<UndoIcon />}
+                icon="/icons/undo.png"
                 onClick={() => handleMenuAction("Undo")}
               />
 
               <ToolbarButton
                 label="Delete"
-                icon={<DeleteIcon />}
+                icon="/icons/delete.png"
                 onClick={() => handleMenuAction("Delete")}
               />
 
@@ -426,7 +424,7 @@ export default function MyComputer({
 
               <ToolbarButton
                 label="Properties"
-                icon={<PropertiesIcon />}
+                icon="/icons/info.png"
                 onClick={() => handleMenuAction("Properties")}
               />
 
@@ -434,7 +432,13 @@ export default function MyComputer({
 
               <ToolbarButton
                 label="Views"
-                icon={<ViewIcon />}
+                icon={
+                  viewMode === "icons"
+                    ? "/icons/grid.png"
+                    : viewMode === "list"
+                      ? "/icons/list.png"
+                      : "/icons/list-details.png"
+                }
                 onClick={() =>
                   setViewMode((mode) =>
                     mode === "icons"
@@ -448,7 +452,6 @@ export default function MyComputer({
             </div>
           </div>
 
-          {/* ADDRESS BAR */}
           <div className="flex h-[27px] shrink-0 items-center gap-1 border-b border-[#808080] bg-[#c0c0c0] px-[5px]">
             <span className="text-[11px]">Address</span>
 
@@ -485,12 +488,10 @@ export default function MyComputer({
             </div>
           </div>
 
-          {/* CONTENT */}
           <div className="relative flex min-h-0 flex-1 overflow-auto bg-white">
             {currentPath === "My Computer" ? (
               <div className="flex min-h-full w-full flex-col">
                 <div className="flex min-h-0 flex-1">
-                  {/* LEFT INFO PANEL */}
                   <aside className="hidden w-[195px] shrink-0 border-r border-[#c0c0c0] bg-white p-[15px] md:block">
                     <h1 className="mb-[2px] text-[20px] font-bold leading-[22px]">
                       My Computer
@@ -508,7 +509,6 @@ export default function MyComputer({
                     )}
                   </aside>
 
-                  {/* ITEMS */}
                   <main
                     className={cn(
                       "min-w-0 flex-1 p-[8px]",
@@ -535,7 +535,6 @@ export default function MyComputer({
             )}
           </div>
 
-          {/* STATUS BAR */}
           <div className="flex h-[21px] shrink-0 items-center border-t border-[#808080] bg-[#c0c0c0] px-[2px]">
             <div className="flex h-[17px] min-w-0 flex-1 items-center border border-[#808080] border-t-black border-l-black bg-[#c0c0c0] px-[5px]">
               {selectedItem
@@ -712,7 +711,7 @@ function FolderView({
 function DriveInfo() {
   return (
     <div className="text-[12px]">
-      <div className="font-bold">Mainhd (C:)</div>
+      <div className="font-bold">Main hd (C:)</div>
 
       <div className="mb-3">Local Disk</div>
 
@@ -725,24 +724,10 @@ function DriveInfo() {
 
       <div className="flex items-center gap-1">
         <span className="inline-block h-[12px] w-[12px] border border-black bg-white" />
-        <span>Free: 5.21 GB</span>
+        <span>Free: 5335.04 MB</span>
       </div>
 
       <DiskChart />
-    </div>
-  );
-}
-
-function DiskChart() {
-  return (
-    <div className="relative mx-auto mt-5 h-[62px] w-[105px]">
-      <div className="absolute left-0 top-0 h-[45px] w-[100px] rounded-[50%] border border-black bg-white" />
-
-      <div className="absolute left-0 top-[20px] h-[35px] w-[100px] rounded-[50%] border border-black bg-[#c0c0c0]" />
-
-      <div className="absolute left-0 top-[20px] h-[1px] w-[100px] origin-left rotate-[18deg] bg-black" />
-
-      <div className="absolute left-[49px] top-[5px] h-[20px] w-[1px] bg-black" />
     </div>
   );
 }
@@ -754,25 +739,32 @@ function ToolbarButton({
   onClick,
 }: {
   label: string;
-  icon: React.ReactNode;
+  icon: string;
   disabled?: boolean;
   onClick: () => void;
 }) {
   return (
-    <button
+    <Button
       type="button"
       disabled={disabled}
       title={label}
       onClick={onClick}
       className={cn(
-        "group flex h-[35px] min-w-[38px] flex-col items-center justify-center gap-[1px] border border-transparent px-[3px]",
+        "bg-transparent hover:bg-transparent rounded-none group flex h-[35px] min-w-[38px] flex-col items-center justify-center gap-[1px] border border-transparent px-[3px]",
         "hover:border-white hover:border-r-[#808080] hover:border-b-[#808080]",
         "active:border-[#808080] active:border-t-black active:border-l-black",
         disabled && "opacity-40",
       )}
     >
-      <span className="flex h-[20px] items-center justify-center">{icon}</span>
-    </button>
+      <Image
+        src={icon}
+        alt={label}
+        width={25}
+        height={25}
+        className="flex h-[20px] items-center justify-center object-fit [image-rendering:pixelated]"
+        draggable={false}
+      />
+    </Button>
   );
 }
 
@@ -797,69 +789,5 @@ function RetroButton({
     >
       {children}
     </button>
-  );
-}
-
-function BackIcon() {
-  return <span className="text-[24px] leading-none text-[#555]">←</span>;
-}
-
-function ForwardIcon() {
-  return <span className="text-[24px] leading-none text-[#555]">→</span>;
-}
-
-function UpIcon() {
-  return (
-    <span className="text-[20px] leading-none">
-      <span className="block">↑</span>
-    </span>
-  );
-}
-
-function ScissorsIcon() {
-  return <span className="text-[19px]">✂</span>;
-}
-
-function CopyIcon() {
-  return (
-    <span className="relative block h-[18px] w-[17px]">
-      <span className="absolute left-0 top-[3px] h-[13px] w-[11px] border border-black bg-white" />
-      <span className="absolute left-[5px] top-0 h-[13px] w-[11px] border border-black bg-[#c0c0c0]" />
-    </span>
-  );
-}
-
-function PasteIcon() {
-  return (
-    <span className="relative block h-[18px] w-[17px] border border-black bg-white">
-      <span className="absolute left-[3px] top-[-4px] h-[6px] w-[9px] border border-black bg-[#c0c0c0]" />
-    </span>
-  );
-}
-
-function UndoIcon() {
-  return <span className="text-[22px] leading-none">↶</span>;
-}
-
-function DeleteIcon() {
-  return <span className="text-[20px] leading-none">✕</span>;
-}
-
-function PropertiesIcon() {
-  return (
-    <span className="flex h-[18px] w-[18px] items-center justify-center border border-black bg-white text-[11px] font-bold">
-      i
-    </span>
-  );
-}
-
-function ViewIcon() {
-  return (
-    <span className="grid grid-cols-2 gap-[2px]">
-      <span className="h-[7px] w-[7px] border border-black bg-white" />
-      <span className="h-[7px] w-[7px] border border-black bg-white" />
-      <span className="h-[7px] w-[7px] border border-black bg-white" />
-      <span className="h-[7px] w-[7px] border border-black bg-white" />
-    </span>
   );
 }
