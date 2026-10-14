@@ -1,1 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-up preview-icon"><path d="m18 15-6-6-6 6"/></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:svg="http://www.w3.org/2000/svg"
+     version="1.1"
+     width="0.08in" height="0.08in"
+     viewBox="0 0 24 24">
+  <defs>
+  </defs>
+  <image id="raster0"
+         x="-1"
+         y="-1"
+         width="26"
+         height="26"
+         opacity="1.000000"
+         href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAAAXNSR0IB2cksfwAAAARnQU1BAACxjwv8YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAOFJREFUSMft1F1KAzEUxfFfsgFR8N3PWt3/SpQWp7VuoELB96m+3MAQap3qFETmQCDcCfmfnLkJo0b9W6UD12ecxnyD7TFMZdxhgTluojY4ZIIl2hgNboeE5dhwEYCPGG3UJkPAckTUVJAubBmR5t80yjWeO5AWb1hXtRdMfwJLuIyf3lbupxFXU31b4f4QWMIFZjtcl4hKpN3TbvGKh76wMzxVG6x2RJNxVZ26rD3vCyodVlx+FUmJeNZp+3lfULmYTbj7LooS9eO+i5z2wIqrdY+nJuEk5u/HeppGjfqj+gRxb0061wnfpwAAAABJRU5ErkJgggA=" />
+</svg>

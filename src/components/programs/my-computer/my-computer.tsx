@@ -7,105 +7,12 @@ import { openWindow, selectProgram } from "@/store/window-manager-slice";
 import WindowWrapper from "@/components/shared/window-wrapper";
 import { cn } from "@/lib/utils";
 import { DiskChart } from "./disk-chart";
-import { Button } from "@/components/ui/button";
-
-interface MyComputerProps {
-  renderTrigger: boolean;
-  windowId: number;
-}
-
-type ItemType = "drive" | "folder";
-
-type ExplorerItem = {
-  id: string;
-  name: string;
-  type: ItemType;
-  icon: string;
-  description?: string;
-  capacity?: string;
-  free?: string;
-  used?: string;
-};
-
-type ViewMode = "icons" | "list" | "details";
-
-const items: ExplorerItem[] = [
-  {
-    id: "a",
-    name: "3½ Floppy (A:)",
-    type: "drive",
-    icon: "/icons/floppy-drive.png",
-    description: "3½-inch floppy disk",
-  },
-  {
-    id: "c",
-    name: "Main hd (C:)",
-    type: "drive",
-    icon: "/icons/hard-drive.png",
-    description: "Local Disk",
-    capacity: "5.95 GB",
-    used: "755 MB",
-    free: "5.21 GB",
-  },
-  {
-    id: "d",
-    name: "(D:)",
-    type: "drive",
-    icon: "/icons/cd-drive.png",
-    description: "CD Drive",
-  },
-  {
-    id: "printers",
-    name: "Printers",
-    type: "folder",
-    icon: "/icons/printer.png",
-    description: "System printers",
-  },
-  {
-    id: "dial-up",
-    name: "Dial-Up Networking",
-    type: "folder",
-    icon: "/icons/network.png",
-    description: "Dial-Up Networking",
-  },
-  {
-    id: "scheduled",
-    name: "Scheduled Tasks",
-    type: "folder",
-    icon: "/icons/scheduled-tasks.png",
-    description: "Scheduled tasks",
-  },
-  {
-    id: "web",
-    name: "Web Folders",
-    type: "folder",
-    icon: "/icons/web-folders.png",
-    description: "Web folders",
-  },
-  {
-    id: "removable",
-    name: "Removable Disk (E:)",
-    type: "drive",
-    icon: "/icons/removable-disk.png",
-    description: "Removable disk",
-  },
-];
-
-const menuItems = {
-  File: [
-    "Open",
-    "Explore",
-    "Create Shortcut",
-    "Delete",
-    "Rename",
-    "Properties",
-  ],
-  Edit: ["Undo", "Cut", "Copy", "Paste", "Select All"],
-  View: ["Large Icons", "List", "Details"],
-  Go: ["Back", "Forward", "Up One Level", "Home"],
-  Favorites: ["Add to Favorites", "Organize Favorites"],
-  Help: ["Help Topics", "About My Computer"],
-};
+import { Separator } from "@/components/ui/separator";
+import NotAvailable from "@/components/shared/not-available";
+import { ExplorerItemView } from "./explorer-item-view";
+import { ToolbarButton } from "./toolbar-button";
+import { ITEMS, MENU_ITEMS, NAVIGATION_ACTIONS } from "./constants";
+import { ExplorerItem, MyComputerProps, ViewMode } from "./types";
 
 export default function MyComputer({
   renderTrigger,
@@ -125,7 +32,7 @@ export default function MyComputer({
   const [addressValue, setAddressValue] = useState("My Computer");
 
   const selectedItem = useMemo(
-    () => items.find((item) => item.id === selectedId),
+    () => ITEMS.find((item) => item.id === selectedId),
     [selectedId],
   );
 
@@ -198,7 +105,7 @@ export default function MyComputer({
       return;
     }
 
-    const foundItem = items.find(
+    const foundItem = ITEMS.find(
       (item) =>
         item.name.toLowerCase() === value.toLowerCase() ||
         item.name.toLowerCase().startsWith(value.toLowerCase()),
@@ -252,11 +159,7 @@ export default function MyComputer({
         break;
 
       case "Select All":
-        setSelectedId(items[0]?.id ?? null);
-        break;
-
-      case "About My Computer":
-        window.alert("My Computer\n\nWindows 98 Portfolio Edition\n\n.");
+        setSelectedId(ITEMS[0]?.id ?? null);
         break;
 
       default:
@@ -318,7 +221,7 @@ export default function MyComputer({
             className="relative flex h-[23px] shrink-0 items-center border-b border-[#808080] bg-[#c0c0c0]"
             onClick={(event) => event.stopPropagation()}
           >
-            {Object.keys(menuItems).map((menu) => (
+            {Object.keys(MENU_ITEMS).map((menu) => (
               <div key={menu} className="relative">
                 <button
                   type="button"
@@ -336,25 +239,27 @@ export default function MyComputer({
 
                 {openMenu === menu && (
                   <div
-                    className="absolute left-0 top-[21px] z-[1000] min-w-[170px] border border-black bg-[#c0c0c0] p-[2px] shadow-[2px_2px_0_#000]"
+                    className="crt absolute left-0 top-[21px] z-[1000] min-w-[170px] border border-black bg-[#c0c0c0] p-[2px] shadow-[2px_2px_0_#000]"
                     onClick={(event) => event.stopPropagation()}
                   >
-                    {menuItems[menu as keyof typeof menuItems].map((action) => (
-                      <button
-                        key={action}
-                        type="button"
-                        className="block w-full whitespace-nowrap px-5 py-[3px] text-left hover:bg-[#000080] hover:text-white disabled:text-[#808080] disabled:hover:bg-transparent disabled:hover:text-[#808080]"
-                        disabled={
-                          (action === "Back" && !canGoBack) ||
-                          (action === "Forward" && !canGoForward) ||
-                          (action === "Up One Level" &&
-                            currentPath === "My Computer")
-                        }
-                        onClick={() => handleMenuAction(action)}
-                      >
-                        {action}
-                      </button>
-                    ))}
+                    {MENU_ITEMS[menu as keyof typeof MENU_ITEMS].map(
+                      (action) => (
+                        <button
+                          key={action}
+                          type="button"
+                          className="block w-full whitespace-nowrap px-5 py-[3px] text-left hover:bg-[#000080] hover:text-white disabled:text-[#808080] disabled:hover:bg-transparent disabled:hover:text-[#808080]"
+                          disabled={
+                            (action === "Back" && !canGoBack) ||
+                            (action === "Forward" && !canGoForward) ||
+                            (action === "Up One Level" &&
+                              currentPath === "My Computer")
+                          }
+                          onClick={() => handleMenuAction(action)}
+                        >
+                          {action}
+                        </button>
+                      ),
+                    )}
                   </div>
                 )}
               </div>
@@ -363,75 +268,61 @@ export default function MyComputer({
 
           <div className="shrink-0 border-b border-[#808080] bg-[#c0c0c0]">
             <div className="flex h-[39px] items-center gap-[2px] px-[5px]">
-              <ToolbarButton
-                label="Back"
-                disabled={!canGoBack}
-                icon="/arrow-left.svg"
-                onClick={goBack}
-              />
+              {NAVIGATION_ACTIONS.slice(0, 2).map((action) => (
+                <ToolbarButton
+                  key={action.label}
+                  label={action.label}
+                  icon={action.icon}
+                  disabled={
+                    (action.label === "Back" && !canGoBack) ||
+                    (action.label === "Forward" && !canGoForward)
+                  }
+                  onClick={() => handleMenuAction(action.label)}
+                />
+              ))}
+
+              <Separator className="mx-[2px] h-[28px] w-[2px] border-l border-[#808080] border-r-white" />
 
               <ToolbarButton
-                label="Forward"
-                disabled={!canGoForward}
-                icon="/arrow-right.svg"
-                onClick={goForward}
-              />
-
-              <ToolbarSeparator />
-
-              <ToolbarButton
-                label="Up"
+                label={NAVIGATION_ACTIONS[2].label}
                 disabled={currentPath === "My Computer"}
-                icon="/icons/arrow-up.svg"
+                icon={NAVIGATION_ACTIONS[2].icon}
                 onClick={goUp}
               />
 
-              <ToolbarSeparator />
+              <Separator className="mx-[2px] h-[28px] w-[2px] border-l border-[#808080] border-r-white" />
+              {NAVIGATION_ACTIONS.slice(3, 6).map((action) => (
+                <ToolbarButton
+                  key={action.label}
+                  label={action.label}
+                  icon={action.icon}
+                  onClick={() => handleMenuAction(action.label)}
+                />
+              ))}
+
+              <Separator className="mx-[2px] h-[28px] w-[2px] border-l border-[#808080] border-r-white" />
+
+              {NAVIGATION_ACTIONS.slice(6, 8).map((action) => (
+                <ToolbarButton
+                  key={action.label}
+                  label={action.label}
+                  icon={action.icon}
+                  onClick={() => handleMenuAction(action.label)}
+                />
+              ))}
+
+              <Separator className="mx-[2px] h-[28px] w-[2px] border-l border-[#808080] border-r-white" />
 
               <ToolbarButton
-                label="Cut"
-                icon="/icons/scissor.png"
-                onClick={() => handleMenuAction("Cut")}
+                label={NAVIGATION_ACTIONS[8].label}
+                icon={NAVIGATION_ACTIONS[8].icon}
+                onClick={() => handleMenuAction(NAVIGATION_ACTIONS[8].label)}
               />
 
-              <ToolbarButton
-                label="Copy"
-                icon="/icons/copy.png"
-                onClick={() => handleMenuAction("Copy")}
-              />
+              <Separator className="mx-[2px] h-[28px] w-[2px] border-l border-[#808080] border-r-white" />
 
               <ToolbarButton
-                label="Paste"
-                icon="/icons/paste.png"
-                onClick={() => handleMenuAction("Paste")}
-              />
-
-              <ToolbarSeparator />
-
-              <ToolbarButton
-                label="Undo"
-                icon="/icons/undo.png"
-                onClick={() => handleMenuAction("Undo")}
-              />
-
-              <ToolbarButton
-                label="Delete"
-                icon="/icons/delete.png"
-                onClick={() => handleMenuAction("Delete")}
-              />
-
-              <ToolbarSeparator />
-
-              <ToolbarButton
-                label="Properties"
-                icon="/icons/info.png"
-                onClick={() => handleMenuAction("Properties")}
-              />
-
-              <ToolbarSeparator />
-
-              <ToolbarButton
-                label="Views"
+                label={NAVIGATION_ACTIONS[9].label}
                 icon={
                   viewMode === "icons"
                     ? "/icons/grid.png"
@@ -517,7 +408,7 @@ export default function MyComputer({
                         : "flex flex-col gap-0",
                     )}
                   >
-                    {items.map((item) => (
+                    {ITEMS.map((item) => (
                       <ExplorerItemView
                         key={item.id}
                         item={item}
@@ -531,7 +422,7 @@ export default function MyComputer({
                 </div>
               </div>
             ) : (
-              <FolderView path={currentPath} onBack={goBack} onUp={goUp} />
+              <NotAvailable message="It seems that you found something now available yet, come back later c:" />
             )}
           </div>
 
@@ -540,7 +431,7 @@ export default function MyComputer({
               {selectedItem
                 ? selectedItem.description || selectedItem.name
                 : currentPath === "My Computer"
-                  ? `${items.length} object${items.length === 1 ? "" : "s"}`
+                  ? `${ITEMS.length} object${ITEMS.length === 1 ? "" : "s"}`
                   : currentPath}
             </div>
 
@@ -570,144 +461,6 @@ export default function MyComputer({
   );
 }
 
-interface ExplorerItemViewProps {
-  item: ExplorerItem;
-  selected: boolean;
-  viewMode: ViewMode;
-  onSelect: () => void;
-  onOpen: () => void;
-}
-
-function ExplorerItemView({
-  item,
-  selected,
-  viewMode,
-  onSelect,
-  onOpen,
-}: ExplorerItemViewProps) {
-  if (viewMode === "details") {
-    return (
-      <button
-        type="button"
-        className={cn(
-          "grid w-full grid-cols-[32px_minmax(180px,1fr)_100px_140px] items-center border-b border-[#e0e0e0] px-2 py-1 text-left",
-          selected && "bg-[#000080] text-white",
-        )}
-        onClick={onSelect}
-        onDoubleClick={onOpen}
-      >
-        <Image
-          src={item.icon}
-          alt=""
-          width={24}
-          height={24}
-          draggable={false}
-        />
-
-        <span>{item.name}</span>
-
-        <span>{item.type === "drive" ? "Drive" : "Folder"}</span>
-
-        <span>{item.capacity || ""}</span>
-      </button>
-    );
-  }
-
-  if (viewMode === "list") {
-    return (
-      <button
-        type="button"
-        className={cn(
-          "flex w-full items-center gap-2 px-2 py-[2px] text-left",
-          selected && "bg-[#000080] text-white",
-        )}
-        onClick={onSelect}
-        onDoubleClick={onOpen}
-      >
-        <Image
-          src={item.icon}
-          alt=""
-          width={24}
-          height={24}
-          draggable={false}
-        />
-
-        <span>{item.name}</span>
-      </button>
-    );
-  }
-
-  return (
-    <button
-      type="button"
-      className={cn(
-        "flex min-h-[75px] flex-col items-center justify-start gap-[3px] px-1 py-1 text-center",
-        "outline-none",
-      )}
-      onClick={onSelect}
-      onDoubleClick={onOpen}
-    >
-      <div
-        className={cn(
-          "flex h-[40px] w-[48px] items-center justify-center",
-          selected && "bg-[#000080]",
-        )}
-      >
-        <Image
-          src={item.icon}
-          alt=""
-          width={36}
-          height={36}
-          draggable={false}
-          className={cn(selected && "brightness-150")}
-        />
-      </div>
-
-      <span
-        className={cn(
-          "max-w-[90px] break-words px-1 leading-[13px]",
-          selected && "bg-[#000080] text-white",
-        )}
-      >
-        {item.name}
-      </span>
-    </button>
-  );
-}
-
-function FolderView({
-  path,
-  onBack,
-  onUp,
-}: {
-  path: string;
-  onBack: () => void;
-  onUp: () => void;
-}) {
-  return (
-    <div className="flex w-full flex-col items-center justify-center gap-3 bg-white p-10 text-center">
-      <Image
-        src="/icons/folder-open.png"
-        alt=""
-        width={48}
-        height={48}
-        draggable={false}
-      />
-
-      <div className="text-[14px] font-bold">{path}</div>
-
-      <div className="text-[#555]">
-        This folder is part of the Windows 98 portfolio.
-      </div>
-
-      <div className="flex gap-2">
-        <RetroButton onClick={onBack}>Back</RetroButton>
-        <RetroButton onClick={onUp}>Up</RetroButton>
-      </div>
-    </div>
-  );
-}
-
 function DriveInfo() {
   return (
     <div className="text-[12px]">
@@ -729,65 +482,5 @@ function DriveInfo() {
 
       <DiskChart />
     </div>
-  );
-}
-
-function ToolbarButton({
-  label,
-  icon,
-  disabled,
-  onClick,
-}: {
-  label: string;
-  icon: string;
-  disabled?: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <Button
-      type="button"
-      disabled={disabled}
-      title={label}
-      onClick={onClick}
-      className={cn(
-        "bg-transparent hover:bg-transparent rounded-none group flex h-[35px] min-w-[38px] flex-col items-center justify-center gap-[1px] border border-transparent px-[3px]",
-        "hover:border-white hover:border-r-[#808080] hover:border-b-[#808080]",
-        "active:border-[#808080] active:border-t-black active:border-l-black",
-        disabled && "opacity-40",
-      )}
-    >
-      <Image
-        src={icon}
-        alt={label}
-        width={25}
-        height={25}
-        className="flex h-[20px] items-center justify-center object-fit [image-rendering:pixelated]"
-        draggable={false}
-      />
-    </Button>
-  );
-}
-
-function ToolbarSeparator() {
-  return (
-    <div className="mx-[2px] h-[28px] w-[2px] border-l border-[#808080] border-r-white" />
-  );
-}
-
-function RetroButton({
-  children,
-  onClick,
-}: {
-  children: React.ReactNode;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="min-w-[70px] border border-white border-r-black border-b-black bg-[#c0c0c0] px-3 py-1 active:border-black active:border-r-white active:border-b-white"
-    >
-      {children}
-    </button>
   );
 }
