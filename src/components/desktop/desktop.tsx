@@ -54,7 +54,6 @@ export default function Desktop() {
                   <ProgramsContainer
                     programs={[
                       programs.find((p) => p.id === 15)!,
-                      programs.find((p) => p.id === 26)!,
                     ]}
                   />
                 )}
