@@ -22,28 +22,30 @@ export default function ProgramsContainer({
 
   return (
     <div className="w-full h-[400px]">
-      <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-4 gap-y-0 p-4 justify-items-start content-start">
+      <div className="grid content-start grid-cols-[repeat(auto-fill,minmax(88px,1fr))] gap-x-4 gap-y-3">
         {programs.map((program) => (
           <div
             key={program.id}
-            className="flex flex-col items-center cursor-pointer"
+            className="flex flex-col items-center cursor-pointer w-full h-full"
             onClick={() => handleSelectProgram(program)}
             onDoubleClick={() => handleOpenProgram(program.id)}
           >
             <Image
               src={program.image}
               alt={program.name}
-              width={40}
-              height={40}
+              width={256}
+              height={256}
+              unoptimized
               className={cn(
-                selectedProgram?.id === program.id && "brightness-75", "size-full"
+                "size-20 object-contain ",
+                selectedProgram?.id === program.id && "brightness-75",
               )}
             />
 
             <p
               className={cn(
                 "text-sm",
-                selectedProgram?.id === program.id && "text-white bg-[#010f80]"
+                selectedProgram?.id === program.id && "text-white bg-[#010f80]",
               )}
             >
               {program.name}
