@@ -30,13 +30,10 @@ export default function FolderContentLeft({ folder }: FolderContentLeftProps) {
   };
 
   const getDescription = () => {
-    if (!selectedFile && !selectedProgram) {
-      return "Select an item to view its description. Double click to open.";
-    }
     if ("description" in selectedItem) {
       return selectedItem.description;
     }
-    return "No description available.";
+      return "Select an item to view its description. Double click to open.";
   };
 
   return (

@@ -197,7 +197,7 @@ export default function MyComputer({
 
           <span
             className={cn(
-              "font-normal text-sm text-white px-2 bg-[#0c7f80] truncate max-w-full",
+              "font-normal text-sm text-white px-2 bg-[#0c7f80] max-w-full",
               isActive && "bg-[#010f80]",
             )}
           >

@@ -39,7 +39,7 @@ export default function Desktop() {
 
   return (
     <DesktopContextMenu>
-      <>
+      <div className="relative size-full">
         {!isMonitor2 && (
           <div className="pt-4 grid grid-flow-col auto-cols-[96px] grid-rows-[repeat(auto-fit,96px)] gap-x-6 gap-y-8 size-full relative overflow-hidden">
             {folders.map((folder) => (
@@ -117,7 +117,7 @@ export default function Desktop() {
         <ImageViewer />
 
         <DocumentViewer />
-      </>
+      </div>
     </DesktopContextMenu>
   );
 }
