@@ -31,68 +31,69 @@ const renderText = (
   ));
 };
 
-const setupTextHover = (
-  container: HTMLHeadingElement | HTMLParagraphElement | null,
-  type: FontWeightKeys,
-): (() => void) => {
-  if (!container) return () => {};
-
-  const letters = container.querySelectorAll<HTMLSpanElement>("span");
-  const { min, max, default: base } = FONT_WEIGHTS[type];
-
-  const animateLetter = (
-    letter: HTMLSpanElement,
-    weight: number,
-    duration: number = 0.25,
-  ) => {
-    return gsap.to(letter, {
-      duration,
-      ease: "power2.out",
-      fontVariationSettings: `'wght' ${weight}`,
-    });
-  };
-
-  const handleMouseMove = (e: MouseEvent) => {
-    const { left } = container.getBoundingClientRect();
-    const mouseX = e.clientX - left;
-
-    letters.forEach((letter) => {
-      const { left: l, width: w } = letter.getBoundingClientRect();
-      const distance = Math.abs(mouseX - (l - left + w / 2));
-      const intensity = Math.exp(-(distance ** 2) / 2000);
-
-      animateLetter(letter, min + (max - min) * intensity);
-    });
-  };
-
-  const handleMouseLeave = () => {
-    letters.forEach((letter) => {
-      animateLetter(letter, base, 0.3);
-    });
-  };
-
-  container.addEventListener("mousemove", handleMouseMove);
-  container.addEventListener("mouseleave", handleMouseLeave);
-
-  return () => {
-    container.removeEventListener("mousemove", handleMouseMove);
-    container.removeEventListener("mouseleave", handleMouseLeave);
-  };
-};
-
 export default function WelcomeMessage(): JSX.Element {
   const titleRef: RefObject<HTMLHeadingElement> = useRef(null);
   const subtitleRef: RefObject<HTMLParagraphElement> = useRef(null);
 
-  useGSAP(() => {
-    const titleCleanup = setupTextHover(titleRef.current, "title");
-    const subtitleCleanup = setupTextHover(subtitleRef.current, "subtitle");
+  useGSAP(
+    () => {
+      const animateText = (
+        element: HTMLHeadingElement | HTMLParagraphElement | null,
+        type: FontWeightKeys,
+      ) => {
+        if (!element) return;
 
-    return () => {
-      subtitleCleanup();
-      titleCleanup();
-    };
-  }, []);
+        const { min, max, default: base } = FONT_WEIGHTS[type];
+        const letters = Array.from(
+          element.querySelectorAll<HTMLSpanElement>("span"),
+        );
+
+        const handleMove = (event: PointerEvent) => {
+          letters.forEach((letter) => {
+            const rect = letter.getBoundingClientRect();
+            const distance = Math.abs(
+              event.clientX - (rect.left + rect.width / 2),
+            );
+
+            const intensity = Math.exp(-(distance ** 2) / 2000);
+            const weight = min + (max - min) * intensity;
+
+            gsap.to(letter, {
+              duration: 0.15,
+              ease: "power2.out",
+              fontWeight: weight,
+              overwrite: "auto",
+            });
+          });
+        };
+
+        const handleLeave = () => {
+          gsap.to(letters, {
+            duration: 0.3,
+            ease: "power2.out",
+            fontWeight: base,
+            overwrite: "auto",
+          });
+        };
+
+        element.addEventListener("pointermove", handleMove);
+        element.addEventListener("pointerleave", handleLeave);
+
+        return () => {
+          element.removeEventListener("pointermove", handleMove);
+          element.removeEventListener("pointerleave", handleLeave);
+        };
+      };
+
+      const cleanups = [
+        animateText(titleRef.current, "title"),
+        animateText(subtitleRef.current, "subtitle"),
+      ];
+
+      return () => cleanups.forEach((cleanup) => cleanup?.());
+    },
+    { dependencies: [] },
+  );
 
   return (
     <section

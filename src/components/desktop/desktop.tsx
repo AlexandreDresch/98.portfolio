@@ -96,9 +96,10 @@ export default function Desktop() {
 
             <Clippy />
 
-            <WelcomeMessage />
           </div>
         )}
+
+        <WelcomeMessage />
 
         <Doom />
 
