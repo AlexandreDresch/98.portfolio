@@ -21,7 +21,7 @@ export default function ProjectContainer({ projects }: ProjectContainerProps) {
   const handleOpenProject = () => {
     dispatch(openFile());
   };
-
+  
   return (
     <div className="size-full min-w-0 flex">
       {isFileOpen && selectedFile ? (
@@ -79,7 +79,7 @@ export default function ProjectContainer({ projects }: ProjectContainerProps) {
             projectLink={toGithub1sUrl(selectedFile.github_url)}
           />
 
-          {selectedFile.images &&
+          {selectedFile.images.length > 1 &&
             selectedFile.images.map((image, index) => (
               <ImageShortcut
                 key={`${image}-${index}`}
