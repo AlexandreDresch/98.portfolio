@@ -24,6 +24,7 @@ import ImageViewer from "../programs/image-viewer/image-viewer";
 import DocumentViewer from "../programs/document-viewer/document-viewer";
 import DocumentViewerShortcut from "../programs/document-viewer/document-viewer-shortcut";
 import MyComputer from "../programs/my-computer/my-computer";
+import RecycleBin from "../programs/recycle-bin/recycle-bin";
 
 const Paint = dynamic(() => import("../programs/paint/paint"), {
   ssr: false,
@@ -42,7 +43,8 @@ export default function Desktop() {
       <div className="relative size-full">
         {!isMonitor2 && (
           <div className="pt-4 grid grid-flow-col auto-cols-[96px] grid-rows-[repeat(auto-fit,96px)] gap-x-6 gap-y-8 size-full relative overflow-hidden">
-            {folders.map((folder) => (
+            <RecycleBin renderTrigger={true} windowId={1} />
+            {folders.slice(1, folders.length).map((folder) => (
               <Shortcut folder={folder as Folder} key={folder.id}>
                 {folder.name === "Backend" && (
                   <ProjectContainer projects={backend} />
@@ -56,9 +58,6 @@ export default function Desktop() {
                       programs.find((p) => p.id === 15)!,
                     ]}
                   />
-                )}
-                {folder.name === "Recycle Bin" && (
-                  <NotAvailable message="Not available yet." />
                 )}
                 {folder.name === "Mobile" && (
                   <NotAvailable message="Not available yet." />
@@ -99,7 +98,7 @@ export default function Desktop() {
           </div>
         )}
 
-        <WelcomeMessage />
+        {/* <WelcomeMessage /> */}
 
         <Doom />
 

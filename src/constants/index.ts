@@ -256,17 +256,6 @@ export const FooterMessages = [
 
 export const folders: Folder[] = [
   {
-    id: 1,
-    name: "Recycle Bin",
-    isOpen: false,
-    isMaximized: false,
-    isMinimized: false,
-    image: "/recycle-bin.png",
-    isDocument: false,
-    documentType: null,
-    documentPath: null,
-  },
-  {
     id: 3,
     name: "Backend",
     isOpen: false,
@@ -465,14 +454,25 @@ export const programs = [
     image: "/icons/file.png",
     description: "View and read documents in various formats.",
   },
-    {
+  {
     id: 2,
     name: "My Computer",
     isOpen: false,
     isMaximized: false,
     isMinimized: false,
     image: "/computer-explorer.png",
-    description: "Access and manage your computer's files, drives, and system settings.",
+    description:
+      "Access and manage your computer's files, drives, and system settings.",
+  },
+  {
+    id: 1,
+    name: "Recycle Bin",
+    isOpen: false,
+    isMaximized: false,
+    isMinimized: false,
+    image: "/recycle-bin.png",
+    description:
+      "A temporary storage for deleted files and folders, allowing you to recover them if needed.",
   },
 ];
 
