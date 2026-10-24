@@ -6,6 +6,8 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import IENavigationMenu from "./ie-navigation-menu";
 import IEInternalNavigation from "./ie-internal-navigation";
+import { useAppSelector, useAppDispatch } from "@/store/store";
+import { clearPendingUrl } from "@/store/ie-slice";
 
 interface HistoryEntry {
   url: string;
@@ -299,6 +301,9 @@ export default function InternetExplorer() {
   const [loadProgress, setLoadProgress] = useState(0);
   const [status, setStatus] = useState("Done");
 
+  const dispatch = useAppDispatch();
+  const pendingUrl = useAppSelector((s) => s.ie.pendingUrl);
+
   const iframeRefs = useRef<Map<number, HTMLIFrameElement | null>>(new Map());
   const progressRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -540,6 +545,14 @@ export default function InternetExplorer() {
     return () => window.removeEventListener("keydown", handler);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTabId, tabs, activeTab]);
+
+  useEffect(() => {
+    if (!pendingUrl) return;
+
+    openNewTab(pendingUrl);
+    dispatch(clearPendingUrl());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pendingUrl]);
 
   const canBack = activeTab.historyIdx > 0;
   const canForward = activeTab.historyIdx < activeTab.history.length - 1;

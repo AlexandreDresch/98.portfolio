@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import VSCode from "../programs/vscode/vscode";
 import ImageShortcut from "../programs/image-viewer/image-shortcut";
+import IELink from "../programs/IE/ie-link";
 
 export default function ProjectContainer({ projects }: ProjectContainerProps) {
   const dispatch = useAppDispatch();
@@ -37,10 +38,9 @@ export default function ProjectContainer({ projects }: ProjectContainerProps) {
           </div>
 
           {selectedFile.deployment_url && (
-            <Link
-              href={selectedFile.deployment_url}
-              target="_blank"
-              className="flex flex-col items-center cursor-pointer gap-1"
+            <IELink
+              url={selectedFile.deployment_url}
+              className="flex flex-col h-full items-center cursor-pointer gap-1 bg-transparent text-black hover:bg-transparent p-0 m-0"
             >
               <Image
                 src="/icons/internet-file.png"
@@ -52,7 +52,7 @@ export default function ProjectContainer({ projects }: ProjectContainerProps) {
               <span className={cn("font-normal text-sm")}>
                 {selectedFile.name}
               </span>
-            </Link>
+            </IELink>
           )}
 
           {selectedFile.github_url && (

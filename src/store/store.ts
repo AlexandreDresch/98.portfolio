@@ -13,6 +13,7 @@ import { clippyReducer } from "./clippy-slice";
 import { loadSettings, settingsReducer } from "./settings-slice";
 import { imageViewerReducer } from "./image-viewer-slice";
 import { documentViewerReducer } from "./document-viewer-slice";
+import { ieReducer } from "./ie-slice";
 
 const loadedSettings = loadSettings();
 
@@ -30,6 +31,7 @@ export const store = configureStore({
     settings: settingsReducer,
     imageViewer: imageViewerReducer,
     documentViewer: documentViewerReducer,
+    ie: ieReducer,
   },
   preloadedState,
   middleware: (getDefaultMiddleware) =>
