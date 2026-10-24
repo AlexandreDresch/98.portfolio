@@ -32,9 +32,15 @@ export default function MobileLayout() {
 
   const byName = (name: string) => folders.find((f) => f.name === name)!;
 
-  const mainFolders = ["Recycle Bin", "My Computer", "Backend", "Frontend"];
+  const mainFolders = folders
+    .map((f) => f.name)
+    .filter(
+      (name) => name === "Frontend" || name === "Backend" || name === "Mobile",
+    );
 
-  const utilities = ["Mobile", "Contact me"];
+  const utilities = folders
+    .map((f) => f.name)
+    .filter((name) => name === "Contact me");
 
   const documents = ["My Resume", "98.portfolio"];
 
@@ -106,7 +112,7 @@ export default function MobileLayout() {
               const folder = byName(name);
               return (
                 <AppIcon
-                  key={folder.id}
+                  key={Math.random()}
                   item={folder}
                   onClick={handleFolderClick}
                 />
@@ -116,7 +122,7 @@ export default function MobileLayout() {
               const folder = byName(name);
               return (
                 <AppIcon
-                  key={folder.id}
+                  key={Math.random()}
                   item={folder}
                   onClick={handleFolderClick}
                 />
@@ -125,17 +131,17 @@ export default function MobileLayout() {
             <AppIcon item={byName("Games")} onClick={handleFolderClick} />
 
             <div className="grid grid-cols-2 gap-2">
-              {documents.map((name) => {
+              {/* {documents.map((name) => {
                 const doc = byName(name);
                 return (
                   <AppIcon
-                    key={doc.id}
+                    key={Math.random()}
                     item={doc}
                     small
                     onClick={handleFolderClick}
                   />
                 );
-              })}
+              })} */}
             </div>
           </div>
 
