@@ -378,16 +378,35 @@ export default function InternetExplorer() {
   );
 
   const openNewTab = useCallback((url?: string) => {
+    let initialTitle = "New Tab";
+    if (url) {
+      try {
+        initialTitle = new URL(url).hostname;
+      } catch {
+        initialTitle = url;
+      }
+    }
+
     const tab = makeTab(
-      url ? { url, addressInput: url, isHome: false, loading: true } : {},
+      url
+        ? {
+            url,
+            addressInput: url,
+            isHome: false,
+            loading: true,
+            title: initialTitle,
+          }
+        : {},
     );
+
     setTabs((prev) => [...prev, tab]);
     setActiveTabId(tab.id);
     if (url) {
-      setStatus(`Connecting to ${new URL(url).hostname}...`);
+      setStatus(`Connecting to ${initialTitle}...`);
       startProgress();
     }
   }, []);
+  
 
   const closeTab = useCallback(
     (id: number) => {
@@ -551,7 +570,7 @@ export default function InternetExplorer() {
 
     openNewTab(pendingUrl);
     dispatch(clearPendingUrl());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pendingUrl]);
 
   const canBack = activeTab.historyIdx > 0;

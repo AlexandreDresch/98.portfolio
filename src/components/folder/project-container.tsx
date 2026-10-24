@@ -21,9 +21,9 @@ export default function ProjectContainer({ projects }: ProjectContainerProps) {
   const handleOpenProject = () => {
     dispatch(openFile());
   };
-  
+
   return (
-    <div className="size-full min-w-0 flex">
+    <div className="size-full min-w-0 min-h-[450px] flex">
       {isFileOpen && selectedFile ? (
         <div className="grid w-full h-fit grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-4 p-4">
           <div className="flex flex-col items-center cursor-pointer gap-1">
