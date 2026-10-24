@@ -44,7 +44,7 @@ export default function Desktop() {
         {!isMonitor2 && (
           <div className="pt-4 grid grid-flow-col auto-cols-[96px] grid-rows-[repeat(auto-fit,96px)] gap-x-6 gap-y-8 size-full relative overflow-hidden">
             <RecycleBin renderTrigger={true} windowId={1} />
-            {folders.slice(1, folders.length).map((folder) => (
+            {folders.map((folder) => (
               <Shortcut folder={folder as Folder} key={folder.id}>
                 {folder.name === "Backend" && (
                   <ProjectContainer projects={backend} />
