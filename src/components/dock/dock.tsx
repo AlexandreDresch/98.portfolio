@@ -165,6 +165,9 @@ export default function Dock() {
                         <DropdownMenuItem onClick={() => handleOpen(14)}>
                           Paint
                         </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleOpen(26)}>
+                          Task Manager
+                        </DropdownMenuItem>
                       </DropdownMenuSubContent>
                     </DropdownMenuPortal>
                   </DropdownMenuSub>

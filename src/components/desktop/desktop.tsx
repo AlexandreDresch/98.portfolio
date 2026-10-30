@@ -25,6 +25,7 @@ import DocumentViewer from "../programs/document-viewer/document-viewer";
 import DocumentViewerShortcut from "../programs/document-viewer/document-viewer-shortcut";
 import MyComputer from "../programs/my-computer/my-computer";
 import RecycleBin from "../programs/recycle-bin/recycle-bin";
+import TaskManager from "../programs/task-manager/task-manager";
 
 const Paint = dynamic(() => import("../programs/paint/paint"), {
   ssr: false,
@@ -115,6 +116,8 @@ export default function Desktop() {
         <MonitorReceiver />
 
         <ImageViewer />
+
+        <TaskManager />
 
         <DocumentViewer />
       </div>

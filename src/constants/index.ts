@@ -474,6 +474,14 @@ export const programs = [
     description:
       "A temporary storage for deleted files and folders, allowing you to recover them if needed.",
   },
+  {
+    id: 26,
+    name: "Task Manager",
+    isOpen: false,
+    isMaximized: false,
+    isMinimized: false,
+    image: "/icons/task-manager.png",
+  },
 ];
 
 export const folderNavigationMenuItems = {
