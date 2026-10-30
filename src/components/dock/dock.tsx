@@ -148,10 +148,20 @@ export default function Dock() {
 
                   <DropdownMenuSub>
                     <DropdownMenuSubTrigger className="data-[state=open]:text-white">
-                      Programs
+                      <Image
+                        width={0}
+                        height={0}
+                        alt="Programs"
+                        src={"/icons/programs.png"}
+                        className="w-auto h-auto"
+                      />
+                      <span className="ml-1">Programs</span>
                     </DropdownMenuSubTrigger>
                     <DropdownMenuPortal>
-                      <DropdownMenuSubContent className="crt flex px-0 flex-col bg-[#C0C0C0] border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none">
+                      <DropdownMenuSubContent
+                        alignOffset={-30}
+                        className="crt flex px-0 flex-col bg-[#C0C0C0] border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none"
+                      >
                         <DropdownMenuItem onClick={() => handleOpen(24)}>
                           Winamp
                         </DropdownMenuItem>
@@ -165,6 +175,8 @@ export default function Dock() {
                         <DropdownMenuItem onClick={() => handleOpen(14)}>
                           Paint
                         </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+
                         <DropdownMenuItem onClick={() => handleOpen(26)}>
                           Task Manager
                         </DropdownMenuItem>
