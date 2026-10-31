@@ -567,7 +567,7 @@ export default function Terminal() {
     <WindowWrapper
       id={16}
       title="MS-DOS Prompt"
-      icon="/icons/console-prompt.png"
+      icon="/icons/ms-dos.png"
       controls={{ close: true, minimize: true, maximize: true }}
       className="!w-[700px] !h-[500px]"
       crtEffect={false}

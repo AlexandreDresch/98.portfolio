@@ -92,7 +92,7 @@ export default function Dock() {
             </DropdownMenuTrigger>
 
             <DropdownMenuContent
-              className="crt w-[300px] p-0 flex gap-2 shadow-none h-96 bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-2 border-solid border-black border-t-white border-l-white border-b-transparent rounded-none"
+              className="crt w-[300px] p-0 flex gap-2 shadow-none h-[500px] bg-[#C0C0C0] data-[state=closed]:duration-100 data-[state=open]:duration-100 border-2 border-solid border-black border-t-white border-l-white border-b-transparent rounded-none"
               align="start"
             >
               <div className="w-5 h-full bg-gradient-to-b mt-0 from-[#1084d0] to-[#010f80] flex items-end">
@@ -106,16 +106,37 @@ export default function Dock() {
                 <DropdownMenuSeparator />
 
                 <DropdownMenuGroup>
-                  <DropdownMenuItem onClick={() => handleOpen(3)}>
-                    BackEnd
+                  <DropdownMenuItem onClick={() => handleOpen(3)} className="max-h-10">
+                    <Image
+                      width={40}
+                      height={40}
+                      alt="BackEnd"
+                      src={"/icons/folder-backend.png"}
+                      className="size-7"
+                    />
+                    <span className="ml-1">BackEnd</span>
                     <DropdownMenuShortcut>⇧⌘B</DropdownMenuShortcut>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleOpen(4)}>
-                    FrontEnd
+                  <DropdownMenuItem onClick={() => handleOpen(4)} className="max-h-10">
+                    <Image
+                      width={40}
+                      height={40}
+                      alt="FrontEnd"
+                      src={"/icons/folder-frontend.png"}
+                      className="size-7"
+                    />
+                    <span className="ml-1">FrontEnd</span>
                     <DropdownMenuShortcut>⌘F</DropdownMenuShortcut>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleOpen(5)}>
-                    Mobile
+                  <DropdownMenuItem onClick={() => handleOpen(5)} className="max-h-10">
+                    <Image
+                      width={40}
+                      height={40}
+                      alt="Mobile"
+                      src={"/icons/folder-frontend.png"}
+                      className="size-7"
+                    />
+                    <span className="ml-1">Mobile</span>
                     <DropdownMenuShortcut>⌘M</DropdownMenuShortcut>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
@@ -134,23 +155,44 @@ export default function Dock() {
                       })
                     }
                   >
-                    About
+                    <Image
+                      width={40}
+                      height={40}
+                      alt="About"
+                      src={"/icons/help-book.png"}
+                      className="size-8"
+                    />
+                    <span className="ml-1">About</span>
                     <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleOpen(16)}>
-                    MS-DOS Prompt
+                  <DropdownMenuItem onClick={() => handleOpen(16)} className="max-h-10">
+                    <Image
+                      width={40}
+                      height={40}
+                      alt="MS-DOS Prompt"
+                      src={"/icons/ms-dos.png"}
+                      className="size-8"
+                    />
+                    <span className="ml-1">MS-DOS Prompt</span>
                     <DropdownMenuShortcut>⌘T</DropdownMenuShortcut>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleOpen(18)}>
-                    Settings
+                  <DropdownMenuItem onClick={() => handleOpen(18)} className="max-h-10">
+                    <Image
+                      width={40}
+                      height={40}
+                      alt="Settings"
+                      src={"/icons/settings.png"}
+                      className="w-auto h-auto"
+                    />
+                    <span className="ml-1">Settings</span>
                     <DropdownMenuShortcut>⌘A</DropdownMenuShortcut>
                   </DropdownMenuItem>
 
                   <DropdownMenuSub>
-                    <DropdownMenuSubTrigger className="data-[state=open]:text-white">
+                    <DropdownMenuSubTrigger className="data-[state=open]:text-white max-h-10">
                       <Image
-                        width={0}
-                        height={0}
+                        width={40}
+                        height={40}
                         alt="Programs"
                         src={"/icons/programs.png"}
                         className="w-auto h-auto"
@@ -162,23 +204,50 @@ export default function Dock() {
                         alignOffset={-30}
                         className="crt flex px-0 flex-col bg-[#C0C0C0] border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none"
                       >
-                        <DropdownMenuItem onClick={() => handleOpen(24)}>
-                          Winamp
+                        <DropdownMenuItem onClick={() => handleOpen(24)} className="max-h-8">
+                          <Image
+                            width={40}
+                            height={40}
+                            alt="Winamp"
+                            src={"/icons/winamp.png"}
+                            className="size-7"
+                          />
+                          <span className="ml-1">Winamp</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem onClick={() => handleOpen(10)} className="max-h-8">
+                          <Image
+                            width={40}
+                            height={40}
+                            alt="Internet Explorer"
+                            src={"/icons/internet-explorer.png"}
+                            className="size-6"
+                          />
+                          <span className="ml-1">Internet Explorer</span>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
 
-                        <DropdownMenuItem onClick={() => handleOpen(10)}>
-                          Internet Explorer
+                        <DropdownMenuItem onClick={() => handleOpen(14)} className="max-h-8">
+                          <Image
+                            width={40}
+                            height={40}
+                            alt="Paint"
+                            src={"/icons/paint.png"}
+                            className="size-6"
+                          />
+                          <span className="ml-1">Paint</span>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
 
-                        <DropdownMenuItem onClick={() => handleOpen(14)}>
-                          Paint
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-
-                        <DropdownMenuItem onClick={() => handleOpen(26)}>
-                          Task Manager
+                        <DropdownMenuItem onClick={() => handleOpen(26)} className="max-h-8">
+                          <Image
+                            width={40}
+                            height={40}
+                            alt="Task Manager"
+                            src={"/icons/task-manager.png"}
+                            className="size-6"
+                          />
+                          <span className="ml-1">Task Manager</span>
                         </DropdownMenuItem>
                       </DropdownMenuSubContent>
                     </DropdownMenuPortal>
@@ -188,8 +257,15 @@ export default function Dock() {
                 <DropdownMenuSeparator />
 
                 <DropdownMenuSub>
-                  <DropdownMenuSubTrigger className="data-[state=open]:text-white">
-                    My Resume
+                  <DropdownMenuSubTrigger className="data-[state=open]:text-white max-h-10">
+                    <Image
+                      width={40}
+                      height={40}
+                      alt="My Resume"
+                      src={"/icons/file.png"}
+                      className="size-6"
+                    />
+                    <span className="ml-1">My Resume</span>
                   </DropdownMenuSubTrigger>
                   <DropdownMenuPortal>
                     <DropdownMenuSubContent className="crt flex px-0 flex-col bg-[#C0C0C0] border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none">
