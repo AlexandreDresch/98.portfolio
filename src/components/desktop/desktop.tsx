@@ -43,7 +43,7 @@ export default function Desktop() {
     <DesktopContextMenu>
       <div className="relative size-full">
         {!isMonitor2 && (
-          <div className="pt-4 grid grid-flow-col auto-cols-[96px] grid-rows-[repeat(auto-fit,96px)] gap-x-6 gap-y-8 size-full relative overflow-hidden">
+          <div className="pt-4 grid grid-flow-col auto-cols-[86px] grid-rows-[repeat(auto-fit,66px)] gap-x-6 gap-y-8 size-full relative overflow-hidden">
             <RecycleBin renderTrigger={true} windowId={1} />
             {folders.map((folder) => (
               <Shortcut folder={folder as Folder} key={folder.id}>

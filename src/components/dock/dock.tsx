@@ -106,7 +106,10 @@ export default function Dock() {
                 <DropdownMenuSeparator />
 
                 <DropdownMenuGroup>
-                  <DropdownMenuItem onClick={() => handleOpen(3)} className="max-h-10">
+                  <DropdownMenuItem
+                    onClick={() => handleOpen(3)}
+                    className="max-h-10"
+                  >
                     <Image
                       width={40}
                       height={40}
@@ -117,7 +120,10 @@ export default function Dock() {
                     <span className="ml-1">BackEnd</span>
                     <DropdownMenuShortcut>⇧⌘B</DropdownMenuShortcut>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleOpen(4)} className="max-h-10">
+                  <DropdownMenuItem
+                    onClick={() => handleOpen(4)}
+                    className="max-h-10"
+                  >
                     <Image
                       width={40}
                       height={40}
@@ -128,7 +134,10 @@ export default function Dock() {
                     <span className="ml-1">FrontEnd</span>
                     <DropdownMenuShortcut>⌘F</DropdownMenuShortcut>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleOpen(5)} className="max-h-10">
+                  <DropdownMenuItem
+                    onClick={() => handleOpen(5)}
+                    className="max-h-10"
+                  >
                     <Image
                       width={40}
                       height={40}
@@ -165,7 +174,10 @@ export default function Dock() {
                     <span className="ml-1">About</span>
                     <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleOpen(16)} className="max-h-10">
+                  <DropdownMenuItem
+                    onClick={() => handleOpen(16)}
+                    className="max-h-10"
+                  >
                     <Image
                       width={40}
                       height={40}
@@ -176,7 +188,10 @@ export default function Dock() {
                     <span className="ml-1">MS-DOS Prompt</span>
                     <DropdownMenuShortcut>⌘T</DropdownMenuShortcut>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleOpen(18)} className="max-h-10">
+                  <DropdownMenuItem
+                    onClick={() => handleOpen(18)}
+                    className="max-h-10"
+                  >
                     <Image
                       width={40}
                       height={40}
@@ -204,7 +219,10 @@ export default function Dock() {
                         alignOffset={-30}
                         className="crt flex px-0 flex-col bg-[#C0C0C0] border-[1px] border-solid border-b-black border-r-black border-t-white border-l-white rounded-none"
                       >
-                        <DropdownMenuItem onClick={() => handleOpen(24)} className="max-h-8">
+                        <DropdownMenuItem
+                          onClick={() => handleOpen(24)}
+                          className="max-h-8"
+                        >
                           <Image
                             width={40}
                             height={40}
@@ -215,7 +233,10 @@ export default function Dock() {
                           <span className="ml-1">Winamp</span>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => handleOpen(10)} className="max-h-8">
+                        <DropdownMenuItem
+                          onClick={() => handleOpen(10)}
+                          className="max-h-8"
+                        >
                           <Image
                             width={40}
                             height={40}
@@ -227,7 +248,10 @@ export default function Dock() {
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
 
-                        <DropdownMenuItem onClick={() => handleOpen(14)} className="max-h-8">
+                        <DropdownMenuItem
+                          onClick={() => handleOpen(14)}
+                          className="max-h-8"
+                        >
                           <Image
                             width={40}
                             height={40}
@@ -239,7 +263,10 @@ export default function Dock() {
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
 
-                        <DropdownMenuItem onClick={() => handleOpen(26)} className="max-h-8">
+                        <DropdownMenuItem
+                          onClick={() => handleOpen(26)}
+                          className="max-h-8"
+                        >
                           <Image
                             width={40}
                             height={40}
@@ -280,12 +307,12 @@ export default function Dock() {
                           })
                         }
                       >
-                        English
+                        🇺🇸 English
                         <DropdownMenuShortcut>⌘E</DropdownMenuShortcut>
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem onClick={() => handleOpen(25)}>
-                        Portuguese
+                        🇧🇷 Portuguese
                         <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
                       </DropdownMenuItem>
                     </DropdownMenuSubContent>
@@ -294,10 +321,18 @@ export default function Dock() {
 
                 <DropdownMenuItem>
                   <Link
-                    href="https://github.com/AlexandreDresch"
+                    href="https://www.github.com/AlexandreDresch"
                     target="_blank"
+                    className="flex items-center max-h-10"
                   >
-                    GitHub
+                    <Image
+                      width={40}
+                      height={40}
+                      alt="GitHub"
+                      src={"/github.svg"}
+                      className="size-6"
+                    />
+                    <span className="ml-1">GitHub</span>
                   </Link>
 
                   <DropdownMenuShortcut>⌘G</DropdownMenuShortcut>
@@ -306,8 +341,16 @@ export default function Dock() {
                   <Link
                     href="https://www.linkedin.com/in/alexandre-dresch/"
                     target="_blank"
+                    className="flex items-center max-h-10"
                   >
-                    LinkedIn
+                    <Image
+                      width={40}
+                      height={40}
+                      alt="LinkedIn"
+                      src={"/icons/linkedin.png"}
+                      className="size-6"
+                    />
+                    <span className="ml-1">LinkedIn</span>
                   </Link>
 
                   <DropdownMenuShortcut>⌘L</DropdownMenuShortcut>
