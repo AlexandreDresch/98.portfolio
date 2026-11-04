@@ -289,17 +289,6 @@ export const folders: Folder[] = [
     documentPath: null,
   },
   {
-    id: 8,
-    name: "Contact me",
-    isOpen: false,
-    isMaximized: false,
-    isMinimized: false,
-    image: "/modem.png",
-    isDocument: false,
-    documentType: null,
-    documentPath: null,
-  },
-  {
     id: 17,
     name: "Games",
     isOpen: false,
@@ -481,6 +470,14 @@ export const programs = [
     isMaximized: false,
     isMinimized: false,
     image: "/icons/task-manager.png",
+  },
+  {
+    id: 28,
+    name: "Welcome",
+    isOpen: false,
+    isMaximized: false,
+    isMinimized: false,
+    image: "/windows.png",
   },
 ];
 

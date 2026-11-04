@@ -2,7 +2,7 @@
 
 import Clippy from "../clippy/clippy";
 import Shortcut from "../dock/shortcut";
-import { useAppSelector } from "@/store/store";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import ProjectContainer from "../folder/project-container";
 import NotAvailable from "../shared/not-available";
 import { Folder } from "@/types";
@@ -12,7 +12,6 @@ import Doom from "../programs/DOOM/doom";
 import DesktopContextMenu from "./desktop-context-menu";
 import ControlPanel from "../programs/control-panel";
 import FolderContainer from "../folder/folder-container";
-import WelcomeMessage from "./welcome-message";
 import { DisplayProperties } from "../programs/display-properties/display-properties";
 import Terminal from "../programs/terminal/terminal";
 import Winamp from "../programs/winamp/winamp";
@@ -26,6 +25,9 @@ import DocumentViewerShortcut from "../programs/document-viewer/document-viewer-
 import MyComputer from "../programs/my-computer/my-computer";
 import RecycleBin from "../programs/recycle-bin/recycle-bin";
 import TaskManager from "../programs/task-manager/task-manager";
+import About from "../programs/about/about";
+import { openWindow } from "@/store/window-manager-slice";
+import { useEffect } from "react";
 
 const Paint = dynamic(() => import("../programs/paint/paint"), {
   ssr: false,
@@ -38,6 +40,11 @@ export default function Desktop() {
   const folders = windows.filter((window) => window.type === "folder");
 
   const { isMonitor2 } = useMonitor();
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(openWindow(28));
+  }, [dispatch]);
 
   return (
     <DesktopContextMenu>
@@ -55,9 +62,7 @@ export default function Desktop() {
                 )}
                 {folder.name === "Games" && (
                   <ProgramsContainer
-                    programs={[
-                      programs.find((p) => p.id === 15)!,
-                    ]}
+                    programs={[programs.find((p) => p.id === 15)!]}
                   />
                 )}
                 {folder.name === "Mobile" && (
@@ -76,10 +81,10 @@ export default function Desktop() {
 
             <DocumentViewerShortcut
               id={25}
-              title="98.portfolio"
+              title="98.docs"
               documentPath="/AlexandreDresch/98.portfolio"
               documentType="markdown"
-              folderName="98.portfolio"
+              folderName="98.docs"
               icon="/icons/help-book.png"
             />
 
@@ -92,14 +97,13 @@ export default function Desktop() {
               icon="/icons/file.png"
             />
 
-            <MyComputer renderTrigger={true} windowId={2}/>
+            <MyComputer renderTrigger={true} windowId={2} />
+
+            <About />
 
             <Clippy />
-
           </div>
         )}
-
-        {/* <WelcomeMessage /> */}
 
         <Doom />
 
