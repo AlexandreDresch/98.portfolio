@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { closeFile, reOpenFile } from "@/store/folders-slice";
+import { cn } from "@/lib/utils";
 
 export default function FolderInternalNavigation() {
   const dispatch = useAppDispatch();
@@ -29,8 +30,12 @@ export default function FolderInternalNavigation() {
           width={0}
           height={0}
           alt="Go back"
-          src="/arrow-left.svg"
-          className="w-6 h-auto"
+          src="/icons/back.svg"
+          className={
+            cn(
+              "w-6 h-auto hover:grayscale-0 transition duration-300",
+              !isFileOpen || selectedFile === null ? "grayscale" : ""
+            ) as string}
         />
         <span className="text-xs">Back</span>
       </Button>
@@ -47,8 +52,15 @@ export default function FolderInternalNavigation() {
           width={0}
           height={0}
           alt="Go forward"
-          src="/arrow-right.svg"
-          className="w-6 h-auto"
+          src="/icons/forward.svg"
+          className={
+            cn(
+              "w-6 h-auto hover:grayscale-0 transition duration-300",
+              isFileOpen || lastFileOpened === null || selectedFile === null
+                ? "grayscale"
+                : ""
+            ) as string
+          }
         />
         <span className="text-xs">Forward</span>
       </Button>
