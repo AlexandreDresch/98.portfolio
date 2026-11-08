@@ -198,7 +198,7 @@ export default function Shortcut({ folder, children }: ShortcutProps) {
           width: isMaximized ? "100vw" : "800px",
           maxWidth: "calc(100vw - 1px)",
           maxHeight: "calc(100vh - 32px)",
-          minWidth: "800px",
+          minWidth: "900px",
         }}
         onMouseDown={handleMouseDown}
       >
