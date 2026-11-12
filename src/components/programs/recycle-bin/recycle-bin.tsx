@@ -11,10 +11,10 @@ import { setFooterMessage } from "@/store/footer-message-slice";
 import { openWindow, selectProgram } from "@/store/window-manager-slice";
 import Image from "next/image";
 import { TrashItem } from "./types";
-import { EMPTY_CONFIRMATIONS, INITIAL_ITEMS, RESTORE_QUIPS } from "./constants";
+import { INITIAL_ITEMS, RESTORE_QUIPS } from "./constants";
 import { BinIcon, FileIconBig, FileIconSmall } from "./icons";
-import { ToolbarButton } from "../my-computer/toolbar-button";
 import FolderNavigationMenu from "@/components/folder/folder-navigation-menu";
+import { Button } from "@/components/ui/button";
 
 export default function RecycleBin({
   renderTrigger,
@@ -176,7 +176,7 @@ export default function RecycleBin({
             : "/icons/recycle-bin-full.png"
         }
         controls={{ close: true, minimize: true, maximize: true }}
-        className="!w-[740px] flex-1 !min-h-[520px]"
+        className="!w-[850px] flex-1 !min-h-[520px]"
         crtEffect
       >
         <div className="flex flex-col w-full h-full min-h-0 select-none text-sm pb-1">
@@ -189,47 +189,104 @@ export default function RecycleBin({
             <FolderNavigationMenu />
           </div>
 
-          <div className="flex items-center px-1 py-0.5 border-b border-[#808080] flex-shrink-0 gap-0.5 bg-[#c0c0c0]">
+          <div className="flex items-center px-1 h-14 py-0.5 border-b border-[#808080] flex-shrink-0 gap-0.5 bg-[#c0c0c0]">
             <Separator
               orientation="vertical"
-              className="bg-[#C0C0C0] h-6 w-1 border-l-[1px] border-l-white border-r-[1px] border-r-[#808080]"
+              className="bg-[#C0C0C0] h-11 w-1 border-l-[1px] border-l-white border-r-[1px] border-r-[#808080]"
             />
 
-            <ToolbarButton
-              label="Empty"
+            <Button
+              variant="ghost"
+              className="w-20 flex flex-col px-0 py-0 h-max rounded-none border-[1px] border-transparent hover:border-black hover:border-t-white hover:border-l-white"
               onClick={emptyBin}
-              icon="/icons/recycle-bin-empty.png"
-            />
+              disabled={isEmpty}
+            >
+              <Image
+                width={0}
+                height={0}
+                alt="Empty Bin"
+                src="/icons/recycle-bin-empty.png"
+                className={
+                  cn(
+                    "w-6 h-auto hover:grayscale-0 transition duration-300",
+                    isEmpty ? "grayscale" : "",
+                  ) as string
+                }
+              />
+              <span className="text-xs">Empty</span>
+            </Button>
 
-            <ToolbarButton
-              label="Restore"
-              onClick={restore}
-              icon="/arrow-left.svg"
+            <Button
+              variant="ghost"
+              className="w-20 flex flex-col px-0 py-0 h-max rounded-none border-[1px] border-transparent hover:border-black hover:border-t-white hover:border-l-white"
               disabled={selected.size === 0}
-            />
+              onClick={restore}
+            >
+              <Image
+                width={0}
+                height={0}
+                alt="Restore"
+                src="/icons/undo.svg"
+                className={
+                  cn(
+                    "w-6 h-auto hover:grayscale-0 transition duration-300 grayscale",
+                    selected.size > 0 ? "grayscale-0" : "",
+                  ) as string
+                }
+              />
+              <span className="text-xs">Restore</span>
+            </Button>
 
-            <ToolbarButton
-              label="Delete"
+            <Button
+              variant="ghost"
+              className="w-20 flex flex-col px-0 py-0 h-max rounded-none border-[1px] border-transparent hover:border-black hover:border-t-white hover:border-l-white"
               disabled={selected.size === 0}
               onClick={deleteSelected}
-              icon="/icons/x.png"
+            >
+              <Image
+                width={0}
+                height={0}
+                alt="Delete"
+                src="/icons/delete.svg"
+                className={
+                  cn(
+                    "w-6 h-auto hover:grayscale-0 transition duration-300 grayscale",
+                    selected.size > 0 ? "grayscale-0" : "",
+                  ) as string
+                }
+              />
+              <span className="text-xs">Delete</span>
+            </Button>
+
+            <Separator
+              orientation="vertical"
+              className="bg-[#C0C0C0] h-11 w-1 border-l-[1px] border-l-white border-r-[1px] border-r-[#808080]"
             />
 
-            <Separator className="w-px h-8 bg-[#808080] mx-1" />
-
-            {view === "list" ? (
-              <ToolbarButton
-                label="Icons"
-                onClick={() => setView("icon")}
-                icon="/icons/grid.png"
+            <Button
+              variant="ghost"
+              className="w-20 flex flex-col px-0 py-0 h-max rounded-none border-[1px] border-transparent hover:border-black hover:border-t-white hover:border-l-white"
+              disabled={isEmpty}
+              onClick={
+                view === "list" ? () => setView("icon") : () => setView("list")
+              }
+            >
+              <Image
+                width={0}
+                height={0}
+                alt="Views"
+                src="/icons/views.svg"
+                className={
+                  cn(
+                    "w-6 h-auto hover:grayscale-0 transition duration-300 grayscale",
+                    isEmpty ? "grayscale" : "",
+                  ) as string
+                }
               />
-            ) : (
-              <ToolbarButton
-                label="List"
-                onClick={() => setView("list")}
-                icon="/icons/list.png"
-              />
-            )}
+              <span className="text-xs">
+                {view === "list" ? "Icons" : "List"}
+              </span>
+            </Button>
 
             {selected.size > 0 && (
               <span className="ml-auto mr-2 text-[10px] text-[#808080]">
